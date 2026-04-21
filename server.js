@@ -38,6 +38,12 @@ app.get('/estudiante', (req, res) => {
   res.render('estudiante/index', { materias })
 })
 
+app.get('/estudiante/:slug', (req, res) => {
+  const materia = materias.find(m => m.slug === req.params.slug)
+  if (!materia) return res.status(404).send('Materia no encontrada')
+  res.render('estudiante/materia', { materia })
+})
+
 app.get('/estudiante/semiologia/resumen', (req, res) => {
   res.sendFile(path.join(__dirname, 'content', 'semiologia', 'resumen.html'))
 })
