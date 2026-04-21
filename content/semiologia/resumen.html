@@ -117,8 +117,10 @@
     align-items: flex-start;
     max-width: 1400px;
     margin: 0 auto;
-    transition: padding 0.3s ease;
+    padding-left: 320px;
+    transition: padding-left 0.3s ease;
   }
+  body.sidebar-collapsed .layout { padding-left: 0; }
   .content {
     flex: 1;
     min-width: 0;
@@ -150,16 +152,17 @@
     background: var(--card);
     font-family: var(--font-ui);
     z-index: 999;
-    transform: translateX(-100%);
+    transform: translateX(0);
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 1px 0 0 var(--rule);
+  }
+  body.sidebar-collapsed .sidebar {
+    transform: translateX(-100%);
     box-shadow: none;
   }
-  .sidebar.open {
-    transform: translateX(0);
-    box-shadow: var(--shadow-xl);
-  }
-  /* Botón de cerrar dentro del sidebar */
+  /* Botón de cerrar dentro del sidebar — solo mobile */
   .sidebar-close {
+    display: none;
     position: absolute;
     top: 16px;
     right: 16px;
@@ -764,48 +767,34 @@
      ============================================================== */
   .menu-toggle {
     position: fixed;
-    top: 18px;
-    left: 18px;
+    top: 40px;
+    left: 320px;
     z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-    color: var(--ink);
+    background: var(--card);
+    color: var(--muted);
     border: 1px solid var(--rule);
+    border-left: none;
     padding: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    font-size: 16px;
+    width: 20px;
+    height: 48px;
+    border-radius: 0 8px 8px 0;
+    font-size: 14px;
     cursor: pointer;
-    box-shadow: var(--shadow-sm);
+    box-shadow: 2px 0 8px rgba(15,23,42,0.06);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.2s ease;
+    transition: left 0.3s ease, color 0.15s ease, background 0.15s ease;
     font-family: var(--font-ui);
   }
   .menu-toggle:hover {
-    background: var(--card);
-    border-color: var(--accent);
     color: var(--accent);
-    box-shadow: var(--shadow-md);
-    transform: translateY(-1px);
+    background: var(--accent-soft);
   }
-  .menu-toggle .bars {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    width: 16px;
+  body.sidebar-collapsed .menu-toggle {
+    left: 0;
+    border-radius: 0 8px 8px 0;
   }
-  .menu-toggle .bars span {
-    display: block;
-    height: 2px;
-    background: currentColor;
-    border-radius: 2px;
-  }
-  .menu-toggle .bars span:nth-child(2) { width: 12px; }
-  .menu-toggle .bars span:nth-child(3) { width: 8px; }
   .sidebar-overlay {
     display: none;
     position: fixed;
@@ -817,9 +806,30 @@
     opacity: 0;
     transition: opacity 0.25s ease;
   }
-  .sidebar-overlay.open {
-    display: block;
-    opacity: 1;
+  @media (max-width: 768px) {
+    /* En mobile el sidebar vuelve a ser drawer */
+    .layout { padding-left: 0 !important; }
+    .sidebar {
+      transform: translateX(-100%) !important;
+      box-shadow: none !important;
+      width: 85%;
+    }
+    body.sidebar-open .sidebar {
+      transform: translateX(0) !important;
+      box-shadow: var(--shadow-xl) !important;
+    }
+    body.sidebar-open .sidebar-overlay { display: block; opacity: 1; }
+    .sidebar-close { display: flex !important; }
+    .menu-toggle {
+      left: 14px !important;
+      top: 14px !important;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--rule) !important;
+      border-radius: 10px !important;
+      box-shadow: var(--shadow-sm) !important;
+    }
+    body.sidebar-open .menu-toggle { left: 14px !important; }
   }
   @media (max-width: 600px) {
     body { font-size: 17px; }
@@ -832,7 +842,6 @@
     blockquote { font-size: 17px; padding-left: 22px; }
     .wrap { padding: 80px 22px 100px; }
     .cover { margin: -40px -22px 60px; padding: 80px 22px 60px; }
-    .sidebar { width: 85%; }
   }
   /* ==============================================================
      TOAST / STATUS
@@ -866,6 +875,7 @@
   @media print {
     body { font-size: 11pt; background: #fff; }
     .sidebar, .menu-toggle, .read-progress, .sidebar-overlay { display: none !important; }
+    .layout { padding-left: 0 !important; }
     .content { width: 100%; }
     .wrap { max-width: 100%; padding: 0; }
     .cover { page-break-after: always; margin: 0; }
@@ -881,9 +891,7 @@
 
 
 <!-- Botón de menú (siempre visible, discreto) -->
-<button class="menu-toggle" id="menuToggle" aria-label="Abrir índice">
-  <span class="bars"><span></span><span></span><span></span></span>
-</button>
+<button class="menu-toggle" id="menuToggle" aria-label="Contraer índice" title="Contraer índice">‹</button>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 
@@ -1943,39 +1951,66 @@ No hay orden fijo ni número definido: nos ausentan en una red asociativa.
 </div> <!-- /.layout -->
 
 <script>
-  // ============ Toggle del menú (drawer) ============
+  // ============ Sidebar colapsable (persistente por defecto) ============
   const toggle = document.getElementById('menuToggle');
   const sidebar = document.getElementById('sidebar');
   const overlay = document.getElementById('sidebarOverlay');
   const sidebarClose = document.getElementById('sidebarClose');
+  const isMobile = () => window.innerWidth <= 768;
 
-  function openMenu() {
-    sidebar.classList.add('open');
-    overlay.classList.add('open');
-    document.body.classList.add('menu-open');
-  }
-  function closeMenu() {
-    sidebar.classList.remove('open');
-    overlay.classList.remove('open');
-    document.body.classList.remove('menu-open');
-  }
-  function toggleMenu() {
-    if (sidebar.classList.contains('open')) closeMenu();
-    else openMenu();
+  // Restaurar estado guardado (solo desktop)
+  if (!isMobile() && localStorage.getItem('sidebar_collapsed') === 'true') {
+    document.body.classList.add('sidebar-collapsed');
+    toggle.textContent = '›';
+    toggle.title = 'Expandir índice';
   }
 
-  toggle.addEventListener('click', toggleMenu);
-  overlay.addEventListener('click', closeMenu);
-  sidebarClose.addEventListener('click', closeMenu);
+  function collapseSidebar() {
+    document.body.classList.add('sidebar-collapsed');
+    document.body.classList.remove('sidebar-open');
+    overlay.style.display = 'none'; overlay.style.opacity = '0';
+    toggle.textContent = '›';
+    toggle.title = 'Expandir índice';
+    if (!isMobile()) localStorage.setItem('sidebar_collapsed', 'true');
+  }
+  function expandSidebar() {
+    document.body.classList.remove('sidebar-collapsed');
+    toggle.textContent = '‹';
+    toggle.title = 'Contraer índice';
+    if (!isMobile()) localStorage.setItem('sidebar_collapsed', 'false');
+  }
 
-  // Cerrar al hacer click en cualquier link del índice
-  sidebar.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', closeMenu);
+  // Mobile: drawer sobre overlay
+  function openMobileMenu() {
+    document.body.classList.add('sidebar-open');
+    document.body.classList.remove('sidebar-collapsed');
+    overlay.style.display = 'block';
+    setTimeout(() => overlay.style.opacity = '1', 10);
+  }
+  function closeMobileMenu() {
+    document.body.classList.remove('sidebar-open');
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 250);
+  }
+
+  toggle.addEventListener('click', () => {
+    if (isMobile()) {
+      document.body.classList.contains('sidebar-open') ? closeMobileMenu() : openMobileMenu();
+    } else {
+      document.body.classList.contains('sidebar-collapsed') ? expandSidebar() : collapseSidebar();
+    }
   });
 
-  // ESC cierra el menú
+  overlay.addEventListener('click', () => isMobile() ? closeMobileMenu() : collapseSidebar());
+  if (sidebarClose) sidebarClose.addEventListener('click', () => isMobile() ? closeMobileMenu() : collapseSidebar());
+
+  // En mobile, cerrar al tocar un link del índice
+  sidebar.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => { if (isMobile()) closeMobileMenu(); });
+  });
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu();
+    if (e.key === 'Escape') isMobile() ? closeMobileMenu() : collapseSidebar();
   });
 
   // ============ Highlight de sección activa ============
