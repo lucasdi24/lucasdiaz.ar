@@ -1,0 +1,33 @@
+<%- include('partials/head', { title: 'Inicio', description: 'Sitio personal de Lucas Díaz, estudiante de Diseño Gráfico.' }) %>
+<%- include('partials/nav', { currentPath: '/' }) %>
+
+<main class="page">
+  <section class="home-hero">
+    <h1>Lucas <em>Díaz.</em></h1>
+    <p>Estudiante de Diseño Gráfico. Acá publico mis apuntes, resúmenes y recursos de estudio.</p>
+    <a href="/estudiante" class="btn btn-primary">Ver apuntes →</a>
+  </section>
+
+  <section class="home-section">
+    <p class="section-label">Últimas materias</p>
+    <h2>Apuntes de clase</h2>
+    <p>Resúmenes interactivos, organizados por materia.</p>
+
+    <div class="materias-grid">
+      <% materias.forEach(m => { %>
+      <a href="/estudiante/<%= m.slug %>" class="materia-card">
+        <div class="materia-card-left">
+          <div class="materia-dot" style="background: <%= m.color %>"></div>
+          <div class="materia-card-info">
+            <h3><%= m.nombre %></h3>
+            <p><%= m.año %> · <%= m.carrera %></p>
+          </div>
+        </div>
+        <span class="materia-card-arrow">→</span>
+      </a>
+      <% }) %>
+    </div>
+  </section>
+</main>
+
+<%- include('partials/footer') %>

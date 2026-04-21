@@ -1,0 +1,2460 @@
+<!DOCTYPE html>
+<html lang="es"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen de Semiología — Saussure · Peirce · Barthes</title>
+<style>
+  /* ==============================================================
+     RESUMEN DE SEMIOLOGÍA · UI rediseñada
+     Tipografías: Inter (UI) + Fraunces (serif editorial)
+     ============================================================== */
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    /* Colores neutros */
+    --ink:          #0f172a;     /* texto principal */
+    --ink-soft:     #334155;     /* texto secundario */
+    --muted:        #64748b;     /* texto tenue */
+    --fine:         #94a3b8;     /* meta / footnotes */
+    --rule:         #e2e8f0;     /* líneas separadoras */
+    --rule-soft:    #f1f5f9;     /* bordes muy sutiles */
+    --paper:        #fbfaf6;     /* fondo general cálido (papel) */
+    --card:         #ffffff;     /* superficies elevadas */
+    --surface:      #f8fafc;     /* superficies secundarias */
+
+    /* Azul editorial */
+    --accent:       #3056d3;     /* azul principal */
+    --accent-dark:  #1e3a8a;     /* azul profundo / tipografía de títulos */
+    --accent-soft:  #eef2ff;     /* fondo azul muy claro */
+    --accent-hover: #2342b3;
+
+    /* Acento cálido (terracota) para destacar */
+    --warm:         #c2410c;
+    --warm-soft:    #fff7ed;
+    --warm-border:  #fed7aa;
+
+    /* Verde para estados "ok" */
+    --ok:           #047857;
+    --ok-soft:      #ecfdf5;
+
+    /* Amarillo para highlights */
+    --yellow-soft:  #fef9c3;
+    --yellow-text:  #854d0e;
+
+    /* Sombras */
+    --shadow-sm:  0 1px 2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(15, 23, 42, 0.06);
+    --shadow-md:  0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+    --shadow-lg:  0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+    --shadow-xl:  0 20px 25px -5px rgba(15, 23, 42, 0.10), 0 8px 10px -6px rgba(15, 23, 42, 0.08);
+
+    /* Radios */
+    --r-sm: 6px;
+    --r-md: 10px;
+    --r-lg: 14px;
+    --r-xl: 20px;
+
+    /* Tipografías */
+    --font-ui:     'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-serif:  'Fraunces', 'Iowan Old Style', Georgia, serif;
+    --font-mono:   'JetBrains Mono', "SF Mono", Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  *:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    margin: 0;
+    font-family: var(--font-serif);
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink);
+    background: var(--paper);
+    font-feature-settings: "kern", "liga", "onum";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: var(--accent-soft);
+    color: var(--accent-dark);
+  }
+  /* Scrollbar estilizado (WebKit) */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 10px;
+    border: 2px solid var(--paper);
+  }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+  /* ==============================================================
+     PROGRESS BAR (barra de lectura fija arriba)
+     ============================================================== */
+  .read-progress {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    width: 0%;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--warm) 100%);
+    z-index: 2100;
+    transition: width 0.15s ease;
+    pointer-events: none;
+  }
+
+  /* ==============================================================
+     LAYOUT GENERAL
+     ============================================================== */
+  .layout {
+    display: flex;
+    align-items: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
+    transition: padding 0.3s ease;
+  }
+  .content {
+    flex: 1;
+    min-width: 0;
+    transition: max-width 0.3s ease;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 80px 40px 140px;
+    transition: max-width 0.3s ease;
+  }
+  /* Cuando el sidebar está oculto, el contenido se ensancha un poco */
+  body.sidebar-hidden .wrap {
+    max-width: 780px;
+  }
+
+  /* ==============================================================
+     SIDEBAR — ahora drawer deslizable en todos los tamaños
+     ============================================================== */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 320px;
+    overflow-y: auto;
+    padding: 36px 24px 40px 36px;
+    border-right: 1px solid var(--rule);
+    background: var(--card);
+    font-family: var(--font-ui);
+    z-index: 999;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: none;
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: var(--shadow-xl);
+  }
+  /* Botón de cerrar dentro del sidebar */
+  .sidebar-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 32px;
+    height: 32px;
+    border: 1px solid var(--rule);
+    background: var(--card);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 1;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+  }
+  .sidebar-close:hover {
+    color: var(--ink);
+    background: var(--surface);
+  }
+  .sidebar .sb-title {
+    font-family: var(--font-serif);
+    font-size: 19px;
+    font-weight: 600;
+    color: var(--ink);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    margin: 0 0 4px;
+  }
+  .sidebar .sb-subtitle {
+    font-size: 12.5px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 28px;
+    letter-spacing: 0.01em;
+  }
+  .sidebar h3 {
+    margin: 0 0 10px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: var(--fine);
+    font-weight: 700;
+    border: 0;
+    padding: 0;
+  }
+  .sidebar ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    counter-reset: item;
+  }
+  .sidebar > ol > li {
+    margin: 0 0 14px;
+  }
+  .sidebar > ol > li > a {
+    display: block;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 6px 0;
+    letter-spacing: -0.005em;
+  }
+  .sidebar > ol > li > a::before {
+    content: "—";
+    color: var(--accent);
+    margin-right: 8px;
+    font-weight: 400;
+  }
+  .sidebar > ol > li > a:hover {
+    color: var(--accent);
+  }
+  .sidebar ol ol {
+    padding-left: 20px;
+    margin: 6px 0 4px;
+    border-left: 1px solid var(--rule-soft);
+  }
+  .sidebar ol ol li {
+    margin: 0;
+  }
+  .sidebar ol ol li a {
+    display: block;
+    color: var(--muted);
+    font-size: 13px;
+    text-decoration: none;
+    padding: 5px 0 5px 10px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    line-height: 1.4;
+    transition: all 0.15s ease;
+  }
+  .sidebar ol ol li a:hover {
+    color: var(--ink);
+    border-left-color: var(--rule);
+  }
+  .sidebar ol ol li a.active {
+    color: var(--accent);
+    font-weight: 600;
+    border-left-color: var(--accent);
+  }
+  .sidebar-footer {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule-soft);
+    font-size: 11.5px;
+    color: var(--fine);
+    line-height: 1.5;
+  }
+
+  /* ==============================================================
+     PORTADA
+     ============================================================== */
+  .cover {
+    position: relative;
+    margin: -40px -40px 80px;
+    padding: 110px 48px 90px;
+    text-align: center;
+    background:
+      radial-gradient(ellipse at top, #eff4ff 0%, transparent 60%),
+      linear-gradient(180deg, #ffffff 0%, var(--paper) 100%);
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .cover::before {
+    content: "";
+    position: absolute;
+    top: 32px; left: 50%;
+    transform: translateX(-50%);
+    width: 48px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .cover .kicker {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    margin-top: 14px;
+  }
+  .cover h1 {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(40px, 6vw, 64px);
+    line-height: 1.04;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-weight: 500;
+    margin: 0 0 18px;
+  }
+  .cover h1 em {
+    font-style: italic;
+    color: var(--accent-dark);
+    font-weight: 400;
+  }
+  .cover .sub {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 21px;
+    color: var(--ink-soft);
+    margin: 0 auto 30px;
+    max-width: 520px;
+    line-height: 1.5;
+  }
+  .cover .authors {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+    padding: 10px 22px;
+    background: rgba(255,255,255,0.6);
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    backdrop-filter: blur(6px);
+  }
+  .cover .authors strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .cover .meta {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--fine);
+    margin-top: 22px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ==============================================================
+     ÍNDICE INLINE (el que sigue a la portada)
+     ============================================================== */
+  nav.toc {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    padding: 28px 32px 20px;
+    margin-bottom: 80px;
+    font-family: var(--font-ui);
+  }
+  nav.toc h2 {
+    margin: 0 0 16px;
+    font-family: var(--font-ui);
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--fine);
+    font-weight: 700;
+    border: 0;
+    padding: 0;
+  }
+  nav.toc ol { margin: 0; padding-left: 0; list-style: none; counter-reset: toc-i; }
+  nav.toc > ol > li {
+    counter-increment: toc-i;
+    margin: 10px 0 8px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  nav.toc > ol > li:last-child { border-bottom: 0; }
+  nav.toc > ol > li > a {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    color: var(--ink);
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+  }
+  nav.toc > ol > li > a:hover {
+    color: var(--accent);
+  }
+  nav.toc ol ol {
+    padding-left: 0;
+    margin: 10px 0 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4px 24px;
+  }
+  nav.toc ol ol li {
+    list-style: none;
+    font-size: 13.5px;
+  }
+  nav.toc ol ol li a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 4px 0;
+    display: block;
+  }
+  nav.toc ol ol li a:hover { color: var(--accent); }
+
+  /* ==============================================================
+     TIPOGRAFÍA DEL CONTENIDO
+     ============================================================== */
+  h1.author {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 144;
+    font-size: clamp(36px, 4.2vw, 48px);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    font-weight: 500;
+    margin: 100px 0 14px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  h1.author::before {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    content: attr(data-kicker);
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1.author { padding-top: 40px; }
+
+  h2 {
+    font-family: var(--font-serif);
+    font-size: 28px;
+    line-height: 1.25;
+    letter-spacing: -0.018em;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 56px 0 18px;
+    padding-left: 0;
+    border-left: 0;
+  }
+  h2::before {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  h3 {
+    font-family: var(--font-serif);
+    font-size: 21px;
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    font-weight: 600;
+    color: var(--accent-dark);
+    margin: 36px 0 10px;
+  }
+  h4 {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 26px 0 6px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  p {
+    margin: 0 0 18px;
+    color: var(--ink-soft);
+    font-size: 18px;
+    hyphens: auto;
+  }
+  strong { color: var(--ink); font-weight: 600; }
+  em { font-style: italic; color: var(--ink); }
+
+  /* Primera letra capital en el primer párrafo de cada autor */
+  h1.author + p {
+    font-size: 19px;
+    color: var(--ink-soft);
+  }
+  h1.author + p em {
+    color: var(--muted);
+  }
+
+  /* ==============================================================
+     BLOCKQUOTES
+     ============================================================== */
+  blockquote {
+    position: relative;
+    margin: 28px 0;
+    padding: 4px 0 4px 32px;
+    border-left: 3px solid var(--accent);
+    background: transparent;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink);
+    border-radius: 0;
+  }
+  blockquote cite {
+    display: block;
+    margin-top: 10px;
+    font-family: var(--font-ui);
+    font-style: normal;
+    font-size: 12px;
+    color: var(--fine);
+    letter-spacing: 0.04em;
+  }
+  blockquote cite::before {
+    content: "— ";
+    color: var(--fine);
+  }
+
+  /* ==============================================================
+     LISTAS
+     ============================================================== */
+  ul, ol {
+    padding-left: 24px;
+    color: var(--ink-soft);
+  }
+  ul li, ol li { margin: 8px 0; }
+  ul li::marker { color: var(--accent); }
+  ol li::marker { color: var(--fine); font-variant-numeric: tabular-nums; }
+
+  /* ==============================================================
+     CALLOUTS
+     ============================================================== */
+  .callout {
+    position: relative;
+    background: var(--accent-soft);
+    border: 1px solid rgba(48, 86, 211, 0.18);
+    border-radius: var(--r-md);
+    padding: 18px 22px 18px 54px;
+    margin: 24px 0;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-family: var(--font-serif);
+  }
+  .callout::before {
+    content: "✦";
+    position: absolute;
+    left: 20px;
+    top: 18px;
+    font-size: 16px;
+    color: var(--accent);
+    font-family: var(--font-ui);
+  }
+  .callout p { margin: 0 0 10px; color: var(--ink); font-size: 16px; }
+  .callout p:last-child { margin-bottom: 0; }
+  .callout ul, .callout ol { margin: 8px 0; padding-left: 20px; }
+  .callout ul li, .callout ol li { margin: 4px 0; font-size: 15.5px; color: var(--ink); }
+  .callout strong { color: var(--accent-dark); }
+
+  /* Callout de advertencia (para los "matices del profesor") */
+  .callout[style*="fff3e6"],
+  .callout.warm {
+    background: var(--warm-soft) !important;
+    border: 1px solid var(--warm-border) !important;
+  }
+  .callout[style*="fff3e6"]::before,
+  .callout.warm::before {
+    content: "⚑";
+    color: var(--warm) !important;
+  }
+  .callout[style*="fff3e6"] strong,
+  .callout.warm strong {
+    color: var(--warm) !important;
+  }
+
+  /* Highlight term */
+  .term {
+    display: inline;
+    background: linear-gradient(180deg, transparent 58%, var(--yellow-soft) 58%);
+    padding: 0 3px;
+    font-weight: 600;
+    color: var(--ink);
+    border-radius: 2px;
+  }
+
+  /* ==============================================================
+     EJEMPLOS (cajas color crema)
+     ============================================================== */
+  .example {
+    background: #fdf8ef;
+    border: 1px solid #f0e4c8;
+    border-radius: var(--r-md);
+    padding: 16px 22px;
+    margin: 20px 0;
+    font-family: var(--font-serif);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    position: relative;
+  }
+  .example::before {
+    content: "Ejemplo";
+    position: absolute;
+    top: -10px;
+    left: 18px;
+    background: #fdf8ef;
+    padding: 0 8px;
+    font-family: var(--font-ui);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    color: #a16207;
+  }
+  .example strong { color: #854d0e; font-weight: 600; }
+  .example ul, .example ol { margin: 6px 0; padding-left: 20px; }
+  .example ul li, .example ol li { font-size: 15px; margin: 3px 0; color: var(--ink); }
+
+  /* ==============================================================
+     DIAGRAMAS (SVG)
+     ============================================================== */
+  .diagram {
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-lg);
+    padding: 32px 22px 22px;
+    margin: 32px 0;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+  }
+  .diagram svg {
+    max-width: 100%;
+    height: auto;
+  }
+  .diagram .caption {
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 16px;
+    font-style: italic;
+    line-height: 1.5;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Refinar los estilos de los SVG */
+  .ellipse-sign { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 1.8; }
+  .label-text { font-family: var(--font-ui); font-size: 14px; fill: var(--accent-dark); font-weight: 600; }
+  .small-label { font-family: var(--font-ui); font-size: 11.5px; fill: var(--muted); font-weight: 500; }
+  .tri-node { fill: var(--card); stroke: var(--accent); stroke-width: 1.8; }
+  .tri-label { font-family: var(--font-ui); font-size: 13px; fill: var(--accent-dark); font-weight: 700; text-anchor: middle; }
+  .arrow-line { stroke: var(--accent); stroke-width: 1.5; fill: none; }
+
+  /* ==============================================================
+     TABLAS
+     ============================================================== */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 28px 0;
+    font-family: var(--font-ui);
+    font-size: 14.5px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+  }
+  th, td {
+    padding: 14px 18px;
+    text-align: left;
+    border-bottom: 1px solid var(--rule-soft);
+    border-right: 1px solid var(--rule-soft);
+    vertical-align: top;
+  }
+  th:last-child, td:last-child { border-right: 0; }
+  tr:last-child td { border-bottom: 0; }
+  th {
+    background: var(--surface);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--rule);
+  }
+  td { color: var(--ink-soft); }
+  td.label {
+    background: var(--surface);
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 12px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  td.centered { text-align: center; font-family: var(--font-serif); font-size: 15.5px; color: var(--ink); font-weight: 500; }
+
+  /* ==============================================================
+     SECTION BREAK
+     ============================================================== */
+  hr.section-break {
+    border: 0;
+    margin: 80px auto;
+    width: 80px;
+    text-align: center;
+    position: relative;
+  }
+  hr.section-break::after {
+    content: "✦ ✦ ✦";
+    color: var(--fine);
+    font-size: 12px;
+    letter-spacing: 12px;
+  }
+
+  /* Anchor offset para evitar que el header tape las anclas */
+  .anchor-offset { scroll-margin-top: 30px; }
+
+  /* ==============================================================
+     REF / FOOTER
+     ============================================================== */
+  .ref {
+    font-family: var(--font-ui);
+    font-size: 13.5px;
+    color: var(--muted);
+    border-top: 1px solid var(--rule);
+    padding-top: 20px;
+    margin-top: 60px;
+    line-height: 1.7;
+  }
+  .ref strong { color: var(--ink); }
+  .footer-note {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: var(--r-md);
+    padding: 20px 24px;
+    margin-top: 40px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ==============================================================
+     BOTÓN DE MENÚ (siempre visible, discreto)
+     ============================================================== */
+  .menu-toggle {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    padding: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-family: var(--font-ui);
+  }
+  .menu-toggle:hover {
+    background: var(--card);
+    border-color: var(--accent);
+    color: var(--accent);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+  }
+  .menu-toggle .bars {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 16px;
+  }
+  .menu-toggle .bars span {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    border-radius: 2px;
+  }
+  .menu-toggle .bars span:nth-child(2) { width: 12px; }
+  .menu-toggle .bars span:nth-child(3) { width: 8px; }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.35);
+    z-index: 998;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .sidebar-overlay.open {
+    display: block;
+    opacity: 1;
+  }
+  @media (max-width: 600px) {
+    body { font-size: 17px; }
+    p { font-size: 17px; }
+    nav.toc ol ol { grid-template-columns: 1fr; }
+    .cover h1 { font-size: 38px; }
+    .cover .sub { font-size: 18px; }
+    h1.author { font-size: 32px; margin-top: 70px; }
+    h2 { font-size: 24px; }
+    blockquote { font-size: 17px; padding-left: 22px; }
+    .wrap { padding: 80px 22px 100px; }
+    .cover { margin: -40px -22px 60px; padding: 80px 22px 60px; }
+    .sidebar { width: 85%; }
+  }
+
+  /* ==============================================================
+     MODO EDICIÓN — barra de acciones flotante
+     ============================================================== */
+  .edit-toolbar {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+    z-index: 900;
+    font-family: var(--font-ui);
+    transition: opacity 0.2s ease;
+  }
+  .edit-btn {
+    background: var(--card);
+    color: var(--ink);
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    padding: 11px 18px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: var(--shadow-md);
+    transition: all 0.15s ease;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    letter-spacing: -0.005em;
+  }
+  .edit-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .edit-btn:active { transform: translateY(0); }
+  .edit-btn.primary {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .edit-btn.primary:hover {
+    background: var(--accent-hover);
+    color: #fff;
+  }
+  .edit-btn.active {
+    background: var(--warm);
+    color: #fff;
+    border-color: var(--warm);
+  }
+  .edit-btn.active:hover {
+    background: #9a3412;
+    color: #fff;
+    border-color: #9a3412;
+  }
+  .edit-btn.download {
+    background: var(--ok);
+    color: #fff;
+    border-color: var(--ok);
+  }
+  .edit-btn.download:hover {
+    background: #065f46;
+    color: #fff;
+    border-color: #065f46;
+  }
+  .edit-btn.secondary {
+    font-size: 12px;
+    padding: 8px 14px;
+    color: var(--muted);
+  }
+  .edit-btn.secondary:hover {
+    color: var(--ink);
+    border-color: var(--fine);
+  }
+
+  /* Cuando está en modo lector, atenuar la toolbar */
+  body.reader-mode .edit-toolbar {
+    opacity: 0.3;
+  }
+  body.reader-mode .edit-toolbar:hover {
+    opacity: 1;
+  }
+
+  /* Cuando está en modo edición, estilos para los contenidos editables */
+  body.editing .content [contenteditable="true"] {
+    outline: none;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  body.editing .content [contenteditable="true"]:hover {
+    background: rgba(48, 86, 211, 0.04);
+  }
+  body.editing .content [contenteditable="true"]:focus {
+    background: var(--yellow-soft);
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* ==============================================================
+     TOAST / STATUS
+     ============================================================== */
+  .edit-status {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%) translateY(-12px);
+    top: 18px;
+    background: var(--ink);
+    color: #fff;
+    padding: 11px 22px;
+    border-radius: 999px;
+    font-family: var(--font-ui);
+    font-size: 13px;
+    font-weight: 500;
+    z-index: 2200;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: var(--shadow-xl);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+  }
+  .edit-status.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  /* ==============================================================
+     MODAL DE ELECCIÓN INICIAL
+     ============================================================== */
+  .mode-modal-bg {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-ui);
+    padding: 24px;
+    opacity: 0;
+    animation: fadeIn 0.3s ease forwards;
+  }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to   { transform: translateY(0); opacity: 1; }
+  }
+  .mode-modal {
+    background: var(--card);
+    border-radius: var(--r-xl);
+    max-width: 560px;
+    width: 100%;
+    padding: 44px 40px 36px;
+    box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255,255,255,0.1);
+    text-align: center;
+    animation: slideUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+  .mode-modal .m-kicker {
+    font-family: var(--font-ui);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .mode-modal h2 {
+    font-family: var(--font-serif);
+    font-size: 30px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-weight: 500;
+    margin: 0 0 10px;
+    padding: 0;
+    border: 0;
+  }
+  .mode-modal h2::before { display: none; }
+  .mode-modal .intro {
+    font-family: var(--font-serif);
+    color: var(--ink-soft);
+    margin: 0 auto 30px;
+    font-size: 16px;
+    max-width: 420px;
+    line-height: 1.55;
+  }
+  .mode-choices {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .mode-choice {
+    border: 1px solid var(--rule);
+    background: var(--card);
+    border-radius: var(--r-lg);
+    padding: 26px 18px 22px;
+    cursor: pointer;
+    transition: all 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .mode-choice::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, var(--accent-soft) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .mode-choice:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .mode-choice:hover::before { opacity: 1; }
+  .mode-choice > * { position: relative; z-index: 1; }
+  .mode-choice .icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    display: block;
+    line-height: 1;
+  }
+  .mode-choice .title {
+    font-family: var(--font-serif);
+    font-weight: 600;
+    color: var(--ink);
+    font-size: 18px;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .mode-choice .desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+  .mode-modal .note {
+    font-family: var(--font-ui);
+    font-size: 12px;
+    color: var(--fine);
+    margin-top: 8px;
+  }
+  .mode-modal .note kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin: 0 2px;
+  }
+  .has-saved {
+    background: var(--warm-soft);
+    border: 1px solid var(--warm-border);
+    color: var(--warm);
+    padding: 11px 16px;
+    border-radius: var(--r-md);
+    font-size: 13px;
+    margin-bottom: 22px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .has-saved::before {
+    content: "💾";
+    font-size: 18px;
+  }
+  @media (max-width: 500px) {
+    .mode-choices { grid-template-columns: 1fr; }
+    .mode-modal { padding: 32px 24px 26px; }
+    .mode-modal h2 { font-size: 24px; }
+  }
+
+  /* ==============================================================
+     PRINT
+     ============================================================== */
+  @media print {
+    body { font-size: 11pt; background: #fff; }
+    .sidebar, .menu-toggle, .edit-toolbar, .edit-status, .read-progress, .mode-modal-bg, .sidebar-overlay { display: none !important; }
+    .content { width: 100%; }
+    .wrap { max-width: 100%; padding: 0; }
+    .cover { page-break-after: always; margin: 0; }
+    h1.author { page-break-before: always; }
+    .diagram, .callout, .example, blockquote, table { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body class="reader-mode">
+
+<!-- Barra de progreso de lectura -->
+<div class="read-progress" id="readProgress" style="width: 28.4505%;"></div>
+
+<!-- Modal de elección de modo al abrir -->
+<div class="mode-modal-bg" id="modeModal" style="display: none;">
+  <div class="mode-modal">
+    <div class="m-kicker">Resumen de Semiología</div>
+    <h2>¿Cómo querés <em>empezar</em>?</h2>
+    <p class="intro">Elegí en qué modo abrir el resumen. Vas a poder cambiar cuando quieras.</p>
+    <div class="has-saved" id="hasSavedNote" style="display: block;">
+      Detectamos ediciones tuyas guardadas en este navegador — se cargarán automáticamente.
+    </div>
+    <div class="mode-choices">
+      <div class="mode-choice" id="chooseRead">
+        <div class="icon">📖</div>
+        <div class="title">Modo lector</div>
+        <div class="desc">Para estudiar y repasar. No podés modificar el texto por accidente.</div>
+      </div>
+      <div class="mode-choice" id="chooseEdit">
+        <div class="icon">✏️</div>
+        <div class="title">Modo edición</div>
+        <div class="desc">Para anotar, corregir o agregar. Todo se guarda al toque.</div>
+      </div>
+    </div>
+    <div class="note">Cambiá de modo con el botón abajo a la derecha o con <kbd>Ctrl</kbd>+<kbd>E</kbd>.</div>
+  </div>
+</div>
+
+<!-- Botón de menú (siempre visible, discreto) -->
+<button class="menu-toggle" id="menuToggle" aria-label="Abrir índice">
+  <span class="bars"><span></span><span></span><span></span></span>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- Aviso flotante -->
+<div class="edit-status" id="editStatus">📖 Modo lector — tocá ✏️ si querés editar</div>
+
+<!-- Barra de botones de edición -->
+<div class="edit-toolbar">
+  <button class="edit-btn download" id="downloadBtn" title="Descargar HTML con tus cambios">
+    <span>↓</span> <span>Descargar con mis cambios</span>
+  </button>
+  <button class="edit-btn primary" id="editBtn" title="Activar modo edición">
+    <span>✎</span> <span>Editar</span>
+  </button>
+  <button class="edit-btn secondary" id="resetBtn" title="Volver al texto original (borra tus cambios)">
+    <span>↺</span> <span>Resetear</span>
+  </button>
+</div>
+
+<div class="layout">
+
+<!-- SIDEBAR (drawer) -->
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar índice">×</button>
+  <div class="sb-title">Resumen de Semiología</div>
+  <div class="sb-subtitle">Saussure · Peirce · Barthes</div>
+  <h3>Contenido</h3>
+  <ol>
+    <li><a href="#saussure">I. Saussure</a>
+      <ol>
+        <li><a href="#s-origen">Origen y ámbito</a></li>
+        <li><a href="#s-lenguaje">Lenguaje, lengua, habla</a></li>
+        <li><a href="#s-dual">Carácter dual del signo</a></li>
+        <li><a href="#s-principios">Los principios</a></li>
+        <li><a href="#s-arbitrariedad">P1: Arbitrariedad</a></li>
+        <li><a href="#s-linealidad">P2: Linealidad</a></li>
+        <li><a href="#s-mutabilidad">Mutabilidad / inmutabilidad</a></li>
+        <li><a href="#s-valor">Valor y significación</a></li>
+        <li><a href="#s-sintagma">Sintagma y paradigma</a></li>
+        <li><a href="#s-sincronia">Sincronía y diacronía</a></li>
+      </ol>
+    </li>
+    <li><a href="#peirce">II. Peirce</a>
+      <ol>
+        <li><a href="#p-origen">Semiosis y faneroscopía</a></li>
+        <li><a href="#p-triada">La tríada</a></li>
+        <li><a href="#p-partes">Partes de la tríada</a></li>
+        <li><a href="#p-fundamento">Fundamento y Pragmatismo</a></li>
+        <li><a href="#p-semiosis">Semiosis infinita</a></li>
+        <li><a href="#p-categorias">Fanerón y categorías</a></li>
+        <li><a href="#p-nueve">9 tipos de signos</a></li>
+        <li><a href="#p-iis">Ícono, Índice, Símbolo</a></li>
+      </ol>
+    </li>
+    <li><a href="#barthes">III. Barthes</a>
+      <ol>
+        <li><a href="#b-intro">Signo barthesiano</a></li>
+        <li><a href="#b-cocina">La cocina del sentido</a></li>
+        <li><a href="#b-foto">El mensaje fotográfico</a></li>
+        <li><a href="#b-pub">El mensaje publicitario</a></li>
+        <li><a href="#b-retorica">Retórica de la imagen</a></li>
+        <li><a href="#b-mito">Mitologías — el mito hoy</a></li>
+      </ol>
+    </li>
+  </ol>
+  <div class="sidebar-footer">
+    Documento preparado como apunte de estudio.<br>
+    Tocá <strong>✎ Editar</strong> para anotar.
+  </div>
+</aside>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div class="content">
+<div class="wrap">
+
+<!-- PORTADA -->
+<div class="cover">
+  <h1>Resumen de Semiología</h1>
+  <div class="sub">Saussure · Peirce · Barthes</div>
+  <div class="meta">Para la cátedra de Semiología — Facultad de Diseño</div>
+</div>
+
+<!-- ÍNDICE (también aparece arriba, como resumen antes del contenido) -->
+<nav class="toc">
+  <h2>Contenido</h2>
+  <ol>
+    <li><a href="#saussure">I. Ferdinand de Saussure — La fundación saussureana</a>
+      <ol>
+        <li><a href="#s-origen">Origen y ámbito del signo</a></li>
+        <li><a href="#s-lenguaje">Lenguaje, lengua y habla</a></li>
+        <li><a href="#s-dual">El carácter dual del signo</a></li>
+        <li><a href="#s-principios">Los principios del signo</a></li>
+        <li><a href="#s-arbitrariedad">Principio 1: Arbitrariedad</a></li>
+        <li><a href="#s-linealidad">Principio 2: Linealidad</a></li>
+        <li><a href="#s-mutabilidad">Mutabilidad e inmutabilidad del signo</a></li>
+        <li><a href="#s-valor">Valor y significación</a></li>
+        <li><a href="#s-sintagma">Sintagma y paradigma</a></li>
+        <li><a href="#s-sincronia">Sincronía y diacronía</a></li>
+      </ol>
+    </li>
+    <li><a href="#peirce">II. Charles S. Peirce — La semiótica del representamen</a>
+      <ol>
+        <li><a href="#p-origen">Origen: semiosis y faneroscopía</a></li>
+        <li><a href="#p-triada">La tríada del signo</a></li>
+        <li><a href="#p-partes">Las partes de la tríada</a></li>
+        <li><a href="#p-fundamento">Fundamento y Pragmatismo</a></li>
+        <li><a href="#p-semiosis">La semiosis infinita</a></li>
+        <li><a href="#p-categorias">El fanerón y las categorías</a></li>
+        <li><a href="#p-nueve">Los 9 tipos de signos</a></li>
+        <li><a href="#p-iis">Ícono, Índice y Símbolo</a></li>
+      </ol>
+    </li>
+    <li><a href="#barthes">III. Roland Barthes — La aventura semiológica</a>
+      <ol>
+        <li><a href="#b-intro">Introducción al signo barthesiano</a></li>
+        <li><a href="#b-cocina">La cocina del sentido</a></li>
+        <li><a href="#b-foto">El mensaje fotográfico</a></li>
+        <li><a href="#b-pub">El mensaje publicitario</a></li>
+        <li><a href="#b-retorica">Retórica de la imagen</a></li>
+        <li><a href="#b-mito">Mitologías — el mito hoy</a></li>
+      </ol>
+    </li>
+  </ol>
+</nav>
+
+<!-- =========================================================== -->
+<!-- SAUSSURE                                                     -->
+<!-- =========================================================== -->
+<h1 class="author anchor-offset" id="saussure">I. Ferdinand de Saussure</h1>
+<p style="font-style: italic; color: var(--muted); margin-top: -8px;">La fundación saussureana — sobre el texto de Alejandra Vitale, <em>El estudio de los signos. Peirce y Saussure</em>, Cap. II (Eudeba).</p>
+
+<h2 class="anchor-offset" id="s-origen">1. Origen del signo. ¿A qué ámbito de estudio refiere?</h2>
+<p>Ferdinand de Saussure es el <strong>fundador de la lingüística moderna</strong> y quien sentó las bases de la <strong>semiología</strong>, la disciplina cuyo objeto es el estudio de los signos <strong>en el seno de la vida social</strong>. A diferencia del signo peirceano —anclado en la filosofía, la lógica y la epistemología—, el signo de Saussure nace dentro de la <strong>lingüística</strong>: Saussure busca fundar su objeto de estudio, <strong>la lengua</strong>, entendida como un "sistema de signos que expresan ideas", comparable a la escritura, al alfabeto de los sordomudos, a los ritos simbólicos, a las formas de cortesía, a las señales militares, etcétera, "aunque es el más importante de todos estos sistemas" (CLG, 43).</p>
+
+<blockquote>La lingüística es una parte de la semiología (…) las leyes que la semiología descubra serán aplicables a la lingüística.
+<cite>Curso de lingüística general, p. 43</cite></blockquote>
+
+<div class="callout">
+  <p><strong>Cita "de memoria"</strong> — la que define el proyecto saussureano:</p>
+  <p style="font-style: italic; margin-top: 8px;">"La lengua es un sistema de signos que expresan ideas, y por tanto, comparable a la escritura, al alfabeto de los sordomudos, a los ritos simbólicos, a las formas de urbanidad, a las señales militares, etc. Sólo que es el más importante de esos sistemas. Puede, por tanto, concebirse una ciencia que estudie la vida de los signos en el seno de la vida social (…) la denominaremos semiología, nos enseñará en qué consisten los signos, qué leyes los rigen. Y puesto que todavía no existe, no puede decirse que será."</p>
+</div>
+
+<p>El signo saussureano refiere así al <strong>ámbito lingüístico</strong> —es un <strong>signo lingüístico</strong>— pero a la vez sirve de <strong>modelo general de toda semiología</strong>, porque la lengua es el sistema de signos más complejo y más extendido, integrado por signos enteramente arbitrarios. Para Saussure la semiología sería parte de la psicología social y, por tanto, de la psicología general. Su teoría fue influida por la <strong>sociología de Durkheim</strong>: el signo y la lengua se conciben como hechos sociales (exteriores, impuestos, colectivos).</p>
+
+<h2 class="anchor-offset" id="s-lenguaje">1.b. Lenguaje, lengua y habla</h2>
+<p>Para recortar el objeto de la lingüística, Saussure distingue dentro del <strong>lenguaje</strong> (multiforme y heteróclito) dos realidades diferentes: la <strong>lengua</strong> y el <strong>habla</strong>.</p>
+
+<blockquote>El lenguaje es multiforme y heteróclito; a caballo entre diferentes dominios, a la vez físico, fisiológico y psíquico, pertenece además al dominio individual y al dominio social (…) La lengua, en tanto tal, no puede constituir un objeto de estudio puesto que tomado en su conjunto no se sabe cómo desembrollar su unidad.
+<cite>CLG, 37</cite></blockquote>
+
+<table>
+  <thead>
+    <tr>
+      <th>LENGUA</th>
+      <th>HABLA</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Objeto homogéneo</td><td>Objeto heterogéneo</td></tr>
+    <tr><td>Fenómeno psíquico</td><td>Fenómeno psíquico, fisiológico y físico</td></tr>
+    <tr><td>Hecho social</td><td>Acto individual</td></tr>
+    <tr><td>El individuo la registra pasivamente</td><td>Acto de voluntad</td></tr>
+    <tr><td>Código (sistema)</td><td>Uso individual del código</td></tr>
+  </tbody>
+</table>
+
+<p>La <strong>lengua</strong> es "el tesoro depositado por la práctica del habla en los sujetos que pertenecen a una misma comunidad, un sistema gramatical virtualmente existente en cada cerebro". Es una institución heredada: no la crea ni la modifica el individuo. El <strong>habla</strong>, en cambio, es el uso efectivo que cada hablante hace del sistema, y comprende dos cosas: las combinaciones con las que el sujeto expresa su pensamiento personal y el mecanismo psicofísico que le permite exteriorizarlas.</p>
+
+<p>La lengua y el habla son <strong>interdependientes</strong>: la lengua es necesaria para que el habla sea inteligible, y el habla es necesaria para que la lengua se establezca históricamente y evolucione. Pero la lingüística, como ciencia, toma como objeto <strong>la lengua</strong>.</p>
+
+<h2 class="anchor-offset" id="s-dual">2. El carácter dual del signo y por qué</h2>
+<p>Saussure <strong>se opone</strong> a concebir el signo como una <em>entidad unitaria</em> —como el nombre de una cosa, como una nomenclatura—, porque eso supondría que las ideas preexisten a los signos. Propone, en cambio, que el signo es una <strong>entidad biplánica o dual</strong>:</p>
+
+<blockquote>La unidad lingüística es una cosa doble, hecha con la unión de dos términos (…) Lo que el signo une no es una cosa y su nombre, sino un concepto y una imagen acústica.</blockquote>
+
+<div class="diagram">
+  <svg viewBox="0 0 400 260" width="380">
+    <!-- Concepto arriba -->
+    <ellipse class="ellipse-sign" cx="200" cy="70" rx="120" ry="42"></ellipse>
+    <text class="label-text" x="200" y="68" text-anchor="middle">CONCEPTO</text>
+    <text class="small-label" x="200" y="88" text-anchor="middle">(significado)</text>
+    <!-- Línea divisoria -->
+    <line x1="80" y1="130" x2="320" y2="130" stroke="#2e74b5" stroke-width="1.5"></line>
+    <!-- Flechas bidireccionales -->
+    <line x1="160" y1="118" x2="160" y2="142" class="arrow-line"></line>
+    <polygon points="160,114 156,122 164,122" fill="#2e74b5"></polygon>
+    <polygon points="160,146 156,138 164,138" fill="#2e74b5"></polygon>
+    <line x1="240" y1="118" x2="240" y2="142" class="arrow-line"></line>
+    <polygon points="240,114 236,122 244,122" fill="#2e74b5"></polygon>
+    <polygon points="240,146 236,138 244,138" fill="#2e74b5"></polygon>
+    <!-- Imagen acústica abajo -->
+    <ellipse class="ellipse-sign" cx="200" cy="190" rx="120" ry="42"></ellipse>
+    <text class="label-text" x="200" y="188" text-anchor="middle">IMAGEN ACÚSTICA</text>
+    <text class="small-label" x="200" y="208" text-anchor="middle">(significante)</text>
+  </svg>
+  <div class="caption">El signo como entidad biplánica. Ambos planos se reclaman recíprocamente y son de naturaleza psíquica.</div>
+</div>
+
+<p>Los dos aspectos que definen su carácter dual son:</p>
+<ul>
+  <li><strong>Significado</strong> (concepto): no es la cosa del mundo; es un concepto archivado en la mente de los hablantes, un haz de rasgos mínimos de significado (<em>sememas</em>). El significado de "perro" se expresa como el conjunto 'animal', 'mamífero', 'canino', 'masculino'.</li>
+  <li><strong>Significante</strong> (imagen acústica): no es el sonido material, sino su "huella psíquica", el recuerdo del sonido. Por eso podemos "hablarnos" mentalmente sin mover los labios.</li>
+</ul>
+
+<p><strong>¿Por qué esta dualidad?</strong> Porque entre ambos planos hay <strong>interdependencia</strong>: referirse a un significante implica postular un significado, y viceversa. Ambos son <strong>de naturaleza psíquica</strong> y se reclaman recíprocamente: ninguno tomado aisladamente conforma un signo. Saussure compara esta unidad con un compuesto químico, el agua: tomados por separado, ni el hidrógeno ni el oxígeno tienen las propiedades del agua. Además, la dualidad asegura la <strong>oposición clara entre los dos términos</strong> y permite reservar la palabra "signo" para el conjunto.</p>
+
+<h2 class="anchor-offset" id="s-principios">3. Los principios del signo</h2>
+<p>El signo lingüístico así definido posee <strong>dos características primordiales</strong> enunciadas por Saussure en dos principios:</p>
+
+<div class="callout">
+  <p><strong>Principio 1 — Arbitrariedad.</strong> El lazo que une el significante al significado es arbitrario, es decir, <em>inmotivado</em> y puramente convencional.</p>
+  <p><strong>Principio 2 — Linealidad del significante.</strong> El significante, por ser de naturaleza acústica, <em>se desenvuelve en el tiempo</em> y tiene los caracteres del tiempo: representa una extensión mensurable en una sola dimensión, una línea.</p>
+</div>
+
+<h2 class="anchor-offset" id="s-arbitrariedad">4. Principio 1: Arbitrariedad</h2>
+
+<h3>¿Cómo lo explica?</h3>
+<p>Arbitrariedad significa que <strong>la unión entre significante y significado es pura y exclusivamente convencional</strong>. La definición se refiere a la relación <strong>interna</strong> entre los dos planos del signo, <strong>no a la relación entre el signo y el objeto</strong> que representa.</p>
+
+<blockquote>El lazo que une el significante al significado es arbitrario; o bien, puesto que entendemos por signo el total resultante de la asociación de un significante con un significado, podemos decir más simplemente: el signo lingüístico es arbitrario.
+<cite>CLG, 93</cite></blockquote>
+
+<p>La idea de <em>sur</em> no tiene ninguna relación interior con la secuencia de sonidos s-u-r que le sirve de significante; podría estar representada por cualquier otra. Lo prueban las diferencias entre lenguas y la existencia misma de lenguas distintas. "Arbitrario" no quiere decir que dependa de la libre elección del hablante (no está en manos del individuo cambiar un signo una vez establecido), sino que es <strong>inmotivado</strong> con relación al significado: no guarda con él ningún lazo natural.</p>
+
+<p>Saussure distingue el signo del <strong>símbolo</strong>: el símbolo nunca es completamente arbitrario porque conserva un rudimento de vínculo natural con el significado (ej.: la balanza como símbolo de la justicia no podría ser reemplazada por cualquier otro objeto, como un carro).</p>
+
+<h3>Objeciones al principio y cómo las refuta</h3>
+<p>Saussure considera dos posibles objeciones:</p>
+<ol>
+  <li><strong>Las onomatopeyas</strong> (tic-tac, glu-glu): parecería haber un lazo natural entre significante y significado, porque imitan un sonido del mundo.</li>
+  <li><strong>Las interjecciones</strong> (¡ay!, ¡huy!): parecen "dictadas por la naturaleza".</li>
+</ol>
+<p>Las refuta con tres argumentos:</p>
+<ul>
+  <li><strong>a)</strong> Onomatopeyas e interjecciones son <em>escasas y de importancia secundaria</em> en una lengua.</li>
+  <li><strong>b)</strong> En ambas intervienen convenciones que hacen que no sean las mismas en lenguas distintas, lo que vuelve su origen natural dudoso. Al ladrido del perro le corresponde "guau guau" en español, "aua aua" en francés y "wau wau" en alemán; a "¡ay!" le corresponde "¡ale!" en francés y "¡au!" en alemán.</li>
+  <li><strong>c)</strong> Las onomatopeyas, una vez dentro de la lengua, quedan sujetas a la evolución fonética, morfológica, etc., como las demás palabras, lo que prueba que pierden su carácter simbólico y adquieren el del signo lingüístico en general (inmotivado).</li>
+</ul>
+
+<h3>¿Por qué es una cuestión de grados?</h3>
+<p>En otra parte del CLG, Saussure admite que el principio fundamental no impide reconocer, en la formación de algunas palabras, <strong>cierto grado de motivación</strong>:</p>
+
+<blockquote>Así "veinte" es inmotivado, pero "diecinueve" no lo es en el mismo grado, porque evoca los términos de que se compone y otros asociados, por ejemplo, diez, nueve, veintinueve (…) tomados separadamente, diez y nueve están en las mismas condiciones que veinte, pero diecinueve presenta un caso de motivación relativa. Lo mismo con "peral", que evoca la palabra simple "pera".
+<cite>CLG, 155</cite></blockquote>
+
+<p>La arbitrariedad es entonces <strong>una cuestión de grados</strong>: cuando aparece motivación, nunca es absoluta, porque los elementos componentes (diez, nueve, peral…) son completamente arbitrarios. Se distingue:</p>
+<ul>
+  <li><strong>Arbitrario absoluto</strong> ("diez", "nueve")</li>
+  <li><strong>Arbitrario relativo</strong> ("diecinueve")</li>
+</ul>
+<p><em>Regla</em>: cuanto más motivados son los signos, menos arbitrarios; la relación entre arbitrariedad y motivación es <strong>indirectamente proporcional</strong>.</p>
+
+<h3>¿Cómo aplica a los signos no lingüísticos?</h3>
+<p>Saussure se pregunta si, establecida la semiología, deben incorporarse los sistemas de signos <strong>enteramente naturales</strong> (como la pantomima). Concede que puede hacerse, pero subraya que la ciencia semiológica <strong>debe focalizarse en los sistemas basados en la arbitrariedad</strong>, porque son los que mejor realizan el procedimiento semiológico. La lingüística, por estudiar signos completamente arbitrarios, puede servir de <strong>modelo general</strong> de toda semiología.</p>
+
+<p>Todo medio de expresión admitido socialmente se apoya, en principio, en la convención. Los signos de cortesía (inclinarse nueve veces ante el emperador chino) tienen expresividad natural pero están fijados por una regla. En una señal caminera cuyo significante es una vaca y que significa "animales sueltos", hay motivación parcial (la vaca aparece en rutas de campo), pero sigue habiendo convención.</p>
+
+<div class="callout">
+  <p>Eco aclara que <strong>arbitrario no es exactamente lo mismo que convencional</strong>: arbitrario significa <em>inmotivado</em>. Para que haya signo siempre debe haber convención (un código), pero algunos signos serán convencionales pero no inmotivados. La arbitrariedad es también una cuestión de grados en los sistemas no lingüísticos.</p>
+</div>
+
+<h2 class="anchor-offset" id="s-linealidad">5. Principio 2: Linealidad del significante</h2>
+
+<h3>¿Cómo lo explica? Ejemplos</h3>
+<p>El significante, por ser de <strong>naturaleza acústica</strong>, toma los caracteres del tiempo:</p>
+
+<blockquote>Se desenvuelve en el tiempo únicamente y tiene los caracteres que toma del tiempo: a) representa una extensión, y b) esa extensión es mensurable en una sola dimensión, es una línea.
+<cite>CLG, 95</cite></blockquote>
+
+<p>Aunque el principio parece evidente, Saussure le otorga una importancia <strong>equiparable a la del primero</strong>: todo el mecanismo de la lengua depende también de la linealidad del significante.</p>
+
+<p>Los elementos del significante se presentan <strong>uno tras otro</strong>, forman una cadena, a diferencia de los significantes visuales (como las señales marítimas) que pueden ofrecer complicaciones simultáneas en varias dimensiones. Esos elementos sucesivos son los <strong>fonemas</strong>, unidades mínimas y autónomas del plano de la expresión cuyo contraste permite distinguir significados.</p>
+
+<div class="example">
+<strong>Ejemplo clásico: paso / peso / piso</strong><br>
+Los significados distintos surgen de la oposición lineal entre los fonemas /a/, /e/, /i/ que aparecen en la segunda posición de la cadena. No es posible pronunciar dos fonemas a la vez: aun la palabra más corta se despliega en una sucesión temporal.
+</div>
+
+<h3>¿Afecta al signo entero o sólo a una parte?</h3>
+<p>La linealidad afecta <strong>sólo a una parte</strong> del signo dual: al <strong>significante</strong>, no al signo en su totalidad. La razón está en la <strong>naturaleza de cada plano</strong>:</p>
+<ul>
+  <li><strong>El significante</strong> es una imagen acústica y por eso toma los caracteres del tiempo: se despliega linealmente. Sus elementos (fonemas) forman una cadena sucesiva en una sola dimensión.</li>
+  <li><strong>El significado</strong> es un concepto psíquico, un haz de rasgos semánticos que <strong>no</strong> se ordenan en una línea temporal; sus rasgos coexisten simultáneamente en la mente del hablante. El concepto "perro" (animal + mamífero + canino + masculino) no tiene orden lineal.</li>
+</ul>
+
+<div class="callout">
+  <p>Por eso el principio se enuncia como <strong>"carácter lineal del significante"</strong> y no "carácter lineal del signo". Todo el mecanismo de la lengua descansa sobre dos principios complementarios: la <strong>arbitrariedad</strong> (relación significante-significado) y la <strong>linealidad del significante</strong> (condición temporal del plano acústico).</p>
+</div>
+
+<h2 class="anchor-offset" id="s-mutabilidad">6. Mutabilidad e inmutabilidad del signo</h2>
+<p>Saussure afirma que el tiempo, que asegura la continuidad de la lengua, tiene al mismo tiempo otro efecto aparentemente contradictorio: el de <strong>alterar más o menos rápidamente los signos</strong>. De ahí la doble tesis:</p>
+
+<blockquote>En cierto sentido, se puede hablar a la vez de la inmutabilidad y de la mutabilidad del signo.
+<cite>CLG, 100</cite></blockquote>
+
+<h3>La inmutabilidad</h3>
+<p>Es como si la lengua "eligiera" ese significante y no otro, pero <strong>será ese signo y no otro</strong>: está impuesto. Ni el individuo ni la masa pueden modificar una elección ya hecha. Saussure da <strong>cuatro razones</strong> para explicar por qué la lengua se muestra resistente al cambio:</p>
+<ol>
+  <li><strong>El carácter arbitrario del signo:</strong> para cuestionar una norma hace falta que se base en una regla razonable; en la lengua eso no sucede, porque es un sistema arbitrario. La <strong>arbitrariedad justifica la inmutabilidad</strong>.</li>
+  <li><strong>La multitud de signos:</strong> un sistema de pocos elementos puede reemplazarse fácilmente, pero los signos de una lengua son innumerables. <em>Cuantos más signos tiene un idioma, más inmutable se vuelve.</em></li>
+  <li><strong>La complejidad del sistema:</strong> la lengua es un mecanismo demasiado complejo como para comprenderse con la reflexión; la masa hablante es incompetente para transformarlo.</li>
+  <li><strong>La resistencia de la inercia colectiva:</strong> la lengua, usada por toda la masa y durante todo el tiempo, es la institución social más conservadora. Los individuos se resisten al cambio (piénsese en el lenguaje inclusivo).</li>
+</ol>
+
+<h3>La mutabilidad</h3>
+<p>Pese a todo, el tiempo altera los signos: el signo está en condiciones de cambiar <em>porque se continúa en el tiempo</em>. La continuidad implica alteración. Saussure distingue:</p>
+<ul>
+  <li><strong>Mutaciones materiales</strong> (en el significante): cambio en la imagen acústica. Ej.: el latín <em>necare</em> ("matar") dio en francés <em>noyer</em> ("ahogar") y en español <em>anegar</em>.</li>
+  <li><strong>Mutaciones conceptuales</strong> (en el significado): cambia aquello que el signo designa.</li>
+  <li><strong>Desaparición de signos</strong> o <strong>incorporación de signos nuevos</strong>.</li>
+</ul>
+
+<div class="callout">
+  <p>Para que la lengua mute son necesarios <strong>dos factores</strong>: el <strong>tiempo</strong> y la <strong>masa hablante</strong>. Solos no bastan: el tiempo sin masa no cambia nada; la masa sin tiempo no permitiría ver las fuerzas sociales actuando. La incapacidad de la lengua para defenderse del cambio deriva del propio principio de arbitrariedad: como no hay un vínculo natural entre significante y significado, siempre es posible desplazar esa relación.</p>
+</div>
+
+<h2 class="anchor-offset" id="s-valor">7. Valor y significación</h2>
+<p>Para Saussure, la lengua es un <strong>sistema de valores puros</strong>: los elementos que la integran no tienen identidad en sí mismos, sino sólo en sus <strong>relaciones de oposición</strong> con los otros elementos del sistema. La lengua es una <strong>forma, no una sustancia</strong>.</p>
+
+<blockquote>En la lengua no hay más que diferencias sin términos positivos.
+<cite>CLG, 144</cite></blockquote>
+
+<p>Saussure distingue dos nociones emparentadas pero diferentes:</p>
+<ul>
+  <li><strong>Significación:</strong> es la <em>relación interna</em> del signo, la unión estable entre un significante y su significado. "Perro" significa internamente 'animal, mamífero, canino, masculino'.</li>
+  <li><strong>Valor:</strong> es la <em>relación externa</em>, lo que un signo es <strong>en oposición a los otros signos del sistema</strong>. Su contenido no está determinado sino por el concurso de lo que existe fuera de él. <em>El valor es lo que hace que un signo sea lo que los otros no son.</em></li>
+</ul>
+
+<div class="example">
+<strong>Valor conceptual</strong>. Las palabras españolas <em>carnero</em> y francesa <em>mouton</em> tienen la misma significación que la inglesa <em>sheep</em>. Pero no tienen el mismo valor, porque en inglés, para referirse a la carne del animal ya servida en la mesa, se dice <em>mutton</em> y no <em>sheep</em>: a <em>sheep</em> se le opone un segundo término, <em>mutton</em>, oposición que no existe en español.
+</div>
+
+<div class="example">
+<strong>Valor material</strong>. Los fonemas no son sonidos en sí mismos, sino haces de rasgos distintivos opositivos: /b/ /m/ /p/ se distinguen según los rasgos labial/nasal/sonoro. /m/ cobra identidad por ser lo que los otros no son.
+</div>
+
+<div class="example">
+<strong>Homónimos y sinónimos</strong> — casos donde la significación "no alcanza":
+<ul>
+<li><em>Homónimos</em>: mismo significante, diferente valor conceptual (el contexto discrimina; ej. "banco" como mueble o como institución).</li>
+<li><em>Sinónimos</em>: diferente significante, casi igual valor conceptual, pero se distinguen en matices ("recelar, temer, tener miedo" no tienen valor propio más que por su oposición; si "recelar" no existiera, todo su contenido iría a sus concurrentes).</li>
+</ul>
+</div>
+
+<p>Por eso Saussure dice que las nociones de <strong>arbitrariedad y valor son correlativas</strong>: si los signos tuvieran identidad propia no podrían definirse por diferencia. <em>Arbitrario y diferencial son dos cualidades correlativas.</em></p>
+
+<h2 class="anchor-offset" id="s-sintagma">8. Relaciones sintagmáticas y asociativas (paradigmáticas)</h2>
+<p>Los signos se relacionan entre sí de <strong>dos maneras</strong>, que corresponden a dos formas de nuestra actividad cerebral y son indispensables para el funcionamiento de la lengua:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>RELACIONES SINTAGMÁTICAS</th>
+      <th>RELACIONES ASOCIATIVAS (paradigmáticas)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>In praesentia</strong> (en presencia)</td>
+      <td><strong>In absentia</strong> (en ausencia)</td>
+    </tr>
+    <tr>
+      <td>Carácter lineal (cadena hablada)</td>
+      <td>Serie mnemotécnica virtual</td>
+    </tr>
+    <tr>
+      <td>Orden fijo</td>
+      <td>Orden no fijo</td>
+    </tr>
+    <tr>
+      <td>Número definido de elementos</td>
+      <td>Número indefinido</td>
+    </tr>
+    <tr>
+      <td>Se asientan en el <strong>habla</strong></td>
+      <td>Se asientan en la <strong>lengua</strong> (cerebro)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Sintagmáticas</h3>
+<p>Se dan entre elementos <strong>copresentes</strong> en la cadena hablada (discurso). Se apoyan en la extensión. Un término sólo adquiere su valor porque se opone al que le precede o al que le sigue. Ej.: <em>re-leer</em>, <em>contra todos</em>, <em>la vida humana</em>, <em>Dios es bueno</em>, <em>si bien tiempo, saldremos</em>.</p>
+
+<h3>Asociativas / Paradigmáticas</h3>
+<p>Se dan entre elementos <strong>ausentes</strong> que no están copresentes pero están almacenados en el cerebro ("tesoro interior que constituye la lengua de cada individuo"). Asociamos en la mente elementos que tengan analogía en el significado o en el significante.</p>
+
+<div class="example">
+<strong>Ejemplo:</strong> el término <em>enseñanza</em> puede evocar, por asociación:
+<ul>
+<li>por analogía de <em>significado</em>: instrucción, aprendizaje, educación…</li>
+<li>por analogía de <em>significante</em>: templanza, esperanza, tardanza (paradigma de flexión con sufijo -anza).</li>
+</ul>
+No hay orden fijo ni número definido: nos ausentan en una red asociativa.
+</div>
+
+<div class="callout">
+  <p><strong>Analogía de Saussure</strong>: un elemento de la lengua es como la columna de un edificio. La columna entabla, con el arquitrabe que sostiene, una <em>relación sintagmática</em> (dos unidades copresentes en el espacio). Pero la columna, si es de estilo dórico, <em>evoca</em> en la mente otros estilos (jónico, corintio) — esto es una <em>relación paradigmática</em>: elementos no presentes pero recordables.</p>
+</div>
+
+<h2 class="anchor-offset" id="s-sincronia">9. Sincronía y diacronía</h2>
+<p>Saussure distingue <strong>dos ejes</strong> que atraviesan el estudio de cualquier ciencia que trabaje con valores:</p>
+
+<div class="diagram">
+  <svg viewBox="0 0 400 240" width="380">
+    <!-- Ejes -->
+    <line x1="40" y1="120" x2="360" y2="120" class="arrow-line"></line>
+    <polygon points="365,120 357,116 357,124" fill="#2e74b5"></polygon>
+    <line x1="200" y1="20" x2="200" y2="220" class="arrow-line"></line>
+    <polygon points="200,225 196,217 204,217" fill="#2e74b5"></polygon>
+    <!-- Etiquetas -->
+    <text class="small-label" x="40" y="135" text-anchor="start">A</text>
+    <text class="small-label" x="355" y="135" text-anchor="end">B</text>
+    <text class="small-label" x="205" y="25" text-anchor="start">C</text>
+    <text class="small-label" x="205" y="225" text-anchor="start">D</text>
+    <text class="label-text" x="370" y="110" text-anchor="end">SINCRONÍA (A–B)</text>
+    <text class="label-text" x="210" y="15" text-anchor="start">DIACRONÍA (C–D)</text>
+    <text class="small-label" x="370" y="150" text-anchor="end">eje de las simultaneidades</text>
+    <text class="small-label" x="210" y="240" text-anchor="start">eje de las sucesiones</text>
+  </svg>
+</div>
+
+<ul>
+  <li><strong>Sincronía (eje A–B):</strong> las relaciones entre elementos <em>coexistentes</em>, un <strong>estado de lengua</strong> en un momento dado, sin intervención del tiempo. Es el plano del sistema.</li>
+  <li><strong>Diacronía (eje C–D):</strong> las relaciones entre elementos <em>sucesivos</em> que se reemplazan unos a otros en el tiempo sin formar sistema entre sí. Es una fase de evolución de la lengua.</li>
+</ul>
+
+<p>Saussure ilustra con dos analogías. La primera: el <strong>corte transversal de un vegetal</strong> = sincronía (se ve el sistema de fibras en un momento); el <strong>corte longitudinal</strong> = diacronía (se ven las fibras mismas en el tiempo). La segunda —la más demostrativa—: una <strong>partida de ajedrez</strong>. En cada jugada:</p>
+<ul>
+  <li>cada jugada pone en movimiento una sola pieza (como el cambio de un signo), pero tiene repercusión en todo el sistema;</li>
+  <li>el sistema nunca es más que momentáneo: varía de posición a posición (de estado a estado);</li>
+  <li>para pasar de un equilibrio a otro basta el cambio de una sola pieza.</li>
+</ul>
+
+<div class="callout">
+  <p>Saussure <strong>privilegia el estudio sincrónico</strong>: la lingüística sincrónica estudia las relaciones lógicas y psicológicas que unen términos coexistentes y forman sistema <em>tal como aparecen en la conciencia colectiva</em>. La diacrónica, en cambio, estudia los cambios que no percibe una misma conciencia. Para Saussure la primacía la tiene la sincronía, porque es el plano del <em>sistema</em>.</p>
+</div>
+
+<hr class="section-break">
+
+<!-- =========================================================== -->
+<!-- PEIRCE                                                       -->
+<!-- =========================================================== -->
+<h1 class="author anchor-offset" id="peirce">II. Charles S. Peirce</h1>
+<p style="font-style: italic; color: var(--muted); margin-top: -8px;">La semiótica del representamen — sobre el texto de Alejandra Vitale, <em>El estudio de los signos. Peirce y Saussure</em>, Cap. I (Eudeba).</p>
+
+<div class="callout">
+  <p><strong>Semiología vs. Semiótica</strong> — una distinción terminológica clave:</p>
+  <ul style="margin-bottom: 0;">
+    <li><strong>Semiología</strong> (Saussure, lingüista europeo): "ciencia que estudia la vida de los signos en el seno de la vida social".</li>
+    <li><strong>Semiótica</strong> (Peirce, filósofo norteamericano): "doctrina de la naturaleza esencial y de las variedades fundamentales de la <em>semiosis</em> posible". Equiparable a la <em>lógica</em>.</li>
+  </ul>
+</div>
+
+<h2 class="anchor-offset" id="p-origen">a. Origen del signo. Semiosis y faneroscopía</h2>
+<p>Charles Sanders Peirce construye su teoría de los signos como el <strong>marco de una teoría del conocimiento</strong>. Su semiótica no parte de la lingüística sino de la <strong>filosofía, la lógica y la epistemología</strong>. Para Peirce, el único pensamiento que puede conocerse es pensamiento en los signos: no podemos pensar sin signos. De allí que la semiótica sea, para él, equivalente a la lógica.</p>
+
+<blockquote>La lógica, en su sentido general, es (…) otro nombre de la semiótica, la doctrina cuasi-necesaria, o formal, de los signos.</blockquote>
+
+<p>El objeto de estudio de la semiótica es la <strong>semiosis</strong> —palabra que Peirce toma del filósofo epicúreo Filodemo—, entendida como <strong>una inferencia a partir de signos</strong>. La semiosis es el proceso triádico por el cual, a un signo (el <em>representamen</em>) se le atribuye un <em>objeto</em> a partir de otro signo (el <em>interpretante</em>).</p>
+
+<div class="example">
+<strong>Ejemplo:</strong> Ver la imagen de una cruz verde en la puerta de un negocio (representamen) lleva a comprender que allí hay una farmacia (objeto) mediante la palabra "farmacia" que aparece en la mente (interpretante).
+</div>
+
+<p>Peirce habla de <strong>faneroscopía</strong> —del griego <em>fanerón</em>— como la <strong>descripción de lo que está presente en la mente, tal como aparece</strong>, sea algo real o no. La faneroscopía estudia las tres categorías universales (Primeridad, Segundidad, Terceridad) en que puede pensarse cualquier fanerón. De esa división triádica fenomenológica se deriva la división triádica del signo: por eso Peirce habla tanto de <em>semiosis</em> como de <em>faneroscopía</em>.</p>
+
+<h2 class="anchor-offset" id="p-triada">b. ¿Cómo está formado el signo? Por qué es triádico</h2>
+
+<div class="callout" style="background: #fff3e6; border: 1px solid #d97b3a;">
+  <p><strong>Aclaración importante (matiz del profesor):</strong> el signo de Peirce <em>no está formado por tres partes</em>. Lo que es triádico es el <strong>proceso de semiosis</strong>: el reconocimiento del signo pasa por tres etapas o instancias que, combinadas, producen el acto de significar. Hablar de "signo triádico" es una simplificación; rigurosamente, se trata de una <strong>relación triádica</strong> entre representamen, objeto e interpretante.</p>
+</div>
+
+<p>El signo peirceano es una <strong>tríada indivisible</strong> formada por <strong>Representamen – Objeto – Interpretante</strong>:</p>
+
+<blockquote>Un signo o representamen, es algo que, para alguien, representa o se refiere a algo en algún aspecto o carácter. Se dirige a alguien, esto es, crea en la mente de esa persona un signo equivalente, o, tal vez, un signo más desarrollado. Este signo creado es lo que yo llamo el interpretante del primer signo.</blockquote>
+
+<div class="diagram">
+  <svg viewBox="0 0 420 280" width="420">
+    <!-- Triángulo -->
+    <polygon points="210,40 60,220 360,220" fill="none" stroke="#2e74b5" stroke-width="2"></polygon>
+    <!-- Nodos -->
+    <circle class="tri-node" cx="210" cy="40" r="28"></circle>
+    <text class="tri-label" x="210" y="44">R</text>
+    <circle class="tri-node" cx="60" cy="220" r="28"></circle>
+    <text class="tri-label" x="60" y="224">O</text>
+    <circle class="tri-node" cx="360" cy="220" r="28"></circle>
+    <text class="tri-label" x="360" y="224">I</text>
+    <!-- Etiquetas -->
+    <text class="label-text" x="210" y="18" text-anchor="middle">REPRESENTAMEN</text>
+    <text class="label-text" x="60" y="260" text-anchor="middle">OBJETO</text>
+    <text class="label-text" x="360" y="260" text-anchor="middle">INTERPRETANTE</text>
+  </svg>
+  <div class="caption">La relación semiótica es triádica. Sin alguno de los tres términos no hay signo.</div>
+</div>
+
+<p>La relación es <strong>triádica y no de dos ni de más componentes</strong> porque sólo con tres lugares se satisfacen las tres condiciones que Peirce fija para que algo sea signo:</p>
+<ol>
+  <li><strong>Condición necesaria pero no suficiente:</strong> el signo debe tener cualidades que lo distingan (una palabra debe tener un sonido particular diferente del sonido de otra palabra).</li>
+  <li><strong>Condición necesaria pero no suficiente:</strong> el signo debe tener un objeto, aunque la relación no basta para hacer de uno el signo del otro.</li>
+  <li><strong>Condición necesaria y suficiente:</strong> la relación sólo se completa si un <em>interpretante</em> reconoce al representamen como signo de ese objeto. Esto la vuelve triádica.</li>
+</ol>
+<p>Una relación diádica (representamen–objeto) sería una mera conexión de hecho, sin ley ni regularidad; una de más términos sería redundante porque el interpretante —al ser él mismo un signo— ya abre la cadena de semiosis infinita. La terceridad <strong>es lo que introduce la ley</strong> que convierte la relación en un acto semiótico.</p>
+
+<h2 class="anchor-offset" id="p-partes">c. Las tres partes de la tríada</h2>
+
+<h3>Representamen</h3>
+<p>Es la <strong>cualidad material</strong> del signo: una secuencia de letras o sonidos, una forma, un color, un olor, etc., que está en lugar de otra cosa (su objeto). Corresponde a la <strong>Primeridad</strong>. Según su naturaleza se divide en tres tipos (tricotomía del representamen):</p>
+<ul>
+  <li><strong>Cualisigno (tono):</strong> una cualidad que es signo (un color, una textura, una forma). Es mera posibilidad hasta que se encarna en un sinsigno.</li>
+  <li><strong>Sinsigno (señal):</strong> cosa o hecho existente y singular que es signo aquí y ahora. Materializa un cualisigno y es réplica de un legisigno.</li>
+  <li><strong>Legisigno (tipo):</strong> una ley, un tipo general establecido por convención (ej. una palabra del diccionario, una señal vial). Se manifiesta mediante sinsignos que son sus réplicas.</li>
+</ul>
+
+<h3>Objeto</h3>
+<p>Es aquello que el signo representa. Peirce distingue dos tipos:</p>
+<ul>
+  <li><strong>Objeto Dinámico</strong> (exterior a la semiosis): es la realidad independiente que determina al signo. Para que el signo pueda representarlo debe haber sido objeto de semiosis previas: el intérprete necesita un <em>conocimiento colateral</em>. Ej.: el planeta Venus como cuerpo celeste real; Juan Domingo Perón como figura real.</li>
+  <li><strong>Objeto Inmediato</strong> (interior a la semiosis): el objeto tal como el signo mismo lo representa. Un mismo objeto dinámico puede ser construido como objetos inmediatos distintos. Ej.: "lucero matutino" y "lucero vespertino" representan al mismo Venus desde rasgos distintivos distintos; "tirano prófugo" y "primer trabajador" construyen objetos inmediatos opuestos a partir del mismo objeto dinámico (Perón).</li>
+</ul>
+
+<div class="diagram">
+  <svg viewBox="0 0 440 340" width="440">
+    <polygon points="220,40 60,220 380,220" fill="none" stroke="#2e74b5" stroke-width="2"></polygon>
+    <circle class="tri-node" cx="220" cy="40" r="28"></circle>
+    <text class="tri-label" x="220" y="44">R</text>
+    <circle class="tri-node" cx="60" cy="220" r="28"></circle>
+    <text class="tri-label" x="60" y="224">O</text>
+    <circle class="tri-node" cx="380" cy="220" r="28"></circle>
+    <text class="tri-label" x="380" y="224">I</text>
+    <!-- Subdivisión Objeto -->
+    <line x1="60" y1="250" x2="20" y2="310" class="arrow-line"></line>
+    <line x1="60" y1="250" x2="100" y2="310" class="arrow-line"></line>
+    <text class="small-label" x="20" y="325" text-anchor="middle">Inmediato</text>
+    <text class="small-label" x="100" y="325" text-anchor="middle">Dinámico</text>
+    <!-- Subdivisión Interpretante -->
+    <line x1="380" y1="250" x2="330" y2="310" class="arrow-line"></line>
+    <line x1="380" y1="250" x2="380" y2="310" class="arrow-line"></line>
+    <line x1="380" y1="250" x2="430" y2="310" class="arrow-line"></line>
+    <text class="small-label" x="330" y="325" text-anchor="middle">Inmediato</text>
+    <text class="small-label" x="380" y="325" text-anchor="middle">Dinámico</text>
+    <text class="small-label" x="430" y="325" text-anchor="middle">Final</text>
+  </svg>
+  <div class="caption">La tríada con las subdivisiones del objeto y del interpretante.</div>
+</div>
+
+<p>Aplicando las categorías al objeto se obtiene la tricotomía más conocida:</p>
+<ul>
+  <li><strong>Ícono</strong> (primeridad): relación de semejanza.</li>
+  <li><strong>Índice</strong> (segundidad): conexión existencial/física con el objeto.</li>
+  <li><strong>Símbolo</strong> (terceridad): relación por convención, hábito o ley.</li>
+</ul>
+
+<h3>Interpretante</h3>
+<p>Es otro signo (otra representación) que el signo produce en la mente de alguien y que se refiere al mismo objeto. Peirce distingue tres:</p>
+<ul>
+  <li><strong>Interpretante Inmediato:</strong> el concepto o significado que el signo tiene antes de que aparezca en un contexto concreto. Es una abstracción y una posibilidad. Ej.: el significado de "fuego" que se mantiene más allá de que se lo grite ante un incendio o se lo pida para un cigarrillo.</li>
+  <li><strong>Interpretante Dinámico:</strong> el efecto singular y real producido por el signo sobre un intérprete en un aquí y ahora. Ej.: el "fuego" gritado ante un incendio puede generar terror, acción de huir o la idea de llamar a los bomberos.</li>
+  <li><strong>Interpretante Final</strong> (o normal): el interpretante pensado como <em>hábito</em> de interpretación estable y recurrente; lo que cualquier mente, en circunstancias propicias, llegaría a interpretar. Ej.: "H₂O" como interpretante final de "agua"; detenerse ante la luz roja del semáforo.</li>
+</ul>
+
+<p>Aplicadas las categorías al interpretante se obtienen <strong>rema, dicente/decisigno y argumento</strong>:</p>
+<ul>
+  <li><strong>Rema:</strong> signo de posibilidad cualitativa. Casi todas las palabras son remas (nombres comunes y propios).</li>
+  <li><strong>Dicente:</strong> signo de existencia real; corresponde a la proposición, que involucra rema + índice (ej. "Todo perro es un animal").</li>
+  <li><strong>Argumento:</strong> signo de ley; un razonamiento completo (silogismo). Involucra premisas dicentes.</li>
+</ul>
+
+<h2 class="anchor-offset" id="p-fundamento">d. El Fundamento y el Pragmatismo</h2>
+
+<h3>El Fundamento (ground)</h3>
+<p>Peirce afirma que el signo representa a su objeto <em>no en todos sus aspectos</em>, sino sólo con referencia a una suerte de idea, que llama <strong>fundamento</strong> del representamen. El fundamento es el <strong>atributo del objeto que el representamen selecciona</strong> para construir el objeto inmediato. Ej.: "lucero matutino" y "lucero vespertino" representan al mismo Venus con fundamentos distintos ("matutino" vs. "vespertino"). Por eso el fundamento opera <strong>sobre el representamen</strong> y, por su intermedio, en la construcción del objeto inmediato. Eco lo describe como un componente del significado: los rasgos semánticos que caracterizan su contenido.</p>
+
+<h3>El Pragmatismo (pragmaticismo)</h3>
+<p>Para diferenciarse de la lectura que William James hizo del término, Peirce propuso llamarlo <strong>pragmaticismo</strong>. Su principio sostiene que <strong>la creencia en la verdad de un concepto determina hábitos de conducta</strong>: el significado lógico de los conceptos se encarna en hábitos generales de acción.</p>
+
+<div class="callout">
+  <p>El pragmatismo opera fundamentalmente sobre el <strong>Interpretante Final</strong> (el interpretante-hábito), que es la disposición estable a actuar en el mundo frente a un signo.</p>
+  <p><strong>Ejemplos:</strong> creer que la estufa calienta desarrolla el hábito de prenderla cuando hace frío; el interpretante final del semáforo rojo es el hábito de detenerse.</p>
+</div>
+
+<h2 class="anchor-offset" id="p-semiosis">e. La semiosis infinita</h2>
+<p>Dado que el interpretante es <strong>él mismo un signo</strong>, está en lugar de un objeto y remite a su vez a otro interpretante, que es otro signo, y así <em>ad infinitum</em>.</p>
+
+<blockquote>Cualquier cosa que determina a otra cosa (su interpretante) a referirse a un objeto al cual ella también se refiere (su objeto) de la misma manera, deviniendo el interpretante a su vez en signo, y así sucesivamente ad infinitum.</blockquote>
+
+<div class="diagram">
+  <svg viewBox="0 0 700 180" width="700">
+    <!-- Triada 1 -->
+    <polygon points="80,30 20,140 140,140" fill="none" stroke="#2e74b5" stroke-width="2"></polygon>
+    <text class="small-label" x="80" y="25" text-anchor="middle">R</text>
+    <text class="small-label" x="15" y="155" text-anchor="middle">O</text>
+    <text class="small-label" x="145" y="155" text-anchor="middle">I</text>
+    <line x1="145" y1="140" x2="235" y2="30" class="arrow-line" stroke-dasharray="4"></line>
+    <!-- Triada 2 -->
+    <polygon points="290,30 230,140 350,140" fill="none" stroke="#2e74b5" stroke-width="2"></polygon>
+    <text class="small-label" x="290" y="25" text-anchor="middle">R</text>
+    <text class="small-label" x="225" y="155" text-anchor="middle">O</text>
+    <text class="small-label" x="355" y="155" text-anchor="middle">I</text>
+    <line x1="355" y1="140" x2="445" y2="30" class="arrow-line" stroke-dasharray="4"></line>
+    <!-- Triada 3 -->
+    <polygon points="500,30 440,140 560,140" fill="none" stroke="#2e74b5" stroke-width="2"></polygon>
+    <text class="small-label" x="500" y="25" text-anchor="middle">R</text>
+    <text class="small-label" x="435" y="155" text-anchor="middle">O</text>
+    <text class="small-label" x="565" y="155" text-anchor="middle">I</text>
+    <!-- puntos suspensivos -->
+    <text class="label-text" x="610" y="95">…</text>
+    <text class="label-text" x="660" y="95">∞</text>
+  </svg>
+  <div class="caption">El interpretante de un signo se convierte en representamen del siguiente, generando una cadena semiótica infinita.</div>
+</div>
+
+<p>Un signo nunca está aislado: integra una cadena en la que cada signo es, a la vez, interpretante del anterior e interpretado por el siguiente. Como todo pensamiento es un signo y todo conocimiento está determinado por un conocimiento previo, la cadena no tiene un fin absoluto. Sin embargo, la semiosis es <strong>virtualmente infinita</strong>: en la práctica, la llamada <em>semiosis en acto</em> la detiene provisionalmente cuando un interpretante final designa el objeto de un representamen en un acto semiótico particular.</p>
+
+<h2 class="anchor-offset" id="p-categorias">f. El Fanerón y las tres categorías</h2>
+<p>El <strong>fanerón</strong> es todo lo que está presente en la mente o en la conciencia, tal como aparece, sea algo real o no. La faneroscopía postula <strong>tres modos de ser del fanerón</strong>:</p>
+
+<h4>Primeridad</h4>
+<p>Considerar algo <em>tal como es, sin referencia a ninguna otra cosa</em>. Se vincula con las ideas de libertad, posibilidad, indeterminación, comienzo, novedad. Ej.: una cualidad pura (el rojo, la dureza) antes de estar manifestada en un objeto. En el signo corresponde al <strong>representamen (cualidad)</strong>.</p>
+
+<h4>Segundidad</h4>
+<p>Considerar algo <em>en relación diádica con otra cosa</em>. Se vincula con la existencia y el hecho bruto. Ej.: la caída de una piedra en la tierra como relación diádica; la oposición de dos cosas. En el signo corresponde al <strong>objeto (existencia)</strong>.</p>
+
+<h4>Terceridad</h4>
+<p>Introduce la <em>ley, la regularidad, la mediación</em> entre un primero y un segundo. En una serie, el tercero pone en relación regular al primero con el segundo mediante una ley (ej. "n+1"). En el signo corresponde al <strong>interpretante</strong>, que constituye la ley que pone en relación al representamen con el objeto.</p>
+
+<h2 class="anchor-offset" id="p-nueve">g. Los 9 tipos de signos (cuadro de las tricotomías)</h2>
+<p>Al aplicar las tres categorías faneroscópicas a los tres componentes de la tríada, Peirce obtiene <strong>nueve tipos de signos</strong>:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th></th>
+      <th>PRIMERIDAD</th>
+      <th>SEGUNDIDAD</th>
+      <th>TERCERIDAD</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="label">REPRESENTAMEN</td>
+      <td class="centered">Cualisigno</td>
+      <td class="centered">Sinsigno</td>
+      <td class="centered">Legisigno</td>
+    </tr>
+    <tr>
+      <td class="label">OBJETO</td>
+      <td class="centered">Ícono</td>
+      <td class="centered">Índice</td>
+      <td class="centered">Símbolo</td>
+    </tr>
+    <tr>
+      <td class="label">INTERPRETANTE</td>
+      <td class="centered">Rema</td>
+      <td class="centered">Dicente</td>
+      <td class="centered">Argumento</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Representamen (naturaleza material del signo)</h4>
+<ul>
+  <li><strong>Cualisigno</strong> (primeridad): una cualidad que es signo (color, forma, textura). Es mera posibilidad y sólo actúa como signo al encarnarse en un sinsigno. <em>Ej.: la blancura y textura propias de la tiza antes de que la maestra escriba con ella.</em></li>
+  <li><strong>Sinsigno</strong> (segundidad): cosa o hecho existente y singular que es signo. Es la manifestación concreta, aquí y ahora, réplica de un legisigno. <em>Ej.: la palabra "perro" efectivamente escrita con tiza en el pizarrón.</em></li>
+  <li><strong>Legisigno</strong> (terceridad): ley, tipo general —generalmente convencional— integrada a un sistema. Cada aparición concreta es una réplica. <em>Ej.: la palabra "perro" como unidad del sistema de la lengua española; la señal vial de un niño sobre fondo amarillo como tipo del sistema de señalización.</em></li>
+</ul>
+
+<h4>Objeto (relación del signo con su objeto dinámico)</h4>
+<ul>
+  <li><strong>Ícono</strong> (primeridad): relación de semejanza con su objeto. <em>Ej.: una fotografía, un dibujo, un diagrama.</em></li>
+  <li><strong>Índice</strong> (segundidad): relación existencial/física con su objeto. <em>Ej.: una nube negra como índice de lluvia; una veleta como índice del viento.</em></li>
+  <li><strong>Símbolo</strong> (terceridad): relación por convención, hábito o ley. <em>Ej.: las palabras, los signos del Morse, los logotipos.</em></li>
+</ul>
+
+<h4>Interpretante (relación del signo con su interpretante)</h4>
+<ul>
+  <li><strong>Rema</strong> (primeridad): signo de posibilidad cualitativa; considerado aisladamente no es verdadero ni falso. <em>Ej.: los nombres comunes ("perro", "animal") y los nombres propios ("Snoopy").</em></li>
+  <li><strong>Dicente</strong> (segundidad): signo de existencia real; proposición en relación real con su objeto, puede ser verdadera o falsa. <em>Ej.: "Todo perro es un animal".</em></li>
+  <li><strong>Argumento</strong> (terceridad): signo de ley; razonamiento con premisas y conclusión que tiende a producir una creencia definida. <em>Ej.: el silogismo "Todo perro es un animal. Snoopy es un perro. Snoopy es un animal".</em></li>
+</ul>
+
+<h2 class="anchor-offset" id="p-iis">h. El signo-objeto: Ícono, Índice y Símbolo con ejemplos</h2>
+
+<h3>Ícono</h3>
+<p>Signo que entabla con su objeto una relación de <strong>semejanza o analogía</strong>. Peirce lo define como un signo "puramente por similitud con cualquier cosa a la cual sea parecido". No tiene conexión dinámica con el objeto: incluso puede ser ícono de algo que no existe (un trazo que representa una línea geométrica). Se subdivide en:</p>
+<ul>
+  <li><strong>Imágenes:</strong> comparten cualidades simples (color, forma, tamaño). <em>Ej.: cuadros, dibujos, grabados, fotografías. Las onomatopeyas son íconos auditivos.</em></li>
+  <li><strong>Diagramas:</strong> analogía entre las <em>relaciones de sus partes</em>. <em>Ej.: el organigrama de una empresa, los gráficos de torta, un cuadro sinóptico.</em></li>
+  <li><strong>Metáforas:</strong> paralelismo entre referentes o contenidos de dos expresiones. <em>Ej.: "es un león en la cancha" (semejanza entre cualidades del león y del jugador).</em></li>
+</ul>
+
+<h3>Índice</h3>
+<p>Signo que se refiere a su objeto <strong>en virtud de ser realmente afectado por él</strong>. Hay conexión física/existencial y dirige la atención del intérprete por una "compulsión ciega". Rasgos característicos:</p>
+<ul>
+  <li>Carecen, a diferencia de los íconos, de todo parecido significativo con su objeto.</li>
+  <li>Designan entes individuales (no clases, como los símbolos).</li>
+  <li>Dirigen la atención hacia sus objetos por una compulsión ciega.</li>
+</ul>
+<p><strong>Ejemplos:</strong></p>
+<ul>
+  <li>La nube negra como índice de lluvia próxima; el humo como índice de fuego.</li>
+  <li>La veleta como índice de la dirección del viento; el barómetro con marcas bajas más la humedad como índice de lluvia.</li>
+  <li>La estrella polar como índice del Norte; los síntomas de una enfermedad en el cuerpo del paciente.</li>
+  <li>Los pronombres demostrativos ("este", "aquella"), relativos ("quien", "cual"), posesivos ("nuestro"), los nombres propios ("Ezequiel", "Hulda") y los cuantificadores ("alguno", "todos").</li>
+  <li>Un grito de "¡cuidado!" que hace que alguien se aparte; el dedo índice que señala algo.</li>
+  <li><strong>Un código QR</strong> en un aula: lo ves y no pensás en el QR (su representamen) sino en aquello hacia lo que te remite por contigüidad (la lista de asistencia, el 70% mínimo). Es un índice porque establece una <em>relación de contigüidad</em> entre dos signos: el primer signo dispara la atención hacia un segundo objeto continuo.</li>
+</ul>
+
+<h3>Símbolo</h3>
+<p>Signo que se refiere a su objeto dinámico <strong>por convención, hábito o ley</strong>: una asociación de ideas generales que hace que se lo interprete como referido a dicho objeto. Todo símbolo es un legisigno (aunque no todos los legisignos son símbolos: los demostrativos son legisignos indiciales, no símbolos).</p>
+<p><strong>Ejemplos:</strong></p>
+<ul>
+  <li>Las palabras comunes de las lenguas naturales ("dar", "pájaro", "matrimonio"): remiten a una clase de objetos por convención.</li>
+  <li>Los signos de la escritura, los sistemas de señalización, los símbolos del álgebra, la química o la física.</li>
+  <li>Signos creados como sustitutos de las lenguas: el código Morse, la notación musical, las insignias militares.</li>
+  <li>Los isotipos y logotipos de la publicidad.</li>
+</ul>
+
+<div class="callout">
+  <p>Los símbolos <strong>denotan clases de objetos</strong>, no individuos particulares. Para identificar uno hace falta combinarlos con índices (ej. "este pájaro", "nuestro matrimonio"). La distinción ícono/índice/símbolo es <strong>funcional</strong>: nada es en sí mismo un ícono, un índice o un símbolo; lo que es índice en una semiosis puede ser símbolo en otra.</p>
+</div>
+
+<hr class="section-break">
+
+<!-- =========================================================== -->
+<!-- BARTHES                                                      -->
+<!-- =========================================================== -->
+<h1 class="author anchor-offset" id="barthes">III. Roland Barthes</h1>
+<p style="font-style: italic; color: var(--muted); margin-top: -8px;">La aventura semiológica — resumen de <em>La cocina del sentido</em>, <em>El mensaje fotográfico</em>, <em>El mensaje publicitario</em>, <em>Retórica de la imagen</em> y la parte teórica de <em>Mitologías</em> con sus ejemplos.</p>
+
+<h2 class="anchor-offset" id="b-intro">1. Introducción al signo barthesiano</h2>
+<p>Roland Barthes (1915-1980) retoma la propuesta de Saussure de una semiología entendida como <strong>ciencia de los signos en el seno de la vida social</strong>, pero la invierte: la lingüística no es para él una parte de la semiología, sino su modelo y su matriz. Para Barthes, toda semiología debe ajustarse a un <strong>principio de pertinencia</strong>:</p>
+
+<blockquote>El objetivo de la investigación semiológica es reconstruir el funcionamiento de los sistemas de significación distintos de la lengua (…) Este principio, surgido de la lingüística, es el principio de pertinencia: se decide no describir los hechos reunidos sino desde un solo punto de vista (…) La pertinencia elegida por la investigación semiológica concierne por definición a la significación de los objetos.
+<cite>Roland Barthes, 1964</cite></blockquote>
+
+<p>Es decir: al mirar un objeto (una indumentaria, una comida, un auto, una imagen), el semiólogo lo enfoca <strong>únicamente como sistema de significación</strong>, más allá de su utilidad física. Todo objeto es a la vez <strong>usabilidad</strong> (función) y <strong>significación</strong> (signo).</p>
+
+<h2 class="anchor-offset" id="b-cocina">2. La cocina del sentido <span style="font-size: 14px; color: var(--muted); font-weight: normal;">(La Aventura Semiológica, pp. 223-227)</span></h2>
+
+<p>Barthes abre con una pregunta: ¿qué tienen en común un vestido, un automóvil, un plato cocinado, un gesto, una película, una música, una imagen publicitaria, un mobiliario, un titular de diario? Todos son <strong>signos</strong>. El hombre moderno, el hombre de las ciudades, pasa su tiempo <strong>leyendo</strong>:</p>
+
+<ul>
+  <li>Un automóvil comunica el status social de su propietario.</li>
+  <li>Una indumentaria dice la dosis de conformismo o de excentricidad.</li>
+  <li>Un aperitivo (whisky, pernod, vino blanco) dice el estilo de vida del anfitrión.</li>
+</ul>
+
+<p>Estas "lecturas" implican demasiados valores sociales, morales e ideológicos como para que una reflexión sistemática pueda dejar de tomarlos en cuenta: esa reflexión es la <strong>semiología</strong>. Lo que importa es poder someter a un <strong>principio de clasificación</strong> una masa enorme de hechos aparentemente anárquicos, y la <strong>significación</strong> es la que suministra ese principio.</p>
+
+<div class="callout">
+  <p><strong>Tesis central.</strong> Descifrar los signos del mundo quiere decir luchar contra cierta <em>inocencia de los objetos</em>. Lo que parece "natural" (la información de un cable, la moda, la publicidad) está hecho de convenciones muy poco naturales. El semiólogo, como el lingüista, debe entrar en la "cocina del sentido".</p>
+</div>
+
+<p><strong>Los signos están constituidos por diferencias.</strong> Un sentido nunca se analiza aislado: hay que reconstituir los sistemas semánticos de objetos (vestuario, alimento, imágenes, rituales, músicas…). Y, además, la semiología descubre otra tarea: estudiar la operación mediante la cual un mensaje cualquiera se impregna de un <strong>segundo sentido, difuso, en general ideológico, llamado sentido connotado</strong>. Vivimos —dice Barthes— en una <em>civilización de la connotación</em>.</p>
+
+<div class="diagram">
+  <svg viewBox="0 0 560 250" width="540">
+    <!-- Denotación -->
+    <rect x="40" y="60" width="200" height="60" fill="#eaf1fa" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <text class="label-text" x="140" y="95" text-anchor="middle">Ste (objeto)</text>
+    <rect x="40" y="120" width="200" height="60" fill="#fff9e6" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <text class="label-text" x="140" y="155" text-anchor="middle">Sdo (1er sentido)</text>
+    <text class="small-label" x="140" y="50" text-anchor="middle">DENOTACIÓN · 1er sentido</text>
+    <!-- flecha -->
+    <line x1="240" y1="120" x2="290" y2="120" class="arrow-line"></line>
+    <polygon points="295,120 287,116 287,124" fill="#2e74b5"></polygon>
+    <!-- Connotación -->
+    <rect x="300" y="60" width="220" height="120" fill="#fff9e6" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <rect x="310" y="70" width="200" height="50" fill="#eaf1fa" stroke="#2e74b5" stroke-width="1" rx="4"></rect>
+    <text class="small-label" x="410" y="98" text-anchor="middle">Ste (todo el signo de denotación)</text>
+    <rect x="310" y="125" width="200" height="50" fill="#fff" stroke="#2e74b5" stroke-width="1" rx="4"></rect>
+    <text class="small-label" x="410" y="155" text-anchor="middle">Sdo (valores sociales/ideológicos)</text>
+    <text class="small-label" x="410" y="50" text-anchor="middle">CONNOTACIÓN · 2° sentido</text>
+  </svg>
+  <div class="caption">Todo el signo del primer nivel (denotación) se convierte en significante del segundo nivel (connotación).</div>
+</div>
+
+<p>En cuanto a los <strong>objetos como signos</strong>, Barthes distingue dos estados del significante:</p>
+<ul>
+  <li><strong>Primer estado — simbólico:</strong>
+    <ul>
+      <li><em>Antropológico:</em> el significante remite a un significado por una convención cultural heredada (la cruz, la media luna).</li>
+      <li><em>Relaciones desplazadas / metonimia:</em> el objeto significa por medio de uno de sus atributos. Ver una cerveza y percibir "frescura"; ver una naranja y percibir "jugosa". Hay un deslizamiento del sentido.</li>
+    </ul>
+  </li>
+  <li><strong>Segundo estado — sintagmático / taxonómico:</strong> significaciones de las <em>colecciones</em> de objetos, "pluralidad organizada" (un mobiliario, un menú, un outfit). El sentido se gesta de forma extendida, en yuxtaposición (parataxis). Ej.: el menú de un restaurante actualiza ambos planos: la lectura horizontal de los primeros platos corresponde al sistema (paradigma); la lectura vertical del menú corresponde al sintagma.</li>
+</ul>
+
+<div class="callout">
+  <p><strong>Las dos coordenadas del objeto (enfoque aplicado al diseño).</strong> Todo objeto es atravesado por dos coordenadas que lo definen simultáneamente:</p>
+  <ul style="margin-bottom: 0;">
+    <li><strong>Coordenada taxonómica</strong>: lo clasifica según su tecnología, su función, su desarrollo (un tornillo se distingue de una tuerca; un termo de una taza).</li>
+    <li><strong>Coordenada simbólica</strong>: lo carga de sentido cultural (dos termos con la misma función pueden significar "viajero", "urbano", "tradicional"...).</li>
+  </ul>
+  <p style="margin-bottom: 0;">Estas dos coordenadas no son opcionales: <strong>todo objeto es, a la vez, <span class="term">usabilidad</span> (función) y <span class="term">significación</span> (signo)</strong>. El diseñador trabaja en ambas coordenadas.</p>
+</div>
+
+<h2 class="anchor-offset" id="b-foto">3. El mensaje fotográfico <span style="font-size: 14px; color: var(--muted); font-weight: normal;">(Lo obvio y lo obtuso, pp. 11-27)</span></h2>
+
+<h3>La paradoja fotográfica</h3>
+<p>¿Qué transmite la fotografía? Por definición, la escena en sí misma, lo real literal. Entre el objeto y su imagen no hay necesidad de disponer de un <em>relevo</em>, es decir, de un <strong>código</strong>. La imagen es el <em>analogon</em> perfecto de la realidad. De allí la proposición fundante de Barthes:</p>
+
+<blockquote>La fotografía es un mensaje sin código.</blockquote>
+
+<p>La fotografía sería así la única estructura de la información que estaría constituida exclusivamente por un <strong>mensaje denotado</strong>. Sin embargo —y aquí aparece la paradoja—, al mismo tiempo la fotografía está <strong>connotada</strong>: un objeto trabajado, escogido, compuesto, tratado según normas profesionales, estéticas o ideológicas; no se la percibe sin más, se la <em>lee</em>.</p>
+
+<div class="callout">
+  <p><strong>Paradoja fotográfica</strong>: la coexistencia de dos mensajes, uno <strong>sin código</strong> (el análogo fotográfico, denotado) y otro <strong>con código</strong> (el "arte", el tratamiento, la retórica de la fotografía, connotado). La paradoja reside en que el mensaje connotado se desarrolla a partir de un mensaje <em>sin código</em>.</p>
+</div>
+
+<h3>Los procedimientos de connotación</h3>
+<p>La connotación impone un segundo sentido al mensaje fotográfico, elaborándose en los diferentes niveles de producción (elección, tratamiento técnico, encuadre, compaginación). Barthes describe seis procedimientos:</p>
+
+<ol>
+  <li><strong>Trucaje.</strong> Utiliza el poder de denotación de la fotografía para hacer pasar como denotado un mensaje connotado. Ej.: foto trucada del senador Tydings "conversando" con el líder comunista Earl Browder (EE.UU., 1951) — el anticomunismo tiñe el gesto como familiaridad culpable.</li>
+  <li><strong>Pose.</strong> La propia pose del personaje da pie a la lectura connotada. Ej.: busto del presidente Kennedy de perfil, manos juntas, mirada al cielo → juventud, espiritualidad, pureza. El lector recibe como denotación lo que en realidad es denotación + connotación ("Kennedy rezando").</li>
+  <li><strong>Objetos.</strong> Los objetos fotografiados son inductores de asociaciones o auténticos símbolos. Ej.: François Mauriac en Malagar (foto de Paris-Match) entre viñedos, álbum, lupa, jarrón con flores → el anciano escritor evoca sus recuerdos.</li>
+  <li><strong>Fotogenia.</strong> El mensaje connotado está embellecido por técnicas de iluminación, impresión y reproducción. A cada efecto técnico ("flou", desenfoque, contraluz) le corresponde un significado de connotación estable.</li>
+  <li><strong>Esteticismo.</strong> La fotografía se convierte en pintura (empaste de colores, composición). Ej.: Cartier-Bresson compagina su foto de la recepción a un cardenal como si fuera un cuadro antiguo → connota "espiritualidad extática".</li>
+  <li><strong>Sintaxis.</strong> Cuando varias fotos constituyen una secuencia, el significante de connotación <strong>no se encuentra en el nivel de ninguno de los fragmentos, sino en el de su encadenamiento</strong> (suprasegmental). Ej.: cuatro instantáneas de la cacería presidencial de Auriol en Rambouillet: el efecto cómico surge de la repetición/variación, sólo de la secuencia.</li>
+</ol>
+
+<h3>Texto e imagen: funciones del lenguaje respecto de la foto</h3>
+<p>Una inversión histórica importante: antes la imagen <em>ilustraba</em> a la palabra; hoy la palabra se vuelve <strong>parásita de la imagen</strong>. Ya no se hace una reducción del texto a la imagen, sino una <strong>amplificación de la imagen por el texto</strong>: la connotación que antes se alojaba en el texto hoy pasa por natural porque se funda en la analogía fotográfica (proceso de <em>naturalización de lo cultural</em>).</p>
+
+<h3>El código de connotación es histórico (no natural)</h3>
+<p>El código de la connotación no es "natural" ni "artificial": es <strong>histórico y cultural</strong>. Sus signos son gestos, actitudes, expresiones, colores o efectos cuyos sentidos dependen de los usos de una sociedad determinada. Toda fotografía "connota" porque apela a un saber del lector. De ahí que la lectura de una fotografía siempre sea histórica, depende del saber del lector, igual que si fuera una lengua.</p>
+
+<p>Barthes propone varios planos de connotación: <em>perceptiva</em>, <em>cognoscitiva</em> (conocimientos culturales — signos árabes que "localizan" una foto en un país norteafricano) e <em>ideológica / ética</em> (introduce razones o valores en la lectura de la imagen).</p>
+
+<p>Una observación final: la <strong>foto-impacto</strong> (incendios, naufragios, muertes captadas en vivo) <strong>es insignificante en su estructura</strong>: el trauma suspende el lenguaje y bloquea la significación. Cuanto más directo el trauma, más difícil resulta la connotación: <em>el efecto mitológico de una fotografía es inversamente proporcional a su efecto traumático</em>.</p>
+
+<h2 class="anchor-offset" id="b-pub">4. El mensaje publicitario <span style="font-size: 14px; color: var(--muted); font-weight: normal;">(La Aventura Semiológica, pp. 239-245)</span></h2>
+
+<p>Barthes analiza dos eslóganes: <em>"Cocine en oro con Astra"</em> y <em>"Un helado Gervais es derretirse de placer"</em>. Toda frase publicitaria contiene dos mensajes imbricados:</p>
+
+<h3>El primer mensaje: denotación</h3>
+<p>Es la frase tomada en su <strong>literalidad</strong>, abstracción hecha de su intención publicitaria. Si un hurón o un marciano —que supiera francés pero ignorara el comercio y la gastronomía— leyera "Cocine en oro con Astra", entendería una orden literal de cocinar con una garantía de que el resultado será una materia emparentada con el metal "oro". Entendería un mensaje perfectamente constituido: tiene plano de la expresión (significantes) y plano del contenido (significados literales). <strong>Este primer mensaje es el mensaje de denotación.</strong></p>
+
+<h3>El segundo mensaje: connotación</h3>
+<p>Es un mensaje <strong>global</strong>. Su significado es único y siempre el mismo en todos los mensajes publicitarios: <strong>la excelencia del producto anunciado</strong>. Diga lo que diga de Astra o Gervais, finalmente sólo se dice una cosa: Astra es la mejor manteca, Gervais el mejor helado.</p>
+
+<p>¿Cuál es su significante? Todos los rasgos de estilo y figuras retóricas (metáforas, cortes, aliteraciones). Pero como estos rasgos están incorporados a la frase literal, el <strong>significante del segundo mensaje es el primer mensaje en su integridad</strong>.</p>
+
+<div class="diagram">
+  <svg viewBox="0 0 600 220" width="580">
+    <rect x="40" y="30" width="220" height="70" fill="#eaf1fa" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <text class="label-text" x="150" y="60" text-anchor="middle">Ste 1: "Cocine en oro con Astra"</text>
+    <text class="small-label" x="150" y="85" text-anchor="middle">(sustancia fónica/gráfica)</text>
+    <rect x="40" y="110" width="220" height="70" fill="#fff9e6" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <text class="label-text" x="150" y="140" text-anchor="middle">Sdo 1: sentido literal</text>
+    <text class="small-label" x="150" y="162" text-anchor="middle">DENOTACIÓN</text>
+    <line x1="260" y1="105" x2="320" y2="105" class="arrow-line"></line>
+    <polygon points="325,105 317,101 317,109" fill="#2e74b5"></polygon>
+    <rect x="335" y="30" width="240" height="150" fill="#fff9e6" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <rect x="345" y="40" width="220" height="65" fill="#eaf1fa" stroke="#2e74b5" stroke-width="1" rx="4"></rect>
+    <text class="small-label" x="455" y="75" text-anchor="middle">Ste 2: todo el mensaje 1</text>
+    <rect x="345" y="110" width="220" height="60" fill="#fff" stroke="#2e74b5" stroke-width="1" rx="4"></rect>
+    <text class="small-label" x="455" y="145" text-anchor="middle">Sdo 2: "excelencia del producto"</text>
+    <text class="small-label" x="455" y="195" text-anchor="middle">CONNOTACIÓN (2° mensaje)</text>
+  </svg>
+  <div class="caption">Arquitectura de dos mensajes: el primero es de denotación; el segundo (connotación) toma al primero como su significante por "desligamiento" (<em>décrochage</em>).</div>
+</div>
+
+<h3>La función del mensaje de denotación: naturalizar</h3>
+<p>En publicidad —a diferencia de otras connotaciones encubiertas— el segundo mensaje <strong>no está oculto</strong>. Lo que percibimos de inmediato es el carácter publicitario. ¿Entonces para qué el mensaje denotado? Barthes plantea que el primer mensaje sirve para <strong>naturalizar el segundo</strong>: le arrebata su finalidad interesada, la gratuidad de su afirmación. Reemplaza "compre Astra" por el espectáculo de un mundo donde es natural comprar Astra. La motivación comercial no se enmascara: se <em>duplica</em> por una representación más amplia que remite a los grandes temas antropológicos (el placer como disolución del ser, la excelencia como pureza del oro).</p>
+
+<p>Una publicidad "buena", para Barthes, es la que <strong>condensa en sí misma la retórica más rica</strong> y alcanza con precisión los grandes temas oníricos de la humanidad. Los criterios del lenguaje publicitario son los mismos que los de la poesía: figuras, metáforas, juegos de palabras — "signos dobles" que amplían el lenguaje hacia significados latentes. El lenguaje publicitario reintroduce el sueño en la humanidad de los compradores.</p>
+
+<h2 class="anchor-offset" id="b-retorica">5. Retórica de la imagen <span style="font-size: 14px; color: var(--muted); font-weight: normal;">(Lo obvio y lo obtuso, pp. 29-47)</span></h2>
+
+<p>Barthes analiza un anuncio de <strong>Panzani</strong> (paquetes de pasta, lata, bolsita, tomates, cebollas, pimientos y champiñón saliendo de una red entreabierta; amarillos y verdes sobre fondo rojo) y distingue <strong>tres mensajes</strong>:</p>
+
+<div class="diagram">
+  <svg viewBox="0 0 600 280" width="580">
+    <!-- Mensaje lingüístico -->
+    <rect x="30" y="20" width="540" height="58" fill="#ffe9d6" stroke="#d97b3a" stroke-width="2" rx="6"></rect>
+    <text class="label-text" x="300" y="45" text-anchor="middle">1. Mensaje LINGÜÍSTICO</text>
+    <text class="small-label" x="300" y="65" text-anchor="middle">Texto explicativo + etiquetas "Panzani" (denotación + connotación de "italianidad")</text>
+    <!-- Mensaje icónico codificado -->
+    <rect x="30" y="90" width="540" height="80" fill="#fff9e6" stroke="#2e74b5" stroke-width="2" rx="6"></rect>
+    <text class="label-text" x="300" y="115" text-anchor="middle">2. Mensaje ICÓNICO CODIFICADO (connotado / simbólico / cultural)</text>
+    <text class="small-label" x="300" y="135" text-anchor="middle">Signos de connotación: frescura, italianidad, servicio completo,</text>
+    <text class="small-label" x="300" y="152" text-anchor="middle">naturaleza muerta (</text></svg><em>nature morte</em> / still living)
+    <!-- Mensaje icónico no codificado -->
+    <rect x="30" y="180" width="540" height="80" fill="#eaf1fa" stroke="#2e74b5" stroke-width="2" rx="6">
+    <text class="label-text" x="300" y="205" text-anchor="middle">3. Mensaje ICÓNICO NO CODIFICADO (denotado / literal)</text>
+    <text class="small-label" x="300" y="225" text-anchor="middle">La escena tal cual: tomates, cebollas, pimientos, red, paquetes.</text>
+    <text class="small-label" x="300" y="242" text-anchor="middle">"Mensaje sin código" — relación cuasi tautológica Ste/Sdo</text>
+  
+  <div class="caption">Los tres mensajes que Barthes identifica en una imagen publicitaria.</div>
+</rect></div>
+
+<h3>Los tres mensajes</h3>
+<ul>
+  <li><strong>Mensaje lingüístico:</strong> el texto (pie, etiquetas). Es <em>doble</em>: denotación (lo que dicen las palabras) y connotación (el signo "Panzani" connota <em>italianidad</em> por su asonancia).</li>
+  <li><strong>Mensaje icónico denotado</strong> (literal, no codificado): la imagen pura, la escena reconocida sin más saber que el perceptivo ("eso es un tomate, eso es una red"). Es un <strong>mensaje sin código</strong>: la relación entre significado (el objeto real) y significante (su representación fotográfica) es <em>casi tautológica</em>, una cuasi-identidad.</li>
+  <li><strong>Mensaje icónico connotado</strong> (simbólico, cultural): los signos discontinuos que exigen saberes culturales. En Panzani, Barthes identifica cuatro:
+    <ul>
+      <li>la <em>frescura</em> de los productos y la preparación casera (la red entreabierta como "recién llegado del mercado");</li>
+      <li>la <em>italianidad</em> (acumulación tricolor amarillo-verde-rojo);</li>
+      <li>el <em>servicio total</em> (el concentrado en lata iguala a los productos naturales);</li>
+      <li>la <em>naturaleza muerta</em> (<em>nature morte</em> / still living) como significación estética heredada de la pintura.</li>
+    </ul>
+  </li>
+</ul>
+
+<h3>La imagen es polisémica: cadena flotante de significados</h3>
+<p>Toda imagen es polisémica: implica, subyacente a sus significantes, una <strong>cadena flotante de significados</strong> de la que el lector puede seleccionar unos e ignorar otros. Para combatir "el terror de los signos inciertos", la sociedad desarrolla técnicas que fijan la cadena: una de ellas es el mensaje lingüístico. Sus <strong>dos funciones</strong> respecto a la imagen son:</p>
+
+<ul>
+  <li><strong>Anclaje:</strong> el texto guía al lector en la identificación y en la interpretación, le teledirige hacia un sentido escogido de antemano. Combate la proliferación de sentidos indeseables. Funciona como <em>control</em>, como <em>represor</em> de la polisemia. Es la función más frecuente en la prensa y la publicidad.</li>
+  <li><strong>Relevo:</strong> palabra e imagen están en relación complementaria; ambas son fragmentos de un sintagma más general. Aparece sobre todo en el humor gráfico, el cómic y el cine, donde el diálogo hace avanzar la acción.</li>
+</ul>
+
+<h3>La imagen denotada: mensaje sin código</h3>
+<p>En la fotografía —no así en el dibujo, que es un mensaje codificado— la relación Ste/Sdo no es de <em>transformación</em> sino de <em>registro</em>. La ausencia de código refuerza el mito de lo "natural" fotográfico: la escena <em>está ahí</em>, captada "mecánica pero no humanamente". Esta <strong>irrealidad real</strong> de la fotografía tiene que ver menos con su <em>aquí</em> que con su <em>haber estado ahí</em>: "así sucedieron las cosas", "esto estuvo allí".</p>
+
+<h3>La imagen connotada: la retórica de la imagen</h3>
+<p>El tercer mensaje (simbólico/cultural) es la <strong>retórica de la imagen</strong> y es, propiamente, el terreno común con la ideología:</p>
+
+<div class="callout">
+  <p>La <strong>ideología</strong> general tiene su correspondencia en significantes de connotación específicos según la sustancia (imagen, palabra, gesto). Llamamos <strong>connotadores</strong> a esos significantes y <strong>retórica</strong> al conjunto de connotadores: la retórica aparece como la <strong>cara significante de la ideología</strong>.</p>
+</div>
+
+<p>Los significados de connotación (italianidad, abundancia, frescura…) son fragmentos de ideología y forman <strong>léxicos</strong> o idiolectos (un lector turístico, un lector culinario, un lector estético pueden movilizar léxicos distintos ante la misma imagen). La retórica propia de la imagen —sometida a las condiciones de la visión— se construye en general por metonimia (el tomate por "italianidad"), asíndeton (yuxtaposición de escenas), y las figuras clásicas reinterpretadas en términos estructurales.</p>
+
+<p>La tesis final: el mundo del sentido está desgarrado entre <strong>el sistema como cultura y el sintagma como naturaleza</strong>. Los connotadores son signos potentes y erráticos; la denotación icónica los "naturaliza" al sumergirlos en la historia de la escena denotada como en un baño de inocencia.</p>
+
+<h2 class="anchor-offset" id="b-mito">6. Mitologías — el mito hoy <span style="font-size: 14px; color: var(--muted); font-weight: normal;">(Mitologías, pp. 107-121 + ejemplos)</span></h2>
+
+<h3>El mito es un habla</h3>
+<p>Primera definición, muy simple:</p>
+
+<blockquote>El mito es un habla (…) un sistema de comunicación, un mensaje. El mito no podría ser un objeto, un concepto o una idea; se trata de un modo de significación, de una forma.</blockquote>
+
+<p>El mito no se define por el objeto de su mensaje sino por la <strong>forma en que se lo profiere</strong>: sus límites son formales, no sustanciales. <em>Todo</em> puede ser mito (un discurso escrito, una fotografía, un filme, un reportaje, un deporte, un espectáculo, la publicidad). Pero no hay mitos eternos: es la historia humana la que hace pasar lo real al estado de habla.</p>
+
+<h3>El mito como sistema semiológico segundo</h3>
+<p>El mito pertenece a la semiología como ciencia de las formas y a la ideología como ciencia histórica: <strong>estudia las ideas como forma</strong>. En un sistema semiológico primero (como la lengua de Saussure) hay significante, significado y signo. El mito es un <strong>sistema semiológico segundo</strong>: <em>lo que es signo en el primer sistema se convierte en significante del segundo</em>.</p>
+
+<div class="diagram">
+  <svg viewBox="0 0 680 280" width="640">
+    <!-- Primer sistema: lengua -->
+    <rect x="20" y="40" width="280" height="210" fill="#eaf1fa" stroke="#2e74b5" stroke-width="2" rx="8"></rect>
+    <text class="small-label" x="160" y="28" text-anchor="middle">1° sistema — LENGUA (lenguaje objeto)</text>
+    <rect x="40" y="60" width="120" height="60" fill="#fff" stroke="#2e74b5" rx="4"></rect>
+    <text class="label-text" x="100" y="95" text-anchor="middle">1. Ste</text>
+    <rect x="180" y="60" width="100" height="60" fill="#fff" stroke="#2e74b5" rx="4"></rect>
+    <text class="label-text" x="230" y="95" text-anchor="middle">2. Sdo</text>
+    <rect x="40" y="140" width="240" height="90" fill="#fff9e6" stroke="#2e74b5" stroke-width="2" rx="4"></rect>
+    <text class="label-text" x="160" y="190" text-anchor="middle">3. SIGNO (sentido)</text>
+    <!-- Flecha -->
+    <line x1="300" y1="180" x2="370" y2="180" class="arrow-line"></line>
+    <polygon points="375,180 367,176 367,184" fill="#2e74b5"></polygon>
+    <!-- Segundo sistema: mito -->
+    <rect x="380" y="90" width="280" height="175" fill="#fff9e6" stroke="#d97b3a" stroke-width="2" rx="8"></rect>
+    <text class="small-label" x="520" y="80" text-anchor="middle">2° sistema — MITO (metalenguaje)</text>
+    <rect x="400" y="110" width="120" height="60" fill="#fff" stroke="#d97b3a" rx="4"></rect>
+    <text class="label-text" x="460" y="135" text-anchor="middle">I. FORMA</text>
+    <text class="small-label" x="460" y="155" text-anchor="middle">(= signo del 1°)</text>
+    <rect x="540" y="110" width="100" height="60" fill="#fff" stroke="#d97b3a" rx="4"></rect>
+    <text class="label-text" x="590" y="135" text-anchor="middle">II. CONCEPTO</text>
+    <rect x="400" y="185" width="240" height="60" fill="#ffe9d6" stroke="#d97b3a" stroke-width="2" rx="4"></rect>
+    <text class="label-text" x="520" y="220" text-anchor="middle">III. SIGNIFICACIÓN</text>
+  </svg>
+  <div class="caption">El mito como sistema semiológico segundo: el signo del primer sistema (sentido) se vuelve forma (significante) del segundo.</div>
+</div>
+
+<p>Barthes renombra los tres términos del segundo sistema para evitar ambigüedad:</p>
+<ul>
+  <li><strong>Forma</strong> (el significante del mito) = signo del primer sistema tomado como significante.</li>
+  <li><strong>Concepto</strong> (el significado del mito).</li>
+  <li><strong>Significación</strong> (el signo del mito) = correlación de forma y concepto. <em>Designa y notifica, hace comprender e impone.</em></li>
+</ul>
+
+<h3>Ejemplos de Barthes para el esquema mítico</h3>
+<div class="example">
+<strong>1) "Quia ego nominor leo"</strong> ("pues yo me llamo león"). Soy un alumno de quinto que abre su gramática latina. La frase tiene sentido literal (me llamo león) pero está ahí para significarme otra cosa: soy un ejemplo de gramática que ilustra la concordancia del atributo. Sistema mítico ampliado.
+</div>
+<div class="example">
+<strong>2) Portada de Paris-Match:</strong> un joven negro con uniforme francés hace la venia mirando la bandera. Sentido literal: un soldado negro saluda. Pero me significa: "Francia es un gran imperio, todos sus hijos sin distinción de color sirven bajo su bandera, no hay mejor respuesta a los detractores del colonialismo que este celo". El concepto es <em>la imperialidad francesa</em>. La significación: la historia se convierte en naturaleza.
+</div>
+
+<h3>La forma y el concepto</h3>
+<p>El significante del mito se presenta en forma <strong>ambigua</strong>: a la vez <em>sentido</em> y <em>forma</em>, lleno de un lado, vacío del otro.</p>
+<ul>
+  <li>Como <strong>sentido</strong>, el significante postula una lectura inmediata: el león que se nombra, el negro que saluda ya tienen una historia, un valor, una riqueza.</li>
+  <li>Al devenir <strong>forma</strong>, el sentido se aleja, se vacía, se empobrece; no queda más que la letra. La historia del león o la biografía del negro se retiran para dejar lugar al concepto ("ejemplaridad gramatical", "imperialidad francesa").</li>
+</ul>
+<p>Pero la forma <strong>no suprime el sentido</strong>, lo empobrece, lo mantiene disponible: el mito es "un juego de escondidas entre el sentido y la forma". El concepto <strong>aliena</strong> al sentido, no lo abole.</p>
+
+<h3>La significación: naturalización de la historia</h3>
+<p>La significación del mito tiene dos rasgos clave:</p>
+<ul>
+  <li>Es <strong>notificación / interpelación</strong>: me viene a buscar, se vuelve hacia mí. El chalet vasco en la región parisina no es una casa vasca auténtica: me interpela como "esencia" de vasquidad.</li>
+  <li>Es <strong>motivada pero falsamente natural</strong>. A diferencia del signo lingüístico (arbitrario), la significación mítica <strong>nunca es completamente arbitraria</strong>, es <em>parcialmente motivada</em>: contiene una dosis de analogía (la venia del negro es análoga a la venia militar francesa). Pero esa motivación es <em>histórica</em>, no natural.</li>
+</ul>
+
+<div class="callout">
+  <p><strong>La función esencial del mito</strong>: <em>transformar la historia en naturaleza</em>. El mito no oculta nada y no pregona nada: <strong>deforma</strong>. No es ni una mentira ni una confesión: es una inflexión. La intención del mito queda "naturalizada": el lector la lee como <em>razón</em> y no como <em>móvil</em>.</p>
+</div>
+
+<h3>Lectura del mito</h3>
+<p>Según dónde se ponga la atención, hay tres tipos de lectura:</p>
+<ol>
+  <li><strong>El productor de mitos</strong> (el periodista): parte del concepto y le busca una forma. El negro que saluda es <em>símbolo</em> de la imperialidad francesa.</li>
+  <li><strong>El mitólogo</strong>: distingue sentido y forma, desenmascara la deformación. El negro que saluda es <em>coartada</em> de la imperialidad.</li>
+  <li><strong>El lector de mitos</strong> (el consumidor): recibe forma y sentido en bloque, como un todo inextricable. El negro que saluda <em>es la presencia misma</em> de la imperialidad francesa. El mito se vive como una historia a la vez verdadera e irreal.</li>
+</ol>
+
+<h3>El mito como lenguaje robado</h3>
+<p>Lo específico del mito es <strong>transformar un sentido en forma</strong>: es siempre un "robo de lenguaje". El mito roba el negro que saluda, el chalet vasco, la baja de temporada del precio de las frutas, no para hacer ejemplos o símbolos, sino para <em>naturalizar</em> a través suyo el Imperio, el gusto por las cosas vascas, el gobierno. Nada puede ponerse a cubierto del mito.</p>
+
+<h3>Ejemplos de mitologías (parte I del libro)</h3>
+
+<div class="example">
+<strong>El actor de d'Harcourt.</strong> En Francia "no se es actor si uno no ha sido fotografiado por los Studios d'Harcourt". El actor retratado por d'Harcourt "es un dios": rostro idealizado, descarnado, iluminado, captado en un ángulo aberrante, sin piernas, ascendido "celestialmente". Mientras el actor en escena trabaja y muestra edad, en la ciudad eternamente joven d'Harcourt lo abstrae de sus leyes físicas. <em>El mito transforma al trabajador del teatro en héroe intemporal</em>, dando a la burguesía la "buena conciencia racionalista" de que detrás del actor hay un hombre, pero haciendo surgir en realidad un dios. La foto de d'Harcourt es un rito de iniciación, un bautismo.
+</div>
+
+<div class="example">
+<strong>El crucero de la sangre azul.</strong> Un centenar de príncipes de viaje en el yate <em>Agamemnon</em>. Los reyes "jugaron a ser hombres" (afeitarse solos, levantarse a las seis, vestidos estampados). Se comentó como "singularidad increíble". <em>Mostrar que los reyes son capaces de prosaísmo es reconocer que esa situación les resulta contra natura</em>: es verificar que el rey sigue siéndolo por derecho divino. Dos mitos se mezclan: el del rey-dios y el del rey-objeto (raza pura conservada en un "arca" etnográfica, como pug dogs).
+</div>
+
+<div class="example">
+<strong>Juguetes.</strong> El adulto francés ve al niño como otro igual a sí mismo. Los juguetes son <em>microcosmos adulto</em>: miniaturas de ejército, correos, medicina, escuela, peinado, aviación, ciencia. Son <strong>juguetes de imitación, no de creación</strong>. Prefiguran literalmente el universo de las funciones adultas y preparan al niño para aceptarlas como naturales (soldados, empleados, motonetas). El material plástico reemplaza a la madera: hay un aburguesamiento del juguete que hace del niño un usuario/propietario, no un creador/demiurgo.
+</div>
+
+<div class="example">
+<strong>Publicidad de la profundidad.</strong> La publicidad de los detergentes y de los productos de belleza trabaja la <em>idea de profundidad</em>: la suciedad no se arranca de la superficie sino de "los lugares más secretos"; la belleza exige "infiltrarse" en la dermis. Cientificismo de jugos, principios y agentes. Drama interno: el agua (benéfica pero volátil) y la grasa (nutritiva pero artificial) como sustancias enemigas que la publicidad concilia en "cremas fluidas ultrapenetrantes". El mito exhibe una <em>enorme voracidad de limpieza</em>: "la podredumbre se expulsa de los dientes, la piel, la sangre, el aliento".
+</div>
+
+<div class="example">
+<strong>Fotos-impacto.</strong> Una exposición de "fotos de impacto" en la galería d'Orsay. Barthes constata que la mayoría <em>no nos impacta</em>: el fotógrafo <em>sobreconstruyó el horror</em> añadiéndole el lenguaje del horror (soldados junto a cabezas de muertos, militar mirando un esqueleto…). Nada nos queda por hacer: "alguien se ha estremecido por nosotros". Las únicas fotos que impactan son las de agencia (fusilados guatemaltecos, muerte de Aduan Malki), donde el hecho estalla en su literalidad, "inferior a su leyenda". <em>Cuanto más directo el trauma, más difícil la connotación</em>.
+</div>
+
+<div class="example">
+<strong>El nuevo Citroën.</strong> "El automóvil es el equivalente exacto de las grandes catedrales góticas". El DS-19 (cuyo nombre fonéticamente coincide en francés con <em>déesse</em>, "diosa") cae del cielo como objeto mágico: túnica sin costura, aerodinamismo, vidrios "lienzos de aire", tablero como cocina moderna, insignia en forma de ala. Pasa de la <em>alquimia de la velocidad</em> al <em>placer de la conducción</em>. El público lo somete al "descubrimiento táctil" (el tacto desmitifica): lo toca, lo palpa, lo acaricia. En un cuarto de hora la "diosa" ha sido prostituida, apropiada: se cumple el gesto de la <em>promoción pequeñoburguesa</em>.
+</div>
+
+<hr class="section-break">
+
+<div class="ref">
+  <strong>Fuentes utilizadas</strong><br>
+  · Vitale, A. (2004). <em>El estudio de los signos. Peirce y Saussure</em>. Buenos Aires: Eudeba. Capítulos I y II.<br>
+  · Barthes, R. (1982). <em>La aventura semiológica</em>. Barcelona: Paidós. "La cocina del sentido" y "El mensaje publicitario".<br>
+  · Barthes, R. (1986). <em>Lo obvio y lo obtuso</em>. Barcelona: Paidós. "El mensaje fotográfico" y "Retórica de la imagen".<br>
+  · Barthes, R. (1980). <em>Mitologías</em>. México: Siglo XXI. Parte II "El mito, hoy" (pp. 107-121) y mitos seleccionados.<br>
+  · Material de cátedra (presentaciones del profesor).
+</div>
+
+<div class="footer-note">
+  Documento preparado como resumen de estudio. Todas las citas textuales están marcadas como tales y entre comillas o en <em>blockquote</em>. Los gráficos son esquemas sintéticos basados en los diagramas que aparecen en los textos (tríada peirciana, sistema de doble significación de Barthes, esquema de los tres mensajes de la imagen).
+</div>
+
+</div> <!-- /.wrap -->
+</div> <!-- /.content -->
+</div> <!-- /.layout -->
+
+<script>
+  // ============ Toggle del menú (drawer) ============
+  const toggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const sidebarClose = document.getElementById('sidebarClose');
+
+  function openMenu() {
+    sidebar.classList.add('open');
+    overlay.classList.add('open');
+    document.body.classList.add('menu-open');
+  }
+  function closeMenu() {
+    sidebar.classList.remove('open');
+    overlay.classList.remove('open');
+    document.body.classList.remove('menu-open');
+  }
+  function toggleMenu() {
+    if (sidebar.classList.contains('open')) closeMenu();
+    else openMenu();
+  }
+
+  toggle.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', closeMenu);
+  sidebarClose.addEventListener('click', closeMenu);
+
+  // Cerrar al hacer click en cualquier link del índice
+  sidebar.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', closeMenu);
+  });
+
+  // ESC cierra el menú
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && sidebar.classList.contains('open')) closeMenu();
+  });
+
+  // ============ Highlight de sección activa ============
+  const links = Array.from(sidebar.querySelectorAll('ol ol li a'));
+  const sections = links
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach(a => a.classList.remove('active'));
+        const activeLink = sidebar.querySelector('a[href="#' + id + '"]');
+        if (activeLink) {
+          activeLink.classList.add('active');
+          activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => observer.observe(s));
+
+  // ============ MODO EDICIÓN ============
+  const STORAGE_KEY = 'semiologia_resumen_v1';
+  const editBtn = document.getElementById('editBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const editStatus = document.getElementById('editStatus');
+  const contentEl = document.querySelector('.content .wrap');
+
+  // Elementos que se pueden editar (texto pero no la estructura)
+  const EDITABLE_SELECTORS = 'p, li, h1, h2, h3, h4, blockquote, td, .example, .callout, .caption';
+
+  function makeEditable(on) {
+    contentEl.querySelectorAll(EDITABLE_SELECTORS).forEach(el => {
+      // Evitar romper svg u otros elementos anidados especiales
+      if (el.closest('svg')) return;
+      if (on) {
+        el.setAttribute('contenteditable', 'true');
+        el.setAttribute('spellcheck', 'false');
+      } else {
+        el.removeAttribute('contenteditable');
+      }
+    });
+  }
+
+  function saveToStorage() {
+    try {
+      localStorage.setItem(STORAGE_KEY, contentEl.innerHTML);
+    } catch (e) {
+      console.warn('No se pudo guardar en localStorage:', e);
+    }
+  }
+
+  function loadFromStorage() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        contentEl.innerHTML = saved;
+        showStatus('Se cargaron tus ediciones guardadas', 3000);
+      }
+    } catch (e) {
+      console.warn('No se pudo leer localStorage:', e);
+    }
+  }
+
+  function showStatus(msg, duration) {
+    editStatus.textContent = msg;
+    editStatus.classList.add('show');
+    if (duration) {
+      setTimeout(() => editStatus.classList.remove('show'), duration);
+    }
+  }
+
+  // Cargar cambios previos al abrir
+  loadFromStorage();
+
+  // ============ Modal de elección de modo ============
+  const modeModal = document.getElementById('modeModal');
+  const chooseRead = document.getElementById('chooseRead');
+  const chooseEdit = document.getElementById('chooseEdit');
+  const hasSavedNote = document.getElementById('hasSavedNote');
+
+  // Si ya hay cambios guardados, avisarle al usuario en el modal
+  try {
+    if (localStorage.getItem(STORAGE_KEY)) {
+      hasSavedNote.style.display = 'block';
+    }
+  } catch(e) {}
+
+  function closeModal() {
+    modeModal.style.display = 'none';
+  }
+
+  chooseRead.addEventListener('click', () => {
+    document.body.classList.add('reader-mode');
+    closeModal();
+    showStatus('📖 Modo lector — tocá ✏️ si querés editar', 3500);
+  });
+
+  chooseEdit.addEventListener('click', () => {
+    closeModal();
+    // Activar modo edición
+    setTimeout(() => editBtn.click(), 100);
+  });
+
+  // Toggle edición
+  let editing = false;
+  editBtn.addEventListener('click', () => {
+    editing = !editing;
+    if (editing) {
+      document.body.classList.add('editing');
+      document.body.classList.remove('reader-mode');
+      makeEditable(true);
+      editBtn.innerHTML = '<span>✓</span> <span>Terminar edición</span>';
+      editBtn.classList.remove('primary');
+      editBtn.classList.add('active');
+      showStatus('✎  Modo edición activo — tus cambios se guardan solos');
+    } else {
+      document.body.classList.remove('editing');
+      document.body.classList.add('reader-mode');
+      makeEditable(false);
+      editBtn.innerHTML = '<span>✎</span> <span>Editar</span>';
+      editBtn.classList.remove('active');
+      editBtn.classList.add('primary');
+      saveToStorage();
+      showStatus('✓  Cambios guardados — volviste al modo lector', 2500);
+    }
+  });
+
+  // Auto-guardado mientras edita
+  let saveTimer;
+  contentEl.addEventListener('input', () => {
+    if (!editing) return;
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(saveToStorage, 800);
+  });
+
+  // Descargar HTML con los cambios
+  downloadBtn.addEventListener('click', () => {
+    // Desactivar edición antes de descargar
+    if (editing) editBtn.click();
+
+    // Clonar todo el documento y limpiar estados volátiles
+    const clone = document.documentElement.cloneNode(true);
+    // Remover contenteditable si quedó alguno
+    clone.querySelectorAll('[contenteditable]').forEach(el => el.removeAttribute('contenteditable'));
+    clone.querySelectorAll('[spellcheck]').forEach(el => el.removeAttribute('spellcheck'));
+    // Quitar clase "active" del link activo (estado volátil)
+    clone.querySelectorAll('a.active').forEach(a => a.classList.remove('active'));
+    // Resetear clases open
+    clone.querySelectorAll('.open').forEach(el => el.classList.remove('open'));
+
+    const html = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const date = new Date().toISOString().split('T')[0];
+    a.href = url;
+    a.download = 'Resumen_Semiologia_' + date + '.html';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    showStatus('✓ Archivo descargado', 2500);
+  });
+
+  // Reset
+  resetBtn.addEventListener('click', () => {
+    if (!confirm('¿Seguro querés volver al texto original? Se borrarán todos tus cambios guardados.')) return;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    location.reload();
+  });
+
+  // Guardar antes de cerrar la pestaña si está editando
+  window.addEventListener('beforeunload', () => {
+    if (editing) saveToStorage();
+  });
+
+  // Atajo de teclado: Ctrl/Cmd + E para toggle edición
+  document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+      e.preventDefault();
+      editBtn.click();
+    }
+  });
+
+  // ============ Barra de progreso de lectura ============
+  const progressBar = document.getElementById('readProgress');
+  function updateProgress() {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = Math.min(100, Math.max(0, pct)) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+</script>
+
+
+
+</body></html>

@@ -1,0 +1,54 @@
+<%- include('../partials/head', { title: 'Apuntes', description: 'Apuntes y resúmenes de materias de Diseño Gráfico.' }) %>
+<%- include('../partials/nav', { currentPath: '/estudiante' }) %>
+
+<main class="page">
+  <header class="estudiante-header">
+    <p class="section-label">Estudiante</p>
+    <h1>Apuntes de clase</h1>
+    <p>Resúmenes interactivos por materia. Modo lector y modo edición con auto-guardado.</p>
+  </header>
+
+  <% materias.forEach(m => { %>
+  <div class="materia-full-card">
+    <div class="materia-full-header">
+      <div class="materia-full-header-left">
+        <div class="materia-icon" style="background: <%= m.color %>18;">
+          <span style="color: <%= m.color %>">✦</span>
+        </div>
+        <div class="materia-title-group">
+          <h2><%= m.nombre %></h2>
+          <div class="materia-badges">
+            <span class="badge"><%= m.año %></span>
+            <span class="badge"><%= m.carrera %></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="materia-full-desc">
+      <%= m.descripcion %>
+    </div>
+
+    <div class="recursos-list">
+      <% m.recursos.forEach(r => { %>
+      <a href="<%= r.url %>" class="recurso-item" target="_blank">
+        <div class="recurso-item-left">
+          <span class="recurso-tipo-chip"><%= r.tipo %></span>
+          <div>
+            <div class="recurso-titulo"><%= r.titulo %></div>
+            <div class="recurso-desc"><%= r.descripcion %></div>
+          </div>
+        </div>
+        <span class="recurso-arrow">→</span>
+      </a>
+      <% }) %>
+    </div>
+
+    <div class="materia-footer">
+      Actualizado el <%= m.actualizacion %>
+    </div>
+  </div>
+  <% }) %>
+</main>
+
+<%- include('../partials/footer') %>
