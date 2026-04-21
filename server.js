@@ -15,7 +15,7 @@ const materias = [
     slug: 'semiologia',
     nombre: 'Semiología',
     año: '2do año',
-    carrera: 'Diseño Gráfico',
+    carrera: 'Lic. en Publicidad',
     descripcion: 'El signo, la imagen y el mito. Saussure, Peirce y Barthes desde una cátedra de Diseño.',
     color: '#3056d3',
     actualizacion: '19 abr 2026',
