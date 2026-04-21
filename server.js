@@ -21,22 +21,10 @@ const materias = [
     actualizacion: '19 abr 2026',
     recursos: [
       {
-        titulo: 'Saussure — Resumen en video',
-        tipo: 'video',
-        embed: 'https://www.youtube.com/embed/ta17W64cCbI',
-        descripcion: 'Introducción a los conceptos clave de Saussure.',
-      },
-      {
         titulo: 'Resumen completo — Saussure · Peirce · Barthes',
         tipo: 'resumen',
         url: '/estudiante/semiologia/resumen',
-        descripcion: 'Todos los conceptos, gráficos SVG embebidos.',
-      },
-      {
-        titulo: 'Saussure — Segunda parte',
-        tipo: 'video',
-        embed: 'https://www.youtube.com/embed/nePH-6N9NGw',
-        descripcion: '',
+        descripcion: 'Todos los conceptos, gráficos SVG y videos de Saussure embebidos.',
       }
     ]
   }
