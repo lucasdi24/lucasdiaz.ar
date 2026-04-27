@@ -12,6 +12,23 @@ app.use(express.static(path.join(__dirname, 'public')))
 
 const materias = [
   {
+    slug: 'propaganda',
+    nombre: 'Propaganda y Comunicación Política',
+    año: '2do año',
+    carrera: 'Lic. en Publicidad',
+    descripcion: 'Marco conceptual, reglas de la propaganda, sujetos y opinión pública. Prof. Agustín M. Layús.',
+    color: '#b91c1c',
+    actualizacion: '27 abr 2026',
+    recursos: [
+      {
+        titulo: 'Resumen parcial — PPT 1, 2 y 3',
+        tipo: 'resumen',
+        url: '/estudiante/propaganda/resumen',
+        descripcion: 'Bloques I–V con tablas comparativas, falacias, Agenda Setting, Framing y Priming.',
+      }
+    ]
+  },
+  {
     slug: 'semiologia',
     nombre: 'Semiología',
     año: '2do año',
@@ -46,6 +63,10 @@ app.get('/estudiante/:slug', (req, res) => {
 
 app.get('/estudiante/semiologia/resumen', (req, res) => {
   res.sendFile(path.join(__dirname, 'content', 'semiologia', 'resumen.html'))
+})
+
+app.get('/estudiante/propaganda/resumen', (req, res) => {
+  res.sendFile(path.join(__dirname, 'content', 'propaganda', 'resumen.html'))
 })
 
 app.listen(PORT, () => {

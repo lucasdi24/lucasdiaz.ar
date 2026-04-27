@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen — Propaganda y Comunicación Política</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&display=swap');
+
+:root {
+  --ink:         #0f172a;
+  --ink-soft:    #334155;
+  --muted:       #64748b;
+  --fine:        #94a3b8;
+  --rule:        #e2e8f0;
+  --rule-soft:   #f1f5f9;
+  --paper:       #fbfaf6;
+  --card:        #ffffff;
+  --surface:     #f8fafc;
+  --accent:      #b91c1c;
+  --accent-dark: #7f1d1d;
+  --accent-soft: #fef2f2;
+  --warm:        #c2410c;
+  --warm-soft:   #fff7ed;
+  --warm-border: #fed7aa;
+  --ok:          #047857;
+  --ok-soft:     #ecfdf5;
+  --yellow-soft: #fef9c3;
+  --yellow-text: #854d0e;
+  --shadow-sm:   0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.06);
+  --shadow-md:   0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+  --shadow-lg:   0 10px 15px -3px rgba(15,23,42,.08),0 4px 6px -4px rgba(15,23,42,.05);
+  --shadow-xl:   0 20px 25px -5px rgba(15,23,42,.10),0 8px 10px -6px rgba(15,23,42,.08);
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+  --font-ui:    'Inter', -apple-system, sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+}
+
+*{box-sizing:border-box;}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:var(--font-serif);font-size:18px;line-height:1.7;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;}
+::selection{background:var(--accent-soft);color:var(--accent-dark);}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;border:2px solid var(--paper);}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8;}
+
+/* PROGRESS */
+.read-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--accent) 0%,var(--warm) 100%);z-index:2100;transition:width .15s ease;pointer-events:none;}
+
+/* LAYOUT */
+.layout{display:flex;align-items:flex-start;max-width:1400px;margin:0 auto;padding-left:300px;transition:padding-left .3s ease;}
+body.sidebar-collapsed .layout{padding-left:0;}
+.content{flex:1;min-width:0;}
+.wrap{max-width:760px;margin:0 auto;padding:80px 40px 140px;}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:300px;overflow-y:auto;padding:32px 20px 40px 28px;border-right:1px solid var(--rule);background:var(--card);font-family:var(--font-ui);z-index:999;transform:translateX(0);transition:transform .3s cubic-bezier(.25,.8,.25,1);box-shadow:1px 0 0 var(--rule);}
+body.sidebar-collapsed .sidebar{transform:translateX(-100%);box-shadow:none;}
+.sidebar-close{display:none;position:absolute;top:14px;right:14px;width:30px;height:30px;border:1px solid var(--rule);background:var(--card);border-radius:7px;cursor:pointer;font-size:17px;line-height:1;color:var(--muted);align-items:center;justify-content:center;transition:all .15s ease;}
+.sidebar-close:hover{color:var(--ink);background:var(--surface);}
+.sidebar .sb-title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--ink);line-height:1.2;letter-spacing:-.01em;margin:0 0 3px;}
+.sidebar .sb-subtitle{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:24px;}
+.sidebar h3{margin:0 0 8px;font-family:var(--font-ui);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--fine);font-weight:700;border:0;padding:0;}
+.sidebar ol{list-style:none;padding:0;margin:0;}
+.sidebar>ol>li{margin:0 0 12px;}
+.sidebar>ol>li>a{display:block;color:var(--ink);font-weight:600;font-size:13px;text-decoration:none;padding:5px 0;letter-spacing:-.005em;}
+.sidebar>ol>li>a::before{content:"—";color:var(--accent);margin-right:7px;font-weight:400;}
+.sidebar>ol>li>a:hover{color:var(--accent);}
+.sidebar ol ol{margin:4px 0 4px 10px;padding:0;}
+.sidebar ol ol li a{display:block;font-size:12px;color:var(--muted);text-decoration:none;padding:3px 0 3px 8px;border-left:2px solid var(--rule-soft);transition:all .15s ease;}
+.sidebar ol ol li a:hover{color:var(--accent);border-left-color:var(--accent);}
+.sidebar ol ol li a.active{color:var(--accent);border-left-color:var(--accent);font-weight:600;}
+.sidebar-footer{margin-top:32px;padding-top:20px;border-top:1px solid var(--rule);font-size:11.5px;color:var(--fine);}
+.sidebar-footer a{color:var(--muted);text-decoration:none;}
+.sidebar-footer a:hover{color:var(--accent);}
+
+/* TOGGLE */
+.menu-toggle{position:fixed;top:40px;left:300px;z-index:1000;background:var(--card);color:var(--muted);border:1px solid var(--rule);border-left:none;padding:0;width:20px;height:48px;border-radius:0 8px 8px 0;font-size:14px;cursor:pointer;box-shadow:2px 0 8px rgba(15,23,42,.06);display:flex;align-items:center;justify-content:center;transition:left .3s ease,color .15s ease,background .15s ease;font-family:var(--font-ui);}
+.menu-toggle:hover{color:var(--accent);background:var(--accent-soft);}
+body.sidebar-collapsed .menu-toggle{left:0;border-radius:0 8px 8px 0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:998;backdrop-filter:blur(2px);opacity:0;transition:opacity .25s ease;}
+
+/* PORTADA */
+.cover{background:linear-gradient(135deg,var(--accent-dark) 0%,#450a0a 100%);color:#fff;margin:-80px -40px 70px;padding:90px 40px 70px;border-radius:0 0 var(--r-xl) var(--r-xl);}
+.cover .kicker{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px;}
+.cover h1{font-family:var(--font-serif);font-size:clamp(32px,5vw,48px);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin:0 0 16px;color:#fff;}
+.cover h1 em{font-style:italic;color:rgba(255,255,255,.85);}
+.cover .sub{font-family:var(--font-ui);font-size:15px;color:rgba(255,255,255,.7);max-width:480px;line-height:1.6;margin-bottom:28px;}
+.cover .meta-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.cover .chip{font-family:var(--font-ui);font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);}
+
+/* TIPOGRAFÍA */
+h1.autor{font-family:var(--font-serif);font-size:clamp(32px,4.5vw,44px);font-weight:400;line-height:1.15;letter-spacing:-.02em;color:var(--accent-dark);margin:70px 0 14px;padding-top:20px;}
+h1.autor[data-kicker]::before{content:attr(data-kicker);display:block;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.anchor-offset{scroll-margin-top:24px;}
+h2{font-family:var(--font-serif);font-size:26px;font-weight:500;color:var(--ink);letter-spacing:-.01em;margin:52px 0 16px;line-height:1.2;}
+h2::before{content:'';display:block;width:28px;height:3px;background:var(--accent);border-radius:2px;margin-bottom:10px;}
+h3{font-family:var(--font-ui);font-size:19px;font-weight:600;color:var(--accent-dark);margin:36px 0 12px;}
+h4{font-family:var(--font-ui);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:28px 0 10px;}
+p{margin:0 0 18px;}
+strong{font-weight:600;color:var(--ink);}
+ul,ol{margin:0 0 20px;padding-left:24px;}
+li{margin-bottom:6px;}
+a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(185,28,28,.3);}
+a:hover{text-decoration-color:var(--accent);}
+
+/* BLOCKQUOTE */
+blockquote{border-left:3px solid var(--accent);margin:28px 0;padding:16px 0 16px 24px;font-style:italic;font-size:17px;color:var(--ink-soft);}
+blockquote cite{display:block;margin-top:10px;font-family:var(--font-ui);font-size:12.5px;font-style:normal;color:var(--muted);}
+blockquote cite::before{content:"— ";}
+
+/* CALLOUTS */
+.callout{background:var(--accent-soft);border:1px solid rgba(185,28,28,.15);border-left:3px solid var(--accent);border-radius:var(--r-md);padding:18px 22px;margin:24px 0;font-family:var(--font-ui);font-size:14.5px;}
+.callout::before{content:"✦";color:var(--accent);font-size:12px;margin-right:8px;}
+.callout.warm{background:var(--warm-soft);border-color:var(--warm-border);border-left-color:var(--warm);}
+.callout.warm::before{content:"⚑";color:var(--warm);}
+.callout.green{background:var(--ok-soft);border-color:rgba(4,120,87,.15);border-left-color:var(--ok);}
+.callout.green::before{content:"✓";color:var(--ok);}
+
+/* EXAMPLES */
+.example{position:relative;background:var(--yellow-soft);border:1px solid #fde68a;border-radius:var(--r-md);padding:18px 22px 16px;margin:24px 0;font-family:var(--font-ui);font-size:14px;}
+.example::before{content:"EJEMPLO";position:absolute;top:-1px;left:16px;transform:translateY(-50%);background:#fde68a;color:var(--yellow-text);font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:20px;}
+
+/* TABLES */
+table{width:100%;border-collapse:collapse;margin:24px 0;font-family:var(--font-ui);font-size:13.5px;}
+thead tr{background:var(--surface);}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--rule);}
+td{padding:10px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td:first-child{font-weight:600;color:var(--ink);}
+.table-wrap{overflow-x:auto;margin:24px 0;border:1px solid var(--rule);border-radius:var(--r-md);}
+.table-wrap table{margin:0;}
+
+/* DIVISOR */
+.section-break{border:none;text-align:center;margin:60px 0;color:var(--fine);font-size:16px;letter-spacing:.3em;}
+.section-break::after{content:"✦  ✦  ✦";}
+
+/* PRINT */
+@media print{
+  body{font-size:11pt;background:#fff;}
+  .sidebar,.menu-toggle,.read-progress,.sidebar-overlay{display:none !important;}
+  .layout{padding-left:0 !important;}
+  .content{width:100%;}
+  .wrap{max-width:100%;padding:0;}
+  .cover{page-break-after:always;margin:0;}
+  h1.autor{page-break-before:always;}
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  .layout{padding-left:0 !important;}
+  .sidebar{transform:translateX(-100%) !important;box-shadow:none !important;width:85%;}
+  body.sidebar-open .sidebar{transform:translateX(0) !important;box-shadow:var(--shadow-xl) !important;}
+  body.sidebar-open .sidebar-overlay{display:block;opacity:1;}
+  .sidebar-close{display:flex !important;}
+  .menu-toggle{left:14px !important;top:14px !important;width:40px;height:40px;border:1px solid var(--rule) !important;border-radius:10px !important;}
+  body.sidebar-open .menu-toggle{left:14px !important;}
+}
+@media(max-width:600px){
+  body{font-size:17px;}
+  .wrap{padding:80px 22px 100px;}
+  .cover{margin:-80px -22px 60px;padding:80px 22px 60px;}
+  h1.autor{font-size:30px;}
+  h2{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<div class="read-progress" id="readProgress"></div>
+<button class="menu-toggle" id="menuToggle" title="Contraer índice">‹</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar">×</button>
+  <div class="sb-title">Propaganda y Com. Política</div>
+  <div class="sb-subtitle">PPT 1, 2 y 3 — Prof. Layús</div>
+  <h3>Contenido</h3>
+  <ol>
+    <li>
+      <a href="#bloque1">Bloque I — Marco conceptual</a>
+      <ol>
+        <li><a href="#b1-1">1.1 ¿Qué es la política?</a></li>
+        <li><a href="#b1-2">1.2 Com. política como construcción</a></li>
+        <li><a href="#b1-3">1.3 La disputa por el sentido</a></li>
+        <li><a href="#b1-4">1.4 Los actores</a></li>
+        <li><a href="#b1-5">1.5 Modelo de Wolton</a></li>
+        <li><a href="#b1-6">1.6 Construcción social de la realidad</a></li>
+        <li><a href="#b1-7">1.7 Com. gubernamental</a></li>
+        <li><a href="#b1-8">1.8 Difusionismo vs. Construccionismo</a></li>
+        <li><a href="#b1-9">1.9 El lenguaje como poder</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#bloque2">Bloque II — Propaganda</a>
+      <ol>
+        <li><a href="#b2-1">2.1 ¿Qué es la propaganda?</a></li>
+        <li><a href="#b2-2">2.2 Dos visiones</a></li>
+        <li><a href="#b2-3">2.3 Emociones y posverdad</a></li>
+        <li><a href="#b2-4">2.4 Símbolos vs. Signos</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#bloque3">Bloque III — Reglas</a>
+      <ol>
+        <li><a href="#b3-1">3.1 Lógica general</a></li>
+        <li><a href="#b3-2">3.2 Simplificación y enemigo único</a></li>
+        <li><a href="#b3-3">3.3 Exageración y falacias</a></li>
+        <li><a href="#b3-4">3.4 Orquestación</a></li>
+        <li><a href="#b3-5">3.5 Transfusión</a></li>
+        <li><a href="#b3-6">3.6 Unanimidad y contagio</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#bloque4">Bloque IV — Sujetos</a>
+      <ol>
+        <li><a href="#b4-1">4.1 Público, muchedumbre y masa</a></li>
+        <li><a href="#b4-2">4.2 Propagandista vs. Agitador</a></li>
+        <li><a href="#b4-3">4.3 Coacción vs. Coerción</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#bloque5">Bloque V — Opinión pública</a>
+      <ol>
+        <li><a href="#b5-1">5.1 Conformación de la opinión pública</a></li>
+        <li><a href="#b5-2">5.2 Lippmann</a></li>
+        <li><a href="#b5-3">5.3 Triángulo de Wolton</a></li>
+        <li><a href="#b5-4">5.4 Agenda Setting, Framing y Priming</a></li>
+      </ol>
+    </li>
+    <li>
+      <a href="#anexo">Anexo A — Autores</a>
+    </li>
+  </ol>
+  <div class="sidebar-footer">
+    <a href="/estudiante/propaganda">← Volver a la materia</a>
+  </div>
+</aside>
+
+<!-- CONTENIDO -->
+<div class="layout">
+<div class="content">
+<div class="wrap">
+
+<!-- PORTADA -->
+<div class="cover">
+  <div class="kicker">Lic. en Publicidad · UADE · 2026</div>
+  <h1>Propaganda y <em>Comunicación Política</em></h1>
+  <p class="sub">Resumen general — PPT 1, 2 y 3. Cátedra: Prof. Agustín M. Layús</p>
+  <div class="meta-chips">
+    <span class="chip">Bloque I — Marco conceptual</span>
+    <span class="chip">Bloque II — Propaganda</span>
+    <span class="chip">Bloque III — Reglas</span>
+    <span class="chip">Bloque IV — Sujetos</span>
+    <span class="chip">Bloque V — Opinión pública</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE I                                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque1" data-kicker="PPT 1 — Comunicación Política">Bloque I — Marco conceptual</h1>
+
+<h2 class="anchor-offset" id="b1-1">1.1 ¿Qué es la política?</h2>
+<div class="callout">
+  <strong>POLÍTICA:</strong> conjunto de personas que deciden todo por el bien común; administran los bienes de la comunidad.
+</div>
+<p>Cuando la política se encuentra con la comunicación aparecen tres elementos:</p>
+<ul>
+  <li><strong>Comunicación política</strong></li>
+  <li><strong>Comunicación gubernamental</strong></li>
+  <li><strong>Propaganda</strong></li>
+</ul>
+
+<h2 class="anchor-offset" id="b1-2">1.2 La comunicación política como construcción de la realidad</h2>
+<p>La comunicación política no es simplemente un proceso de transmisión de información, sino una dinámica central mediante la cual se <strong>construyen los significados de la realidad social</strong>. La política no se limita a los hechos en sí mismos, sino que depende fundamentalmente de la interpretación que se hace de esos hechos.</p>
+<p>Los hechos no tienen un significado único ni objetivo. Un mismo acontecimiento puede ser interpretado de maneras completamente diferentes según el discurso que lo enmarque. Por eso se sostiene que <strong>la política es, en esencia, una lucha por el sentido</strong>.</p>
+<div class="callout">
+  <strong>COMUNICACIÓN POLÍTICA:</strong> espacio de intercambio y confrontación de opiniones entre el sistema político, los medios y los ciudadanos. No es solo transmitir información: es un <em>campo de disputa de sentidos</em>.
+</div>
+<div class="example">
+  Una medida económica puede ser presentada como "una solución necesaria" o como "un ajuste perjudicial". El hecho es el mismo, pero su significado cambia según el discurso que lo enmarca.
+</div>
+
+<h2 class="anchor-offset" id="b1-3">1.3 La disputa por el sentido y el poder simbólico</h2>
+<p>La política es una disputa constante entre actores que intentan <strong>imponer su interpretación de la realidad</strong>. Esta disputa se da en el plano simbólico, es decir, en el campo de los significados.</p>
+<div class="callout">
+  <strong>Poder simbólico:</strong> la capacidad de definir qué significan los hechos y lograr que esa interpretación sea aceptada socialmente.
+</div>
+<p>No siempre se impone la versión más objetiva o verdadera, sino aquella que resulta más <strong>convincente, creíble o eficaz</strong> desde el punto de vista comunicacional. Esto convierte a la comunicación en un elemento central del ejercicio del poder.</p>
+
+<h2 class="anchor-offset" id="b1-4">1.4 Los actores de la comunicación política</h2>
+<p>La comunicación política se estructura a partir de la interacción entre tres actores principales:</p>
+<ul>
+  <li><strong>Sistema político</strong> (gobierno, oposición y partidos): buscan acceder al poder, mantenerse en él y legitimar sus decisiones a través de discursos que construyen sentido.</li>
+  <li><strong>Sistema de medios</strong>: no es neutral. Selecciona qué temas se vuelven visibles, jerarquiza la información y determina cómo se presentan los hechos.</li>
+  <li><strong>Ciudadanos</strong>: receptores e intérpretes, pero también productores de contenido. Su visión de la realidad está condicionada por los discursos que circulan.</li>
+</ul>
+<p>También intervienen <strong>grupos de presión</strong> (lobbys, ONG).</p>
+<div class="callout warm">
+  El escenario político es el resultado de la interacción, a veces <em>contradictoria</em>, entre el sistema político, los medios y los ciudadanos.
+</div>
+
+<h2 class="anchor-offset" id="b1-5">1.5 Modelo de Wolton: tensión entre actores</h2>
+<p>La comunicación política no es un proceso armónico, sino un <strong>espacio de tensión constante</strong> entre tres lógicas distintas:</p>
+<ul>
+  <li><strong>Lógica política</strong> → busca legitimidad.</li>
+  <li><strong>Lógica mediática</strong> → prioriza la información y la visibilidad.</li>
+  <li><strong>Lógica de la opinión pública</strong> → responde según percepciones y emociones.</li>
+</ul>
+<p>Estas lógicas no coinciden entre sí, sino que entran en conflicto. Por eso la comunicación política debe entenderse como una <strong>dinámica de tensión permanente</strong> entre estos actores. (Se retoma en detalle en el Bloque V.)</p>
+
+<h2 class="anchor-offset" id="b1-6">1.6 La construcción social de la realidad</h2>
+<p>La realidad no es percibida de manera directa: es <strong>construida socialmente</strong>. Las personas acceden a los hechos a través de representaciones mediadas por el lenguaje, la cultura y la comunicación.</p>
+<p>Por esta razón, distintas personas pueden tener percepciones completamente diferentes sobre un mismo fenómeno, ya que interpretan la realidad desde <strong>marcos distintos</strong>.</p>
+
+<h2 class="anchor-offset" id="b1-7">1.7 Comunicación gubernamental, legitimidad y consenso</h2>
+<div class="callout">
+  <strong>COMUNICACIÓN GUBERNAMENTAL:</strong> la comunicación durante la gestión, con el objetivo de generar <em>consenso</em> — la búsqueda de acuerdos políticamente operantes que permiten que las políticas de un gobierno sean aceptadas socialmente por la mayor cantidad de personas.
+</div>
+<p>Su objetivo es generar <strong>legitimidad</strong>, es decir, lograr que las decisiones del gobierno sean aceptadas por la sociedad. Esto se traduce en la construcción de <strong>consenso</strong> — que no implica unanimidad, sino un nivel suficiente de aceptación que permita gobernar sin conflictos extremos.</p>
+<div class="callout warm">
+  Sin comunicación no hay legitimidad, y sin legitimidad no hay gobernabilidad. <strong>El consenso es fundamental para la gobernabilidad y la estabilidad política.</strong>
+</div>
+
+<h2 class="anchor-offset" id="b1-8">1.8 Cambio de paradigma: Difusionismo vs. Construccionismo</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Difusionismo (antes)</th><th>Construccionismo (ahora — Riorda)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Modelo</td><td>Lineal: emisor → receptor pasivo</td><td>Interpretativo: receptor activo construye sentido</td></tr>
+    <tr><td>Secuencia</td><td>1) Se hace la gestión 2) Se comunica después</td><td>Gestión y comunicación simultáneas</td></tr>
+    <tr><td>Sentido</td><td>Está dado por el emisor</td><td>Se construye en tiempo real con el receptor</td></tr>
+    <tr><td>Receptor</td><td>Pasivo, recibe el mensaje</td><td>Activo, interpreta según experiencias y contextos</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b1-9">1.9 El lenguaje como herramienta de poder</h2>
+<p>El lenguaje <strong>no es neutral</strong>. Las palabras influyen en la manera en que los hechos son percibidos. Nombrar algo de una determinada forma implica orientar su interpretación. El control del lenguaje implica, en gran medida, el control de la percepción social.</p>
+<div class="example">
+  Hablar de <strong>"gasto"</strong> o de <strong>"inversión"</strong> genera percepciones diferentes sobre el mismo hecho económico.
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE II                                                   -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque2" data-kicker="PPT 1 — Comunicación Política">Bloque II — Propaganda: definición y lógica</h1>
+
+<h2 class="anchor-offset" id="b2-1">2.1 ¿Qué es la propaganda?</h2>
+<div class="callout">
+  <strong>PROPAGANDA:</strong> forma de comunicación <em>intencional, sistemática y estratégica</em> que busca influir en la opinión pública. Es unidireccional y persuasiva.
+</div>
+<p>Su objetivo no es generar debate ni reflexión, sino provocar una reacción que se traduzca en un <strong>cambio de pensamiento, emoción y conducta</strong>. Para lograrlo, se apoya en las emociones y en atajos mentales.</p>
+<ul>
+  <li>Busca crear, modificar o reforzar opiniones.</li>
+  <li>Influye en la conducta, actitudes y creencias.</li>
+  <li>Su materia prima es <strong>la opinión pública</strong>.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b2-2">2.2 Dos visiones sobre la propaganda</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Funcionalista (Lasswell)</th><th>Teoría Crítica (Frankfurt — Habermas)</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Mirada</td><td>Herramienta poderosa que puede usarse bien o mal</td><td>Manipulación que degrada el debate público</td></tr>
+    <tr><td>Función social</td><td>Mantiene la cohesión social</td><td>Transforma al ciudadano en consumidor</td></tr>
+    <tr><td>Efecto</td><td>Influye en la opinión pública y moviliza a las masas</td><td>Refeudalización: pérdida del debate racional</td></tr>
+    <tr><td>Valoración</td><td>Neutral / instrumental</td><td>Negativa / crítica</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b2-3">2.3 Emociones, heurísticos y posverdad</h2>
+<p>Las emociones tienen un papel central en la formación de opiniones. La propaganda apela a emociones como el <strong>miedo, la esperanza o el enojo</strong> para influir en las percepciones.</p>
+<div class="callout">
+  <strong>POSVERDAD:</strong> los hechos objetivos pierden relevancia frente a las creencias y emociones. Una idea puede ser efectiva aunque no sea verdadera, siempre que resulte creíble o emocionalmente impactante.
+</div>
+
+<h2 class="anchor-offset" id="b2-4">2.4 Símbolos vs. Signos</h2>
+<p>La propaganda utiliza <strong>símbolos</strong> en lugar de signos, ya que los símbolos activan respuestas emocionales y simplifican la realidad.</p>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Símbolos</th><th>Signos</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Significado</td><td>Profundo, abstracto, emotivo</td><td>Específico, concreto</td></tr>
+    <tr><td>Apelan a</td><td>Emociones</td><td>Razón</td></tr>
+    <tr><td>Dirigido a</td><td>Las masas</td><td>El público</td></tr>
+    <tr><td>Función</td><td>Evocan un conjunto de ideas y sentimientos</td><td>Resumen una idea en algo fácil de digerir</td></tr>
+    <tr><td>Ejemplos</td><td>Banderas, colores, himnos, estética</td><td>Señales de tránsito</td></tr>
+  </tbody>
+</table>
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE III                                                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque3" data-kicker="PPT 2 — Reglas de la Propaganda">Bloque III — Reglas de la propaganda</h1>
+
+<h2 class="anchor-offset" id="b3-1">3.1 La lógica general</h2>
+<p>Las reglas de la propaganda responden al funcionamiento de la mente humana, que tiende a <strong>simplificar la realidad, evitar el esfuerzo cognitivo y responder emocionalmente</strong>. Por eso, la propaganda <em>simplifica, emociona y repite</em>.</p>
+
+<h2 class="anchor-offset" id="b3-2">3.2 Simplificación y enemigo único</h2>
+<p>La <strong>simplificación</strong> reduce la complejidad de la realidad a ideas claras y fáciles de comprender. Esto se complementa con la construcción de un <strong>enemigo único</strong>, que permite organizar la percepción de la realidad y canalizar emociones negativas hacia un culpable concreto, estableciendo una división entre "nosotros" y "ellos".</p>
+
+<h4>Simplificación</h4>
+<ul>
+  <li>Reduce ideas complejas.</li>
+  <li>Mensajes cortos, claros y emocionales.</li>
+  <li>Dirigidos a toda la población.</li>
+</ul>
+
+<h4>Enemigo único</h4>
+<ul>
+  <li>Identificar un culpable concreto.</li>
+  <li>Personalizar el problema.</li>
+  <li>Concentra en una sola persona el odio que se siente por el campo adverso.</li>
+</ul>
+<div class="example">
+  "La casta", "los empresarios".
+</div>
+
+<h4>Slogans</h4>
+<ul>
+  <li>Resumen ideas complejas.</li>
+  <li>Apelan a emociones.</li>
+  <li>Son repetitivos.</li>
+</ul>
+<div class="example">
+  "Make America Great Again".
+</div>
+
+<h2 class="anchor-offset" id="b3-3">3.3 Exageración, desfiguración y falacias</h2>
+<p>La <strong>exageración</strong> amplifica ciertos aspectos de la realidad, mientras que la <strong>desfiguración</strong> los distorsiona. Estas estrategias aumentan el impacto emocional del mensaje.</p>
+<ul>
+  <li>Exagerar lo propio positivo.</li>
+  <li>Exagerar lo negativo del adversario.</li>
+</ul>
+
+<div class="callout">
+  <strong>FALACIAS:</strong> forma de manipular la verdad. No es una mentira 100%, es una <em>manipulación de la verdad</em>. Es un argumento que parece válido pero no lo es.
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Falacia</th><th>En qué consiste</th><th>Ejemplo</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Ad Hominem</td>
+      <td>En lugar de refutar la idea, se ataca personalmente al oponente.</td>
+      <td>"No podemos escuchar su plan económico porque él nunca trabajó en el sector privado."</td>
+    </tr>
+    <tr>
+      <td>Hipérbole</td>
+      <td>Exagerar o magnificar un hecho, idea o argumento.</td>
+      <td>"Esta es la herencia que dejan: una inflación plantada del 15.000% anual."</td>
+    </tr>
+    <tr>
+      <td>Secundum Quid</td>
+      <td>Aplicación rígida de una generalización sin reconocer excepciones. "Tomar la excepción como regla." La excepción, a diferencia de la exageración, es una verdad.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Espantapájaros (Desfiguración)</td>
+      <td>Se toma el argumento del oponente y se le cambia el significado, exagerándolo o simplificándolo en exceso.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Ad Populum</td>
+      <td>Algo es verdadero o bueno simplemente porque "toda la gente" lo cree o lo apoya.</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Ad Baculum</td>
+      <td>Apelación al temor / uso del miedo.</td>
+      <td>"Si los diputados no rechazan el veto… están firmando el certificado de defunción de la universidad pública."</td>
+    </tr>
+    <tr>
+      <td>Ad Verecundiam</td>
+      <td>Apelar a la autoridad. Validar un argumento solo porque lo dice alguien famoso o respetado, aunque no sea experto en el tema.</td>
+      <td>—</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b3-4">3.4 Orquestación</h2>
+<p>La <strong>orquestación</strong> consiste en repetir el mensaje de manera constante, combinando <em>redundancia con variación</em> para evitar el rechazo. La repetición genera familiaridad, y lo familiar tiende a ser percibido como verdadero.</p>
+<p>Con el tiempo, el mensaje alcanza <strong>resonancia</strong> — comienza a circular de manera autónoma en la sociedad. El objetivo final es la <strong>naturalización</strong>: que el mensaje deje de percibirse como propaganda y pase a ser considerado sentido común.</p>
+
+<div class="callout warm">
+  <strong>Fórmula de la orquestación:</strong><br>
+  REDUNDANCIA + VARIABILIDAD = − HABITUACIÓN
+</div>
+
+<h4>Resonancia</h4>
+<p>Todos hablan del mismo tema. La propaganda busca generar resonancia: lograr que la gente esté hablando de eso, que el mensaje se distribuya solo. Para lograrlo, usa <strong>símbolos significativos</strong>. La resonancia es el resultado de una buena orquestación.</p>
+
+<h4>Habituación</h4>
+<p>Para evitar aburrimiento → innovar, saturando medios, adaptando mensajes y repitiendo ideas centrales. Para evitar habituación, hay que hacer una buena orquestación.</p>
+
+<h4>Diario de ayer</h4>
+<ul>
+  <li>Se busca que el discurso no tenga contradicciones; para eso se selecciona, oculta o reinterpreta el pasado.</li>
+  <li>Su objetivo es mantener una narrativa consistente.</li>
+  <li>El pasado se adapta al mensaje actual.</li>
+</ul>
+
+<h4>Propaganda como ecosistema</h4>
+<ul>
+  <li>El mismo mensaje aparece en medios, redes y discursos.</li>
+  <li>El mensaje se refuerza desde distintos espacios.</li>
+  <li>Parece que "está en todos lados".</li>
+</ul>
+
+<h2 class="anchor-offset" id="b3-5">3.5 Transfusión</h2>
+<p>La <strong>transfusión</strong> consiste en utilizar emociones, valores y prejuicios ya existentes en la sociedad y transferirlos hacia un nuevo objeto. La propaganda no crea emociones desde cero: se apoya en una <strong>base cultural previa</strong>, lo que aumenta su eficacia.</p>
+<div class="callout">
+  Regla de la transfusión: se intenta conectar algunos puntos de los programas o agendas nuevos con la fuente de energía mental que constituyen los <em>estereotipos preexistentes</em>.
+</div>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>Tipo</th><th>Definición</th><th>Cómo lo usa la propaganda</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Chauvinismos</td>
+      <td>Sentimientos de patriotismo extremo o creencia de superioridad del propio grupo (nacional, étnico, cultural o de género).</td>
+      <td>Toma ese orgullo y lo redirige hacia el objetivo del momento.</td>
+    </tr>
+    <tr>
+      <td>Fobias</td>
+      <td>Miedos irracionales e intensos hacia objetos, situaciones o actividades específicas.</td>
+      <td>Busca una fobia preexistente y la usa para atacar al enemigo de turno.</td>
+    </tr>
+    <tr>
+      <td>Filias</td>
+      <td>Simpatías, amores o afinidades intensas hacia algo o alguien.</td>
+      <td>Se asocia a esas afinidades para parecer familiar y aceptable.</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b3-6">3.6 Unanimidad y contagio</h2>
+<p>El efecto de <strong>unanimidad</strong> busca generar la percepción de que una opinión es mayoritaria. Esto produce presión social, ya que las personas tienden a alinearse con lo que perciben como la opinión dominante.</p>
+<div class="callout warm">
+  Una opinión puede parecer mayoritaria no porque la tenga mucha gente (cuantitativo), sino porque es la más <strong>visible, la más repetida o la que tiene más impacto</strong> en el espacio público (cualitativo).
+</div>
+
+<h4>Unanimidad inflada</h4>
+<p>Técnica propagandista que exagera la cantidad de personas que apoyan una causa. Genera impacto emocional: euforia colectiva, unanimidad, omnipotencia y contagio.</p>
+
+<h4>Líderes de opinión</h4>
+<ul>
+  <li>Parte de la estrategia de unanimidad y contagio.</li>
+  <li>Individuos que, por su posición, conocimiento o carisma, ejercen influencia significativa sobre otros.</li>
+  <li>El uso de líderes de opinión es una forma de <strong>transfusión</strong>.</li>
+</ul>
+
+<p>Esta regla se relaciona con la <strong>teoría del espiral del silencio</strong> (las opiniones minoritarias tienden a desaparecer) y con el <strong>contagio social</strong> (las ideas se expanden rápidamente).</p>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE IV                                                   -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque4" data-kicker="PPT 1 — Comunicación Política">Bloque IV — Sujetos de la propaganda</h1>
+
+<h2 class="anchor-offset" id="b4-1">4.1 Público, muchedumbre y masa</h2>
+<p>La propaganda se dirige principalmente a la <strong>masa</strong>, entendida como un conjunto de individuos que reaccionan de manera emocional y poco reflexiva.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Público</th><th>Muchedumbre</th><th>Masa</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Racionalidad</td><td>Capacidad crítica y racional</td><td>Reacción emocional inmediata</td><td>Emocional, poco reflexiva</td></tr>
+    <tr><td>Comportamiento</td><td>Reflexivo, debate, forma opiniones</td><td>Impulsiva, pierde individualidad</td><td>Influenciable, simplifica la realidad</td></tr>
+    <tr><td>Proximidad</td><td>No requiere proximidad física</td><td>Comparte el espacio físico</td><td>No requiere proximidad — se forma a través de los medios</td></tr>
+    <tr><td>Estabilidad</td><td>Estable, deliberativo</td><td>Inestable, contextos puntuales</td><td>Reaccionan rápido, sostenida en el tiempo por los medios</td></tr>
+    <tr><td>Vulnerabilidad</td><td>Menos influenciable</td><td>Reacción simultánea ante un estímulo</td><td>Blanco principal de la propaganda</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="callout warm">
+  <strong>La propaganda apunta principalmente a la masa.</strong>
+</div>
+
+<h2 class="anchor-offset" id="b4-2">4.2 Propagandista vs. Agitador</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Propagandista</th><th>Agitador</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Plazo</td><td>Largo plazo</td><td>Corto plazo</td></tr>
+    <tr><td>Objetivo</td><td>Instalar ideas, generar hábitos de pensamiento, naturalizar mensajes</td><td>Activar a la masa, generar movimiento, producir efectos inmediatos</td></tr>
+    <tr><td>Modo</td><td>Construye mensajes eficaces, usa símbolos y repetición</td><td>Directo, emocional — apela a enojo, indignación</td></tr>
+    <tr><td>Función</td><td>Influir en la opinión pública y el comportamiento</td><td>Intensificar emociones, movilizar gente, provocar acción directa</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b4-3">4.3 Coacción vs. Coerción</h2>
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Coacción</th><th>Coerción</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Mecanismo</td><td>Uso directo de la fuerza o amenaza explícita</td><td>Presión más indirecta o simbólica</td></tr>
+    <tr><td>Visibilidad</td><td>Visible, concreta, inmediata, directa</td><td>Menos visible, más sutil</td></tr>
+    <tr><td>Recurso</td><td>Fuerza física o amenaza</td><td>Normas, autoridad, presión social</td></tr>
+    <tr><td>Lógica</td><td>Impone — no busca convencer</td><td>Condiciona el comportamiento sin violencia directa</td></tr>
+    <tr><td>Ejemplo mental</td><td>"Hacé esto o te pasa algo"</td><td>Actuás de cierta forma porque "debés" o porque hay consecuencias implícitas</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout">
+  La propaganda <strong>no usa coacción</strong> (no obliga directamente). Puede usar <strong>coerción simbólica</strong>: presión social, efecto de unanimidad, miedo implícito. Actúa principalmente a través de la <em>persuasión emocional</em>.
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE V                                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque5" data-kicker="PPT 3 — Opinión Pública y Medios">Bloque V — Opinión pública y medios</h1>
+
+<h2 class="anchor-offset" id="b5-1">5.1 Proceso de conformación de la opinión pública</h2>
+<p>La opinión pública es lo que piensa la sociedad y se construye en <strong>5 fases</strong>:</p>
+
+<h4>Fase 1 — Problema</h4>
+<ul>
+  <li>Algo empieza a ser visto como un problema. No está del todo definido todavía.</li>
+  <li>El público y el problema surgen al mismo tiempo.</li>
+  <li>Los problemas no son naturales: son <strong>construcciones simbólicas</strong>.</li>
+  <li>El actor político señala el problema, lo simplifica, le asigna un responsable y se presenta como solución.</li>
+</ul>
+<div class="example">
+  "Inseguridad" → "falta de patrulleros".
+</div>
+
+<h4>Construccionismo (revisita)</h4>
+<ul>
+  <li>La realidad no se refleja, se construye con el lenguaje.</li>
+  <li>El comunicador político define el problema, propone la solución y se posiciona como líder.</li>
+  <li>Su objetivo final: crear un <strong>relato (storytelling)</strong> simple y creíble que genere consenso.</li>
+</ul>
+<div class="example">
+  Decir <strong>"reforma"</strong> en vez de <strong>"ajuste"</strong>.
+</div>
+
+<h4>Mito de gobierno</h4>
+<div class="callout">
+  Relato simplificado que explica la realidad, justifica la gestión y genera consenso.
+</div>
+<div class="example">
+  "Década ganada", "el ajuste lo paga la casta", "libertad y progreso", "revolución productiva".
+</div>
+
+<h4>Fase 2 — Propuesta</h4>
+<ul>
+  <li>Se plantean soluciones al problema.</li>
+  <li>Hay debate y ambigüedad.</li>
+  <li>El público empieza a tener una idea de lo que quiere.</li>
+</ul>
+
+<h4>Fase 3 — Política</h4>
+<ul>
+  <li>Se discuten las propuestas públicamente.</li>
+  <li>Aparecen el liderazgo, las encuestas y la opinión pública.</li>
+</ul>
+
+<h4>Fase 4 — Programática</h4>
+<ul>
+  <li>Culminación de la fase política.</li>
+  <li>Se toma una decisión concreta y se implementa una política.</li>
+</ul>
+
+<h4>Fase 5 — Valoración</h4>
+<ul>
+  <li>Se evalúan los resultados.</li>
+  <li>Puede generar nuevos problemas y replanteos.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b5-2">5.2 Lippmann: opinión pública, estereotipos y pseudoambiente</h2>
+<ul>
+  <li>Las personas no conocen la realidad directamente: la <strong>interpretan</strong>.</li>
+  <li>Usan estereotipos, prejuicios y experiencias.</li>
+  <li>La opinión pública es el campo de actuación de la propaganda política.</li>
+</ul>
+
+<h4>Estereotipos</h4>
+<p>Atajos mentales para simplificar la realidad. Generan generalizaciones y prejuicios.</p>
+
+<h4>Pseudoambiente</h4>
+<div class="callout">
+  Es la <strong>imagen mental de la realidad</strong>, no la realidad real. Es la representación mental que cada persona tiene del ambiente. Está influida por: medios de comunicación, estereotipos, creencias culturales y experiencias personales.
+</div>
+<p>Las personas no reaccionan ante la realidad en sí, sino ante esta representación simplificada de ella.</p>
+
+<h2 class="anchor-offset" id="b5-3">5.3 Triángulo de la comunicación política — Wolton</h2>
+<p>La comunicación política <strong>NO es lineal</strong>: es un sistema de interacción entre tres polos.</p>
+<ul>
+  <li><strong>Sistema político (políticos):</strong> gobierno y oposición. Producen discursos y decisiones para obtener el apoyo de los ciudadanos y derrotar a sus adversarios.</li>
+  <li><strong>Sistema de medios (periodismo):</strong> seleccionan y difunden información. Actúan como intermediarios, "traducen" la política.</li>
+  <li><strong>Ciudadanos / electores:</strong> la sociedad civil. Juzgan y validan o rechazan las propuestas del sistema político a través del voto o la expresión pública.</li>
+</ul>
+<div class="callout warm">
+  El sistema funciona con <strong>tensión constante</strong>. Si no hay equilibrio, no hay consenso y no hay estabilidad política.
+</div>
+
+<h2 class="anchor-offset" id="b5-4">5.4 Agenda Setting, Framing y Priming</h2>
+<p>Tres conceptos clave de <strong>Maxwell McCombs</strong> sobre cómo los medios influyen en la opinión pública.</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th></th><th>Agenda Setting</th><th>Framing</th><th>Priming</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Pregunta clave</td><td>¿Sobre qué pensar?</td><td>¿Cómo pensar sobre eso?</td><td>¿Con qué criterios juzgar?</td></tr>
+    <tr><td>Mecanismo</td><td>Selección y jerarquización de temas</td><td>Selección de aspectos / encuadre</td><td>Pre-activación mental — repetición de atributos</td></tr>
+    <tr><td>Función</td><td>Define qué temas son importantes</td><td>Define el problema, marca culpables, propone soluciones</td><td>Genera asociaciones mentales: cuando aparece el tema, las ideas ya están "activadas"</td></tr>
+    <tr><td>Niveles</td><td>1° nivel: selección de objetos. 2° nivel: selección de atributos</td><td>Doble encuadre: cognoscitivo (cómo entender) + pragmático (qué hacer)</td><td>Se apoya en heurísticos, avaro cognitivo y memoria accesible</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h4>Agenda Setting — los dos niveles</h4>
+<ul>
+  <li><strong>1er nivel:</strong> selección de objetos/tópicos. Se logra por repetición, espacio mediático y jerarquización. Si aparece mucho → es importante. Se construye el pseudoambiente.</li>
+  <li><strong>2do nivel:</strong> selección de atributos. Una vez instalados los temas, se elige qué partes de ese objeto resaltar.</li>
+</ul>
+
+<h4>Framing — qué hace y cómo funciona</h4>
+<ul>
+  <li>Define el problema. Marca culpables. Propone soluciones. Indica cómo interpretarlo.</li>
+  <li>Funciona incluyendo información, excluyendo otra: <em>ilumina una parte y oscurece otra</em>.</li>
+  <li>Doble encuadre: <strong>cognoscitivo</strong> (cómo entender) + <strong>pragmático</strong> (qué hacer).</li>
+</ul>
+
+<h4>Priming — cómo funciona</h4>
+<ul>
+  <li>Repite atributos. Esa repetición genera asociaciones mentales.</li>
+  <li>Cuando aparece el tema, las ideas ya están "activadas": no pensamos desde cero.</li>
+  <li>Se apoya en: <strong>heurísticos</strong> (atajos mentales), <strong>avaro cognitivo</strong> (las personas no analizan todo en profundidad) y <strong>memoria accesible</strong> (usamos lo más fácil de recordar).</li>
+</ul>
+<div class="example">
+  Tema: reforma laboral.<br>
+  Si los medios repiten <strong>"modernización", "inversión", "progreso"</strong> → la gente la evalúa positivamente.<br>
+  Si repiten <strong>"despidos", "precarización", "pérdida de derechos"</strong> → la evaluación será negativa.
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- ANEXO                                                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="anexo" data-kicker="Referencia rápida">Anexo A — Autores y teorías</h1>
+<p style="font-style:italic;color:var(--muted);margin-top:-8px;">Mini-fichas de los autores que aparecen en los tres PPTs.</p>
+
+<h3>Lasswell</h3>
+<p><strong>Visión funcionalista de la propaganda.</strong> La propaganda es una herramienta poderosa que puede ser utilizada para influir en la opinión pública y movilizar a las masas. Mantiene la cohesión social. Puede usarse bien o mal. <em>PPT 1.</em></p>
+
+<h3>Habermas (Escuela de Frankfurt)</h3>
+<p><strong>Teoría crítica de la propaganda.</strong> Manipula, degrada el debate y transforma al ciudadano en consumidor. La propaganda moderna es una forma de <em>refeudalización</em>: pérdida del debate racional. <em>PPT 1.</em></p>
+
+<h3>Wolton</h3>
+<p><strong>Modelo del triángulo de la comunicación política.</strong> Tensión permanente entre tres lógicas: política (legitimidad), mediática (visibilidad) y de la opinión pública (percepciones y emociones). Sin equilibrio no hay consenso ni estabilidad política. <em>PPT 1 y 3.</em></p>
+
+<h3>Lippmann</h3>
+<p><strong>Opinión pública, estereotipos y pseudoambiente.</strong> Las personas no reaccionan ante la realidad, sino ante una representación simplificada de ella. Los medios median y filtran esa percepción. <em>PPT 3.</em></p>
+
+<h3>McCombs</h3>
+<p><strong>Agenda Setting, Framing y Priming.</strong> Los medios no dicen qué pensar, sino <em>sobre qué</em> pensar (agenda), <em>cómo</em> pensarlo (framing) y <em>con qué criterios</em> juzgarlo (priming). <em>PPT 3.</em></p>
+
+<h3>Riorda</h3>
+<p><strong>Construccionismo en comunicación gubernamental.</strong> La comunicación y la gestión son simultáneas. El significado se construye en tiempo real con el receptor activo. <em>PPT 1.</em></p>
+
+</div><!-- /.wrap -->
+</div><!-- /.content -->
+</div><!-- /.layout -->
+
+<script>
+  // Sidebar colapsable
+  const toggle = document.getElementById('menuToggle');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('sidebarOverlay');
+  const sidebarClose = document.getElementById('sidebarClose');
+  const isMobile = () => window.innerWidth <= 768;
+
+  if (!isMobile() && localStorage.getItem('sidebar_collapsed') === 'true') {
+    document.body.classList.add('sidebar-collapsed');
+    toggle.textContent = '›';
+    toggle.title = 'Expandir índice';
+  }
+
+  function collapseSidebar() {
+    document.body.classList.add('sidebar-collapsed');
+    document.body.classList.remove('sidebar-open');
+    overlay.style.display = 'none'; overlay.style.opacity = '0';
+    toggle.textContent = '›'; toggle.title = 'Expandir índice';
+    if (!isMobile()) localStorage.setItem('sidebar_collapsed', 'true');
+  }
+  function expandSidebar() {
+    document.body.classList.remove('sidebar-collapsed');
+    toggle.textContent = '‹'; toggle.title = 'Contraer índice';
+    if (!isMobile()) localStorage.setItem('sidebar_collapsed', 'false');
+  }
+  function openMobileMenu() {
+    document.body.classList.add('sidebar-open');
+    document.body.classList.remove('sidebar-collapsed');
+    overlay.style.display = 'block';
+    setTimeout(() => overlay.style.opacity = '1', 10);
+  }
+  function closeMobileMenu() {
+    document.body.classList.remove('sidebar-open');
+    overlay.style.opacity = '0';
+    setTimeout(() => overlay.style.display = 'none', 250);
+  }
+
+  toggle.addEventListener('click', () => {
+    if (isMobile()) {
+      document.body.classList.contains('sidebar-open') ? closeMobileMenu() : openMobileMenu();
+    } else {
+      document.body.classList.contains('sidebar-collapsed') ? expandSidebar() : collapseSidebar();
+    }
+  });
+  overlay.addEventListener('click', () => isMobile() ? closeMobileMenu() : collapseSidebar());
+  if (sidebarClose) sidebarClose.addEventListener('click', () => isMobile() ? closeMobileMenu() : collapseSidebar());
+  sidebar.querySelectorAll('a').forEach(a => { a.addEventListener('click', () => { if (isMobile()) closeMobileMenu(); }); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') isMobile() ? closeMobileMenu() : collapseSidebar(); });
+
+  // Highlight sección activa
+  const links = Array.from(sidebar.querySelectorAll('ol ol li a'));
+  const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        links.forEach(l => l.classList.remove('active'));
+        const active = sidebar.querySelector('a[href="#' + entry.target.id + '"]');
+        if (active) { active.classList.add('active'); active.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+  sections.forEach(s => observer.observe(s));
+
+  // Barra de progreso
+  const progressBar = document.getElementById('readProgress');
+  function updateProgress() {
+    const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    progressBar.style.width = Math.min(100, Math.max(0, pct)) + '%';
+  }
+  window.addEventListener('scroll', updateProgress, { passive: true });
+  window.addEventListener('resize', updateProgress);
+  updateProgress();
+</script>
+</body>
+</html>
