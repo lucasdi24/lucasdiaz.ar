@@ -882,6 +882,25 @@
     h1.author { page-break-before: always; }
     .diagram, .callout, .example, blockquote, table { page-break-inside: avoid; }
   }
+
+  /* PDF BUTTON */
+  .pdf-btn{position:fixed;bottom:28px;right:28px;z-index:1100;display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:11px 18px;font-family:var(--font-ui);font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:background .15s,transform .1s,box-shadow .15s;letter-spacing:.01em;}
+  .pdf-btn:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.25);}
+  .pdf-btn:active{transform:translateY(0);}
+  @media print{.pdf-btn{display:none !important;}}
+
+  /* CORTO — en criollo */
+  .corto{background:var(--yellow-soft);border:1px solid #fde68a;border-left:3px solid #ca8a04;border-radius:var(--r-md);margin:18px 0 36px;font-family:var(--font-ui);font-size:14px;}
+  .corto summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;user-select:none;}
+  .corto summary::-webkit-details-marker{display:none;}
+  .corto-badge{background:#fde68a;color:#854d0e;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;flex-shrink:0;}
+  .corto-title{font-weight:600;color:#854d0e;flex:1;}
+  .corto-chevron{color:#a16207;font-size:11px;transition:transform .2s;margin-left:auto;flex-shrink:0;}
+  details.corto[open] .corto-chevron{transform:rotate(180deg);}
+  .corto-body{padding:4px 18px 14px;color:var(--ink-soft);line-height:1.6;}
+  .corto-body ul{margin:0;padding-left:20px;}
+  .corto-body li{margin-bottom:6px;}
+  @media print{.corto{display:none !important;}}
 </style>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
@@ -892,6 +911,10 @@
 <div class="read-progress" id="readProgress" style="width: 28.4505%;"></div>
 
 
+<button class="pdf-btn" onclick="window.print()" title="Descargar como PDF">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  PDF
+</button>
 <!-- Botón de menú (siempre visible, discreto) -->
 <button class="menu-toggle" id="menuToggle" aria-label="Contraer índice" title="Contraer índice">‹</button>
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -1009,6 +1032,16 @@
 <!-- =========================================================== -->
 <h1 class="author anchor-offset" id="saussure">I. Ferdinand de Saussure</h1>
 <p style="font-style: italic; color: var(--muted); margin-top: -8px;">La fundación saussureana — sobre el texto de Alejandra Vitale, <em>El estudio de los signos. Peirce y Saussure</em>, Cap. II (Eudeba).</p>
+
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial de Saussure</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>El signo = <strong>significante + significado</strong>: no es una palabra + una cosa, es una imagen acústica + un concepto mental.</li>
+    <li>Su vínculo es <strong>arbitrario</strong>: "perro" no tiene nada que ver fonéticamente con el animal — es pura convención social.</li>
+    <li>Los signos <strong>valen por diferencia</strong>: "caldo" existe porque no es "calvo" ni su equivalente en otro idioma — el sistema define cada pieza.</li>
+    <li>Lengua (sistema social compartido) ≠ habla (uso individual y concreto de cada hablante).</li>
+  </ul></div>
+</details>
 
 <div style="position:relative;padding-bottom:56.25%;height:0;margin:32px 0;border-radius:12px;overflow:hidden;background:#000;">
   <iframe src="https://www.youtube.com/embed/ta17W64cCbI" title="Saussure — Resumen en video"
@@ -1333,6 +1366,16 @@ No hay orden fijo ni número definido: nos ausentan en una red asociativa.
 <h1 class="author anchor-offset" id="peirce">II. Charles S. Peirce</h1>
 <p style="font-style: italic; color: var(--muted); margin-top: -8px;">La semiótica del representamen — sobre el texto de Alejandra Vitale, <em>El estudio de los signos. Peirce y Saussure</em>, Cap. I (Eudeba).</p>
 
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial de Peirce</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>El signo tiene <strong>tres partes</strong>: representamen (la forma), objeto (lo que representa) e interpretante (el efecto que produce en la mente).</li>
+    <li>Tres tipos clave: <strong>ícono</strong> (se parece — foto), <strong>índice</strong> (hay conexión real — humo=fuego), <strong>símbolo</strong> (pura convención — las palabras).</li>
+    <li>La interpretación nunca termina: cada interpretante puede ser un nuevo signo (<strong>semiosis infinita</strong>).</li>
+    <li>Para Peirce el signo siempre está <em>en relación con algo</em> — no puede existir ni ser estudiado de forma aislada.</li>
+  </ul></div>
+</details>
+
 <div class="callout">
   <p><strong>Semiología vs. Semiótica</strong> — una distinción terminológica clave:</p>
   <ul style="margin-bottom: 0;">
@@ -1616,6 +1659,16 @@ No hay orden fijo ni número definido: nos ausentan en una red asociativa.
 <!-- =========================================================== -->
 <h1 class="author anchor-offset" id="barthes">III. Roland Barthes</h1>
 <p style="font-style: italic; color: var(--muted); margin-top: -8px;">La aventura semiológica — resumen de <em>La cocina del sentido</em>, <em>El mensaje fotográfico</em>, <em>El mensaje publicitario</em>, <em>Retórica de la imagen</em> y la parte teórica de <em>Mitologías</em> con sus ejemplos.</p>
+
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial de Barthes</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>Hay dos niveles de sentido: <strong>denotación</strong> (lo literal — una foto de una rosa) y <strong>connotación</strong> (lo cultural — la rosa como amor).</li>
+    <li>El <strong>mito</strong> naturaliza lo cultural: hace parecer "normal" algo que es una construcción histórica (ej.: el hombre = fuerte, la mujer = sensible).</li>
+    <li>En la imagen hay tres mensajes: lingüístico (el texto), icónico codificado (connotación) e icónico no codificado (lo que todos reconocen igual).</li>
+    <li>Los signos no son inocentes: siempre cargan con ideología, aunque parezcan neutrales o naturales.</li>
+  </ul></div>
+</details>
 
 <h2 class="anchor-offset" id="b-intro">1. Introducción al signo barthesiano</h2>
 <p>Roland Barthes (1915-1980) retoma la propuesta de Saussure de una semiología entendida como <strong>ciencia de los signos en el seno de la vida social</strong>, pero la invierte: la lingüística no es para él una parte de la semiología, sino su modelo y su matriz. Para Barthes, toda semiología debe ajustarse a un <strong>principio de pertinencia</strong>:</p>
