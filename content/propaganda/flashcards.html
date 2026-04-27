@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flashcards — Propaganda y Comunicación Política</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>✦</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&display=swap');
+
+:root{
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --fine:#94a3b8;
+  --rule:#e2e8f0; --rule-soft:#f1f5f9; --paper:#fbfaf6; --card:#fff; --surface:#f8fafc;
+  --accent:#b91c1c; --accent-dark:#7f1d1d; --accent-soft:#fef2f2;
+  --warm:#c2410c; --ok:#047857; --ok-soft:#ecfdf5;
+  --shadow-sm:0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.06);
+  --shadow-md:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+  --shadow-lg:0 10px 15px -3px rgba(15,23,42,.08),0 4px 6px -4px rgba(15,23,42,.05);
+  --shadow-xl:0 20px 25px -5px rgba(15,23,42,.12),0 8px 10px -6px rgba(15,23,42,.08);
+  --r-md:10px; --r-lg:14px; --r-xl:20px;
+  --font-ui:'Inter',-apple-system,sans-serif;
+  --font-serif:'Fraunces',Georgia,serif;
+}
+
+*{box-sizing:border-box;}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+body{margin:0;font-family:var(--font-ui);background:var(--paper);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+
+.topbar{padding:24px 28px;border-bottom:1px solid var(--rule);background:var(--card);display:flex;align-items:center;gap:14px;}
+.topbar a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;}
+.topbar a:hover{color:var(--accent);}
+.topbar .sep{color:var(--fine);}
+.topbar .title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;}
+.topbar .spacer{flex:1;}
+.topbar .meta{font-size:12px;color:var(--muted);font-feature-settings:"tnum";}
+
+.app{flex:1;max-width:760px;width:100%;margin:0 auto;padding:50px 28px 80px;display:flex;flex-direction:column;}
+
+.header{margin-bottom:28px;text-align:center;}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+h1{font-family:var(--font-serif);font-size:38px;font-weight:500;letter-spacing:-.02em;margin:0 0 8px;line-height:1.15;}
+.sub{color:var(--muted);font-size:14.5px;margin:0;}
+
+.progress-wrap{display:flex;align-items:center;gap:14px;margin-bottom:18px;}
+.progress-bar{flex:1;height:6px;background:var(--rule-soft);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--warm));border-radius:99px;transition:width .25s ease;}
+.progress-text{font-size:12px;font-weight:600;color:var(--muted);font-feature-settings:"tnum";font-variant-numeric:tabular-nums;min-width:55px;text-align:right;}
+
+.deck{position:relative;perspective:1600px;height:340px;margin-bottom:24px;}
+.card-flip{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+.card-flip.is-flipped{transform:rotateY(180deg);}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;background:var(--card);border:1px solid var(--rule);border-radius:var(--r-xl);padding:48px 44px;display:flex;flex-direction:column;justify-content:center;box-shadow:var(--shadow-lg);overflow:hidden;}
+.face::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--warm));}
+.face .label{position:absolute;top:18px;left:24px;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fine);}
+.face .num{position:absolute;top:18px;right:24px;font-size:11px;font-weight:600;color:var(--muted);font-feature-settings:"tnum";}
+.face .text{font-family:var(--font-serif);font-size:22px;font-weight:400;line-height:1.45;color:var(--ink);text-align:center;letter-spacing:-.005em;}
+.face.back{transform:rotateY(180deg);background:linear-gradient(135deg,#fff 0%,var(--accent-soft) 100%);border-color:rgba(185,28,28,.18);}
+.face.back .label{color:var(--accent);}
+.face.back .text{font-family:var(--font-ui);font-size:18px;font-weight:500;color:var(--ink-soft);line-height:1.55;}
+.face .hint{position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:11px;color:var(--fine);font-style:italic;}
+
+.controls{display:flex;gap:10px;justify-content:center;margin-bottom:14px;}
+.btn{font-family:inherit;font-size:13px;font-weight:600;padding:11px 18px;border-radius:10px;border:1px solid var(--rule);background:var(--card);color:var(--ink-soft);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:7px;}
+.btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.primary:hover:not(:disabled){background:var(--accent-dark);border-color:var(--accent-dark);color:#fff;}
+.btn.icon{padding:11px 14px;}
+.btn kbd{display:inline-block;background:rgba(0,0,0,.08);color:inherit;padding:1px 5px;border-radius:4px;font-size:10px;font-family:inherit;margin-left:5px;}
+
+.actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:8px;padding-top:18px;border-top:1px solid var(--rule);}
+.actions .btn{font-size:12px;padding:8px 14px;}
+
+.empty{text-align:center;padding:80px 20px;color:var(--muted);}
+.empty h2{font-family:var(--font-serif);font-weight:500;margin-bottom:8px;}
+
+.kbd-hint{font-size:11px;color:var(--fine);text-align:center;margin-top:18px;line-height:1.7;}
+.kbd-hint kbd{background:var(--card);border:1px solid var(--rule);padding:2px 7px;border-radius:5px;font-family:inherit;font-size:10.5px;color:var(--muted);box-shadow:0 1px 0 var(--rule);margin:0 2px;}
+
+@media(max-width:640px){
+  .topbar{padding:14px 18px;flex-wrap:wrap;}
+  .app{padding:32px 18px 60px;}
+  h1{font-size:30px;}
+  .deck{height:300px;}
+  .face{padding:38px 28px;}
+  .face .text{font-size:19px;}
+  .face.back .text{font-size:16px;}
+  .controls{gap:8px;}
+  .btn{padding:10px 14px;font-size:12px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/estudiante/propaganda">← Propaganda</a>
+  <span class="sep">/</span>
+  <span class="title">Flashcards</span>
+  <div class="spacer"></div>
+  <span class="meta" id="meta"></span>
+</div>
+
+<main class="app">
+  <div class="header">
+    <div class="kicker">Estudiar — Propaganda</div>
+    <h1>Flashcards</h1>
+    <p class="sub">60 tarjetas para repasar conceptos clave. Click en la tarjeta para ver la respuesta.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-text" id="progressText">0 / 0</div>
+  </div>
+
+  <div class="deck">
+    <div class="card-flip" id="card" tabindex="0" role="button" aria-label="Voltear tarjeta">
+      <div class="face front">
+        <div class="label">Pregunta</div>
+        <div class="num" id="numFront"></div>
+        <div class="text" id="question"></div>
+        <div class="hint">Click o <kbd>Espacio</kbd> para ver la respuesta</div>
+      </div>
+      <div class="face back">
+        <div class="label">Respuesta</div>
+        <div class="num" id="numBack"></div>
+        <div class="text" id="answer"></div>
+        <div class="hint">Click para volver a la pregunta</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn icon" id="prev" title="Anterior" aria-label="Anterior">←</button>
+    <button class="btn primary" id="flip">Voltear</button>
+    <button class="btn icon" id="next" title="Siguiente" aria-label="Siguiente">→</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn" id="shuffle">⟲ Mezclar</button>
+    <button class="btn" id="reset">↺ Reiniciar orden</button>
+  </div>
+
+  <div class="kbd-hint">
+    <kbd>←</kbd> <kbd>→</kbd> navegar &nbsp;·&nbsp; <kbd>Espacio</kbd> voltear &nbsp;·&nbsp; <kbd>S</kbd> mezclar
+  </div>
+</main>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
+
+<script>
+const FLASHCARDS = [
+  ["¿Cómo se define la política según el marco conceptual de Layús?","Es el conjunto de personas que deciden por el bien común y administran los bienes de la comunidad."],
+  ["¿Qué tres elementos aparecen cuando la política se encuentra con la comunicación?","Comunicación política, comunicación gubernamental y propaganda."],
+  ["La comunicación política no es solo transmisión de información, sino una dinámica para construir los _____ de la realidad social.","Significados"],
+  ["¿Por qué se sostiene que la política es, en esencia, una lucha por el sentido?","Porque los hechos no tienen un significado único y dependen del discurso que los enmarque."],
+  ["Concepto: Comunicación política","Definición: Espacio de intercambio y confrontación de opiniones entre el sistema político, los medios y los ciudadanos."],
+  ["Término: Poder simbólico","Definición: La capacidad de definir qué significan los hechos y lograr que esa interpretación sea aceptada socialmente."],
+  ["¿Cuáles son los tres actores principales que interactúan en la comunicación política?","El sistema político, el sistema de medios y los ciudadanos."],
+  ["¿Qué rol cumplen los grupos de presión (lobbys y ONGs) en el escenario político?","Intervienen como actores adicionales que influyen en la interacción entre el sistema político, los medios y los ciudadanos."],
+  ["¿Cuáles son las tres lógicas en tensión constante según el modelo de Wolton?","La lógica política, la lógica mediática y la lógica de la opinión pública."],
+  ["En el modelo de Wolton, ¿cuál es el objetivo primordial de la lógica política?","La búsqueda de legitimidad."],
+  ["Según Wolton, ¿a qué responde la lógica de la opinión pública?","Responde según percepciones y emociones."],
+  ["La realidad no es percibida de manera directa, sino que es _____ socialmente a través del lenguaje y la cultura.","Construida"],
+  ["Término: Comunicación gubernamental","Definición: Comunicación realizada durante la gestión cuyo objetivo es generar consenso y legitimidad para las políticas públicas."],
+  ["¿Qué se entiende por 'consenso' en el ámbito de la comunicación gubernamental?","Acuerdos políticamente operantes que permiten que las políticas sean aceptadas socialmente sin conflictos extremos."],
+  ["¿Cuál es la relación fundamental entre comunicación, legitimidad y gobernabilidad?","Sin comunicación no hay legitimidad, y sin legitimidad no hay gobernabilidad."],
+  ["En el paradigma del difusionismo, ¿cómo es el rol del receptor?","Es un receptor pasivo que simplemente recibe el mensaje."],
+  ["¿Cuál es la secuencia de acción en el paradigma del construccionismo (Riorda)?","La gestión y la comunicación ocurren de manera simultánea."],
+  ["¿Por qué se afirma que el lenguaje es una herramienta de poder en política?","Porque nombrar un hecho de cierta forma (ej. 'gasto' vs. 'inversión') orienta su interpretación y percepción social."],
+  ["Término: Propaganda","Definición: Forma de comunicación intencional, sistemática y estratégica, de carácter unidireccional, que busca influir en la opinión pública."],
+  ["¿Cuál es la materia prima fundamental de la propaganda?","La opinión pública."],
+  ["¿Cómo describe Harold Lasswell la propaganda desde la visión funcionalista?","Como una herramienta poderosa y neutral que puede usarse para mantener la cohesión social."],
+  ["¿Qué concepto utiliza Habermas para describir la degradación del debate racional causada por la propaganda?","Refeudalización"],
+  ["Concepto: Posverdad","Definición: Fenómeno donde los hechos objetivos son menos influyentes que las apelaciones a las emociones y creencias personales."],
+  ["En propaganda, ¿cuál es la diferencia de destino entre los signos y los símbolos?","Los signos se dirigen al público (razón), mientras que los símbolos se dirigen a las masas (emoción)."],
+  ["¿Cuáles son las tres acciones principales que resumen la lógica de la propaganda según las reglas del Bloque III?","Simplifica, emociona y repite."],
+  ["¿En qué consiste la regla de simplificación y enemigo único?","En reducir la complejidad a ideas claras y concentrar el odio o rechazo en un culpable concreto."],
+  ["Término: Falacia","Definición: Un argumento que parece válido pero no lo es; una manipulación de la verdad para persuadir."],
+  ["¿En qué consiste la falacia 'Ad Hominem'?","En atacar personalmente al oponente en lugar de refutar sus ideas o argumentos."],
+  ["¿Cómo se define la falacia de la 'Hipérbole'?","Consiste en exagerar o magnificar un hecho, idea o argumento para aumentar su impacto emocional."],
+  ["La falacia que consiste en aplicar una generalización rígida ignorando las excepciones se denomina _____.","Secundum Quid"],
+  ["¿En qué consiste la falacia del 'Espantapájaros'?","En distorsionar el argumento del oponente, exagerándolo o simplificándolo, para que sea más fácil de atacar."],
+  ["¿Qué sostiene la falacia 'Ad Populum'?","Que algo es verdadero o bueno simplemente porque la mayoría de la gente lo cree o apoya."],
+  ["Término: Falacia Ad Baculum","Definición: Apelación al temor o uso del miedo para validar un argumento."],
+  ["¿Qué es la falacia 'Ad Verecundiam'?","Validar un argumento solo porque lo afirma alguien famoso o respetado, aunque no sea experto en el tema."],
+  ["¿Cuáles son los dos componentes de la fórmula de la orquestación para evitar la habituación?","Redundancia y variabilidad."],
+  ["¿Qué es la 'resonancia' como resultado de una buena orquestación propagandística?","Es cuando el mensaje comienza a circular de manera autónoma en la sociedad."],
+  ["¿Cuál es el objetivo final de la orquestación?","La naturalización, logrando que el mensaje se perciba como sentido común y no como propaganda."],
+  ["¿Qué busca la técnica del 'Diario de ayer'?","Seleccionar, ocultar o reinterpretar el pasado para mantener una narrativa consistente y sin contradicciones."],
+  ["Término: Regla de la transfusión","Definición: Utilizar emociones, valores o prejuicios preexistentes (estereotipos) y transferirlos hacia un nuevo objeto o agenda."],
+  ["¿Qué tres tipos de 'fuentes de energía mental' utiliza la regla de la transfusión?","Chauvinismos (patriotismo), fobias (miedos) y filias (simpatías)."],
+  ["En comunicación política, ¿qué describe la teoría del 'espiral del silencio'?","La tendencia de las opiniones minoritarias a desaparecer debido a la presión social de alinearse con la mayoría percibida."],
+  ["Término: Unanimidad inflada","Definición: Técnica que exagera la cantidad de personas que apoyan una causa para generar euforia colectiva y contagio."],
+  ["¿Qué diferencia al 'público' de la 'masa' en cuanto a su racionalidad?","El público posee capacidad crítica y racional, mientras que la masa reacciona de forma emocional y poco reflexiva."],
+  ["A diferencia de la muchedumbre, la masa no requiere _____ para formarse, ya que se vincula a través de los medios.","Proximidad física"],
+  ["¿Cuál es la principal diferencia de plazo entre un propagandista y un agitador?","El propagandista trabaja a largo plazo (instalar ideas), mientras que el agitador busca efectos inmediatos a corto plazo."],
+  ["¿En qué se diferencia la coacción de la coerción?","La coacción usa la fuerza directa o amenaza, mientras que la coerción es una presión indirecta basada en normas o presión social."],
+  ["¿Cuáles son las 5 fases de conformación de la opinión pública?","1) Problema, 2) Propuesta, 3) Política, 4) Programática y 5) Valoración."],
+  ["Término: Mito de gobierno","Definición: Relato simplificado que explica la realidad, justifica la gestión gubernamental y genera consenso."],
+  ["Según Walter Lippmann, ¿qué son los estereotipos?","Atajos mentales que simplifican la realidad mediante generalizaciones y prejuicios."],
+  ["Término: Pseudoambiente","Definición: La imagen mental simplificada de la realidad ante la cual las personas reaccionan, influida por los medios y estereotipos."],
+  ["¿Qué establece la teoría de la 'Agenda Setting' de McCombs?","Que los medios no dicen a la gente qué pensar, sino sobre qué temas pensar mediante la selección y jerarquización."],
+  ["¿Cuál es la diferencia entre el primer y segundo nivel de la Agenda Setting?","El primer nivel selecciona objetos (tópicos), mientras que el segundo nivel selecciona atributos (qué partes resaltar)."],
+  ["Término: Framing","Definición: El encuadre que define un problema, marca culpables, propone soluciones e indica cómo interpretar un hecho."],
+  ["¿Qué dos dimensiones componen el 'doble encuadre' del Framing?","El encuadre cognoscitivo (cómo entender) y el pragmático (qué hacer)."],
+  ["Término: Priming","Definición: Pre-activación mental mediante la repetición de atributos que establece los criterios con los que se juzgará un tema."],
+  ["Concepto: Avaro cognitivo","Definición: Tendencia de las personas a no analizar la información en profundidad, utilizando en su lugar atajos mentales o heurísticos."],
+  ["¿Qué autor vincula la gestión y la comunicación como procesos simultáneos en el construccionismo?","Mario Riorda."],
+  ["¿Qué autor propuso el modelo del triángulo de la comunicación política basado en la tensión entre tres polos?","Dominique Wolton."],
+  ["¿Cómo afecta la 'memoria accesible' al proceso de Priming?","Hace que las personas utilicen la información más fácil de recordar al momento de emitir un juicio sobre un tema activado."],
+  ["En propaganda, ¿qué función cumple el 'slogan'?","Resumir ideas complejas apelando a las emociones de forma repetitiva."]
+];
+
+const $card = document.getElementById('card');
+const $q = document.getElementById('question');
+const $a = document.getElementById('answer');
+const $numF = document.getElementById('numFront');
+const $numB = document.getElementById('numBack');
+const $progressFill = document.getElementById('progressFill');
+const $progressText = document.getElementById('progressText');
+const $meta = document.getElementById('meta');
+const $prev = document.getElementById('prev');
+const $next = document.getElementById('next');
+const $flip = document.getElementById('flip');
+const $shuffle = document.getElementById('shuffle');
+const $reset = document.getElementById('reset');
+
+let order = FLASHCARDS.map((_,i) => i);
+let index = 0;
+let flipped = false;
+
+function render(){
+  const cardIdx = order[index];
+  const [q,a] = FLASHCARDS[cardIdx];
+  $q.textContent = q;
+  $a.textContent = a;
+  const label = `${index+1} / ${order.length}`;
+  $numF.textContent = label;
+  $numB.textContent = label;
+  $progressText.textContent = label;
+  $progressFill.style.width = ((index+1)/order.length*100) + '%';
+  $meta.textContent = `${order.length} tarjetas`;
+  $prev.disabled = index === 0;
+  $next.disabled = index === order.length-1;
+  if(flipped){
+    flipped = false;
+    $card.classList.remove('is-flipped');
+  }
+}
+
+function flip(){
+  flipped = !flipped;
+  $card.classList.toggle('is-flipped', flipped);
+  if(flipped) gtag('event','flashcard_flip',{deck:'propaganda',index:index+1});
+}
+
+function next(){ if(index < order.length-1){ index++; render(); } }
+function prev(){ if(index > 0){ index--; render(); } }
+
+function shuffle(){
+  for(let i = order.length-1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i+1));
+    [order[i],order[j]] = [order[j],order[i]];
+  }
+  index = 0;
+  render();
+  gtag('event','flashcard_shuffle',{deck:'propaganda'});
+}
+
+function reset(){
+  order = FLASHCARDS.map((_,i) => i);
+  index = 0;
+  render();
+}
+
+$card.addEventListener('click', flip);
+$flip.addEventListener('click', e => { e.stopPropagation(); flip(); });
+$prev.addEventListener('click', prev);
+$next.addEventListener('click', next);
+$shuffle.addEventListener('click', shuffle);
+$reset.addEventListener('click', reset);
+
+document.addEventListener('keydown', e => {
+  if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+  if(e.key === 'ArrowRight'){ next(); }
+  else if(e.key === 'ArrowLeft'){ prev(); }
+  else if(e.key === ' '){ e.preventDefault(); flip(); }
+  else if(e.key === 's' || e.key === 'S'){ shuffle(); }
+});
+
+render();
+</script>
+</body>
+</html>

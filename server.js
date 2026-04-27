@@ -25,6 +25,18 @@ const materias = [
         tipo: 'resumen',
         url: '/estudiante/propaganda/resumen',
         descripcion: 'Bloques I–V con tablas comparativas, falacias, Agenda Setting, Framing y Priming.',
+      },
+      {
+        titulo: 'Flashcards — 60 tarjetas para repasar',
+        tipo: 'flashcards',
+        url: '/estudiante/propaganda/flashcards',
+        descripcion: 'Conceptos clave del parcial: definiciones, falacias, autores y teorías.',
+      },
+      {
+        titulo: 'NotebookLM — Notebook interactivo',
+        tipo: 'notebook',
+        url: 'https://notebooklm.google.com/notebook/5f6463bc-41fa-4417-b6dc-771fd40b6d97/artifact/a7b82642-85a3-4d9c-96b0-8edd4b3d5707?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_2&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_2_',
+        descripcion: 'Artefacto interactivo en NotebookLM con preguntas y respuestas sobre el material.',
       }
     ]
   },
@@ -67,6 +79,14 @@ app.get('/estudiante/semiologia/resumen', (req, res) => {
 
 app.get('/estudiante/propaganda/resumen', (req, res) => {
   res.sendFile(path.join(__dirname, 'content', 'propaganda', 'resumen.html'))
+})
+
+app.get('/estudiante/propaganda/flashcards', (req, res) => {
+  res.sendFile(path.join(__dirname, 'content', 'propaganda', 'flashcards.html'))
+})
+
+app.get('/slug', (req, res) => {
+  res.sendFile(path.join(__dirname, 'content', 'herramientas', 'slug.html'))
 })
 
 app.listen(PORT, () => {

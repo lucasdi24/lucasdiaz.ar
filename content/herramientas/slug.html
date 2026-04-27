@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slugify — Texto a nombre de archivo</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>✦</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#fbfaf6; --card:#fff; --ink:#0f172a; --ink-soft:#334155;
+  --muted:#64748b; --rule:#e2e8f0; --accent:#2563eb; --accent-dark:#1d4ed8;
+  --accent-soft:#eff6ff; --ok:#047857; --ok-soft:#ecfdf5;
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:60px 20px;}
+.app{width:100%;max-width:680px;}
+.header{margin-bottom:32px;}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+h1{font-size:32px;font-weight:600;letter-spacing:-.02em;margin:0 0 8px;}
+.sub{color:var(--muted);font-size:15px;margin:0;}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:24px;margin-bottom:16px;box-shadow:0 1px 3px rgba(15,23,42,.04);}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+textarea{width:100%;min-height:90px;padding:14px 16px;border:1px solid var(--rule);border-radius:10px;font-family:inherit;font-size:16px;line-height:1.5;color:var(--ink);background:#fafafa;resize:vertical;transition:border-color .15s,background .15s;}
+textarea:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-soft);}
+.output-wrap{position:relative;}
+.output{font-family:'JetBrains Mono',monospace;font-size:15px;background:var(--accent-soft);border:1px solid #c7d7fe;border-radius:10px;padding:18px 60px 18px 18px;color:var(--accent-dark);word-break:break-all;min-height:54px;line-height:1.5;}
+.output.empty{color:#94a3b8;font-style:italic;}
+.copy-btn{position:absolute;top:10px;right:10px;background:#fff;border:1px solid var(--rule);border-radius:8px;padding:7px 12px;font-family:inherit;font-size:12px;font-weight:600;color:var(--ink-soft);cursor:pointer;transition:all .15s;}
+.copy-btn:hover{border-color:var(--accent);color:var(--accent);}
+.copy-btn.ok{background:var(--ok-soft);border-color:#a7f3d0;color:var(--ok);}
+.options{display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;font-size:13px;color:var(--ink-soft);}
+.options label{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;letter-spacing:0;text-transform:none;color:var(--ink-soft);margin:0;cursor:pointer;}
+.options input[type="checkbox"]{accent-color:var(--accent);width:15px;height:15px;cursor:pointer;}
+.examples{margin-top:18px;}
+.examples-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.example{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid var(--rule);font-size:13px;cursor:pointer;transition:background .12s;}
+.example:hover{background:#fafafa;}
+.example:last-child{border:none;}
+.example-input{color:var(--ink-soft);flex:1;}
+.example-output{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:12px;}
+.footer{text-align:center;margin-top:30px;font-size:12px;color:var(--muted);}
+.footer a{color:var(--accent);text-decoration:none;}
+.footer a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="kicker">Herramienta</div>
+    <h1>Slugify</h1>
+    <p class="sub">Convertí cualquier texto en un nombre de archivo limpio: minúsculas, sin acentos, con guiones medios.</p>
+  </div>
+
+  <div class="card">
+    <label for="input">Texto original</label>
+    <textarea id="input" placeholder="Pegá o escribí algo… ej: 1.2 La comunicación política como construcción de la realidad" autofocus></textarea>
+    <div class="options">
+      <label><input type="checkbox" id="lower" checked> Minúsculas</label>
+      <label><input type="checkbox" id="ext"> Agregar <code>.md</code></label>
+    </div>
+  </div>
+
+  <div class="card">
+    <label>Resultado</label>
+    <div class="output-wrap">
+      <div class="output empty" id="output">El resultado aparece acá…</div>
+      <button class="copy-btn" id="copy">Copiar</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="examples-title">Ejemplos (click para probar)</div>
+    <div class="examples">
+      <div class="example" data-text="1.2 La comunicación política como construcción de la realidad">
+        <span class="example-input">1.2 La comunicación política como construcción de la realidad</span>
+        <span class="example-output">→</span>
+      </div>
+      <div class="example" data-text="Bloque III — Reglas de la propaganda">
+        <span class="example-input">Bloque III — Reglas de la propaganda</span>
+        <span class="example-output">→</span>
+      </div>
+      <div class="example" data-text="¿Qué es la opinión pública?">
+        <span class="example-input">¿Qué es la opinión pública?</span>
+        <span class="example-output">→</span>
+      </div>
+      <div class="example" data-text="Anexo B — Glosario A-Z">
+        <span class="example-input">Anexo B — Glosario A-Z</span>
+        <span class="example-output">→</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="/">← Volver al inicio</a>
+  </div>
+</div>
+
+<script>
+const $input = document.getElementById('input');
+const $output = document.getElementById('output');
+const $copy = document.getElementById('copy');
+const $lower = document.getElementById('lower');
+const $ext = document.getElementById('ext');
+
+function slugify(text){
+  if(!text) return '';
+  let s = text.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+  if($lower.checked) s = s.toLowerCase();
+  s = s.replace(/[^a-zA-Z0-9-]+/g,'-');
+  s = s.replace(/-+/g,'-').replace(/^-+|-+$/g,'');
+  if($ext.checked && s) s += '.md';
+  return s;
+}
+
+function render(){
+  const out = slugify($input.value);
+  if(out){
+    $output.textContent = out;
+    $output.classList.remove('empty');
+  } else {
+    $output.textContent = 'El resultado aparece acá…';
+    $output.classList.add('empty');
+  }
+  document.querySelectorAll('.example').forEach(el => {
+    const txt = el.dataset.text;
+    el.querySelector('.example-output').textContent = '→ ' + slugify(txt);
+  });
+}
+
+$input.addEventListener('input', render);
+[$lower,$ext].forEach(el => el.addEventListener('change', render));
+
+$copy.addEventListener('click', async () => {
+  const text = $output.textContent;
+  if($output.classList.contains('empty')) return;
+  try{
+    await navigator.clipboard.writeText(text);
+    $copy.textContent = '✓ Copiado';
+    $copy.classList.add('ok');
+    setTimeout(() => { $copy.textContent = 'Copiar'; $copy.classList.remove('ok'); }, 1500);
+  } catch(e){
+    $copy.textContent = 'Error';
+    setTimeout(() => $copy.textContent = 'Copiar', 1500);
+  }
+});
+
+document.querySelectorAll('.example').forEach(el => {
+  el.addEventListener('click', () => {
+    $input.value = el.dataset.text;
+    render();
+    $input.focus();
+  });
+});
+
+render();
+</script>
+</body>
+</html>
