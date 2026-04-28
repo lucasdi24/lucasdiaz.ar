@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz — Propaganda y Comunicación Política</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>✦</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700&display=swap');
+
+:root{
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --fine:#94a3b8;
+  --rule:#e2e8f0; --rule-soft:#f1f5f9; --paper:#fbfaf6; --card:#fff; --surface:#f8fafc;
+  --accent:#b91c1c; --accent-dark:#7f1d1d; --accent-soft:#fef2f2;
+  --warm:#c2410c; --ok:#047857; --ok-soft:#ecfdf5; --ok-border:#a7f3d0;
+  --err:#b91c1c; --err-soft:#fef2f2; --err-border:#fecaca;
+  --shadow-md:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+  --shadow-lg:0 10px 15px -3px rgba(15,23,42,.08),0 4px 6px -4px rgba(15,23,42,.05);
+  --r-md:10px; --r-lg:14px; --r-xl:20px;
+  --font-ui:'Inter',-apple-system,sans-serif;
+  --font-serif:'Fraunces',Georgia,serif;
+}
+
+*{box-sizing:border-box;}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+body{margin:0;font-family:var(--font-ui);background:var(--paper);color:var(--ink);min-height:100vh;display:flex;flex-direction:column;}
+
+.topbar{padding:20px 28px;border-bottom:1px solid var(--rule);background:var(--card);display:flex;align-items:center;gap:14px;}
+.topbar a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;transition:color .15s;}
+.topbar a:hover{color:var(--accent);}
+.topbar .sep{color:var(--fine);}
+.topbar .title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--ink);letter-spacing:-.01em;}
+.topbar .spacer{flex:1;}
+.topbar .meta{font-size:12px;color:var(--muted);font-feature-settings:"tnum";font-variant-numeric:tabular-nums;}
+
+.app{flex:1;max-width:780px;width:100%;margin:0 auto;padding:42px 28px 80px;display:flex;flex-direction:column;}
+
+.header{margin-bottom:28px;text-align:center;}
+.kicker{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+h1{font-family:var(--font-serif);font-size:36px;font-weight:500;letter-spacing:-.02em;margin:0 0 8px;line-height:1.15;}
+.sub{color:var(--muted);font-size:14.5px;margin:0;}
+
+.progress-wrap{display:flex;align-items:center;gap:14px;margin-bottom:28px;}
+.progress-bar{flex:1;height:6px;background:var(--rule-soft);border-radius:99px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--warm));border-radius:99px;transition:width .35s ease;}
+.progress-text{font-size:12px;font-weight:600;color:var(--muted);font-variant-numeric:tabular-nums;min-width:55px;text-align:right;}
+
+.q-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-xl);padding:36px 36px 32px;box-shadow:var(--shadow-md);position:relative;animation:slide .35s cubic-bezier(.4,.2,.2,1);}
+.q-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--accent),var(--warm));border-radius:var(--r-xl) var(--r-xl) 0 0;}
+@keyframes slide{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.q-num{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--fine);margin-bottom:14px;}
+.q-text{font-family:var(--font-serif);font-size:22px;font-weight:400;line-height:1.4;color:var(--ink);margin-bottom:28px;letter-spacing:-.005em;}
+
+.options{display:flex;flex-direction:column;gap:10px;}
+.opt{display:flex;align-items:flex-start;gap:14px;padding:14px 18px;background:var(--card);border:1.5px solid var(--rule);border-radius:var(--r-md);cursor:pointer;transition:all .15s;text-align:left;font-family:inherit;font-size:14.5px;line-height:1.5;color:var(--ink-soft);width:100%;}
+.opt:hover:not(.locked){border-color:var(--accent);background:var(--accent-soft);color:var(--ink);}
+.opt-letter{flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--rule-soft);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--muted);transition:all .15s;}
+.opt:hover:not(.locked) .opt-letter{background:var(--accent);color:#fff;}
+.opt-text{flex:1;padding-top:3px;}
+.opt.correct{border-color:var(--ok);background:var(--ok-soft);color:var(--ink);}
+.opt.correct .opt-letter{background:var(--ok);color:#fff;}
+.opt.wrong{border-color:var(--err);background:var(--err-soft);color:var(--ink);}
+.opt.wrong .opt-letter{background:var(--err);color:#fff;}
+.opt.locked{cursor:default;}
+.opt.dim{opacity:.45;}
+
+.text-input{width:100%;padding:14px 18px;border:1.5px solid var(--rule);border-radius:var(--r-md);font-family:inherit;font-size:15px;color:var(--ink);background:var(--card);transition:border-color .15s,background .15s;}
+.text-input:focus{outline:none;border-color:var(--accent);background:#fff;box-shadow:0 0 0 3px var(--accent-soft);}
+.text-input.correct{border-color:var(--ok);background:var(--ok-soft);}
+.text-input.wrong{border-color:var(--err);background:var(--err-soft);}
+.text-input:disabled{cursor:default;}
+
+.feedback{margin-top:20px;padding:14px 18px;border-radius:var(--r-md);font-size:13.5px;line-height:1.55;animation:fade .25s ease;}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+.feedback.ok{background:var(--ok-soft);border-left:3px solid var(--ok);color:#065f46;}
+.feedback.bad{background:var(--err-soft);border-left:3px solid var(--err);color:var(--accent-dark);}
+.feedback.info{background:#fef9c3;border-left:3px solid #ca8a04;color:#854d0e;}
+.feedback strong{font-weight:600;}
+
+.controls{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+.btn{font-family:inherit;font-size:14px;font-weight:600;padding:12px 22px;border-radius:10px;border:1px solid var(--rule);background:var(--card);color:var(--ink-soft);cursor:pointer;transition:all .15s;display:inline-flex;align-items:center;gap:8px;}
+.btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);background:var(--accent-soft);}
+.btn:disabled{opacity:.4;cursor:not-allowed;}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent);}
+.btn.primary:hover:not(:disabled){background:var(--accent-dark);border-color:var(--accent-dark);color:#fff;}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--muted);}
+.btn.ghost:hover{color:var(--accent);background:var(--accent-soft);}
+.score-mini{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums;}
+.score-mini b{color:var(--ok);font-weight:600;}
+.score-mini .err{color:var(--err);}
+
+/* RESULTS */
+.results{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-xl);padding:48px 40px;box-shadow:var(--shadow-md);text-align:center;animation:slide .4s cubic-bezier(.4,.2,.2,1);}
+.results .big-score{font-family:var(--font-serif);font-size:80px;font-weight:500;line-height:1;margin:8px 0 4px;letter-spacing:-.04em;}
+.results .pct{font-family:var(--font-serif);font-size:24px;color:var(--muted);margin-bottom:18px;font-variant-numeric:tabular-nums;}
+.results .verdict{font-size:15px;color:var(--ink-soft);margin-bottom:28px;line-height:1.55;}
+.results .verdict strong{color:var(--ink);}
+.results-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:30px;}
+.review{margin-top:26px;text-align:left;border-top:1px solid var(--rule);padding-top:26px;}
+.review h3{font-family:var(--font-serif);font-size:18px;font-weight:500;margin:0 0 14px;color:var(--ink);}
+.review-item{padding:14px 16px;border-radius:var(--r-md);margin-bottom:10px;font-size:13.5px;line-height:1.55;}
+.review-item.bad{background:var(--err-soft);border-left:3px solid var(--err);}
+.review-item.ok{background:var(--ok-soft);border-left:3px solid var(--ok);}
+.review-item .num{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.review-item .qq{font-weight:500;color:var(--ink);margin-bottom:6px;}
+.review-item .yours{color:var(--err);}
+.review-item .right{color:var(--ok);}
+
+@media(max-width:640px){
+  .topbar{padding:14px 18px;flex-wrap:wrap;}
+  .app{padding:28px 18px 60px;}
+  h1{font-size:28px;}
+  .q-card{padding:26px 22px 24px;}
+  .q-text{font-size:18px;}
+  .opt{font-size:13.5px;padding:12px 14px;}
+  .results{padding:36px 22px;}
+  .results .big-score{font-size:60px;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="/estudiante/propaganda">← Propaganda</a>
+  <span class="sep">/</span>
+  <span class="title">Quiz de repaso</span>
+  <div class="spacer"></div>
+  <span class="meta" id="meta">37 preguntas</span>
+</div>
+
+<main class="app">
+  <div class="header">
+    <div class="kicker">Quiz — Propaganda y Comunicación Política</div>
+    <h1>Cuestionario de repaso</h1>
+    <p class="sub">37 preguntas con feedback inmediato. Recibís el puntaje al final.</p>
+  </div>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-text" id="progressText">0 / 37</div>
+  </div>
+
+  <div id="quiz"></div>
+</main>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
+
+<script>
+const QUESTIONS = [
+  {n:1, q:'¿Por qué Walter Lippmann sostiene que los "estereotipos" son esenciales para el funcionamiento del Pseudoentorno?',
+   options:['Porque permiten una representación científica y exacta de la realidad social.','Porque actúan como filtros que simplifican la complejidad del mundo real para el ahorro de energía mental.','Porque obligan al ciudadano a investigar profundamente antes de opinar.','Porque son herramientas exclusivas del periodismo de investigación.'], correct:1},
+  {n:2, q:'En la Regla de Transfusión de Domenach, ¿cuál es el mecanismo psicológico que asegura el éxito del mensaje?',
+   options:['La presentación de datos estadísticos irrefutables.','La transferencia de una carga emocional preexistente (odio o amor) desde un símbolo cultural al objeto político.','El debate racional entre posturas contrapuestas.','La eliminación total de símbolos para evitar distracciones.'], correct:1},
+  {n:3, q:'¿Cómo se vincula el Segundo Nivel de la Agenda Setting con el concepto de Priming (Preactivación)?',
+   options:['El segundo nivel oculta los temas, mientras que el priming los revela.','Al enfatizar ciertos atributos, los medios "preactivan" los criterios que el ciudadano usará para evaluar a un líder.','Son conceptos opuestos que nunca ocurren simultáneamente.','El priming solo afecta a la masa, mientras que el segundo nivel afecta al público crítico.'], correct:1},
+  {n:4, q:'Con el concepto de "Refeudalización de la Esfera Pública" de Habermas se sostiene que la Opinión Pública:',
+   options:['Ha vuelto a tener el poder de control que tenía en las monarquías.','Se ha vuelto una audiencia pasiva que otorga su aclamación a puestas en escena políticas, perdiendo su carácter crítico.','Ha democratizado el acceso a la información gracias a internet.','Se organizan en asambleas populares para decidir el destino del presupuesto.'], correct:1},
+  {n:5, q:'En la matriz de Framing de Robert Entman, ¿qué función cumple la "Evaluación Moral"?',
+   options:['Determinar el costo económico de una medida política.','Justificar la solución propuesta mediante la apelación a valores sagrados o consensos culturales.','Evaluar el comportamiento privado del candidato político.','Sancionar legalmente a quienes no cumplen con la ley.'], correct:1},
+  {n:6, q:'Según Foote & Hart, ¿por qué la Fase 4 (Programática) es crucial para la estabilidad de la Opinión Pública?',
+   options:['Porque es donde se definen las emociones que moverán a la masa.','Porque en esta fase se materializa la propuesta en un plan técnico y operativo concreto.','Porque es la fase donde nace el problema social.','Porque es el momento en que se realizan las encuestas de salida.'], correct:1},
+  {n:7, q:'¿Qué papel juega el "Heurístico de Disponibilidad" en la eficacia de la propaganda política?',
+   options:['Facilita que la gente juzgue la realidad basándose en la información más reciente y accesible en su memoria.','Obliga al ciudadano a buscar fuentes de información alternativas.','Permite que el avaro cognitivo se convierta en un público crítico.','Ninguno, ya que la propaganda solo utiliza la razón.'], correct:0},
+  {n:8, q:'La Regla de Orquestación sostiene que la repetición debe acompañarse de "Renovación" para:',
+   options:['Cambiar de ideología cada seis meses.','Evitar el agotamiento del receptor y mantener la resonancia del mensaje en diferentes formatos.','Confundir al oponente mediante mensajes contradictorios.','Ahorrar dinero en la producción de piezas gráficas.'], correct:1},
+  {n:9, q:'En el Triángulo de Wolton, ¿cuál es la tensión principal que define a la Comunicación Política?',
+   options:['La pelea por el rating entre diferentes canales de televisión.','La contradicción entre la legitimidad política, la información periodística y la opinión pública.','El acuerdo total y pacífico entre todos los actores sociales.','La relación comercial entre el Estado y las empresas privadas.'], correct:1},
+  {n:10, q:'Según Jean-Marie Domenach, ¿cuál es la diferencia táctica fundamental entre el "propagandista" y el "agitador"?',
+   options:['El propagandista trabaja sobre sentimientos simples; el agitador sobre doctrinas complejas.','El agitador es un funcionario del Estado; el propagandista es privado.','No hay diferencia, ambos términos son sinónimos.','El propagandista busca influir en el pensamiento a largo plazo; el agitador busca la acción inmediata y violenta.'], correct:3},
+  {n:11, q:'En el pensamiento de Maquiavelo, ¿por qué es más importante para el Príncipe "parecer" que "ser"?',
+   options:['Porque el vulgo se guía por las apariencias y el éxito del resultado final.','Porque las leyes impiden mostrar las intenciones reales.','Porque la ética es el pilar de la estabilidad política.','Porque "ser" requiere mucho más presupuesto que "parecer".'], correct:0},
+  {n:12, q:'La habituación es un efecto buscado por la propaganda política',
+   options:['Sí, claro','No lo sé Rick, parece falso'], correct:1,
+   note:'La propaganda busca evitar la habituación mediante orquestación (redundancia + variabilidad).'},
+  {n:13, q:'La "Nivelación para abajo" busca:',
+   options:['Degradar al adversario reduciéndolo a sus instintos más bajos.','Denigrar al ciudadano.','Promocionar la cultura popular sobre la de élite.','Simplificar el lenguaje técnico.'], correct:3},
+  {n:14, q:'¿Cómo contribuyen los "Símbolos Significativos" a la transformación de un Público en una Masa?',
+   options:['Fomentando el análisis semántico de cada palabra utilizada.','Al unificar la respuesta emocional y anular el debate mediante estímulos que disparan significados automáticos e incuestionables.','Permitiendo que cada individuo interprete el símbolo de manera única y personal.','Son herramientas que solo funcionan en sociedades analfabetas.'], correct:1},
+  {n:15, q:'¿Cuál es el objetivo principal de la Comunicación Gubernamental?',
+   options:['Movilizar a la masa hacia un fin ideológico.','Disputar el poder en el espacio público.','Informar sobre la gestión y legitimar el ejercicio del poder.','Vender un producto o servicio comercial.'], correct:2},
+  {n:16, q:'Según el Triángulo de Wolton, ¿cuáles son los tres actores de la comunicación política?',
+   options:['Políticos, Empresas y Ciudadanos.','Políticos, Periodistas y Opinión Pública.','Gobierno, Oposición y Sindicatos.','Medios, Publicistas.'], correct:1},
+  {n:17, q:'¿Qué caracteriza al "Público" a diferencia de la "Masa"?',
+   options:['Su anonimato y falta de estructura.','Su reacción puramente emocional y física.','Su capacidad deliberativa, crítica y formación de opinión racional.','Su seguimiento ciego de un líder.'], correct:2},
+  {n:18, q:'Rebajar el nivel del discurso es un tipo de simplificación',
+   options:['Sí','No','Tal vez'], correct:0},
+  {n:19, q:'Según Lasswell la propaganda utiliza ___', type:'text', correct:'símbolos significativos',
+   accept:['simbolos significativos','símbolos significativos','simbolos','símbolos','símbolos significativos.','simbolos significativos.']},
+  {n:20, q:'¿A qué se refiere Walter Lippmann con el término "Avaro Cognitivo"?',
+   options:['A una persona que no quiere gastar dinero en medios.','A la tendencia del cerebro a ahorrar energía usando atajos mentales.','A la falta de inteligencia de la masa popular.','A la censura de información por parte del gobierno.'], correct:1},
+  {n:21, q:'La regla de la propaganda que utiliza mitos y prejuicios preexistentes se denomina:',
+   options:['Orquestación.','Desfiguración.','Transfusión.','Unanimidad.'], correct:2},
+  {n:22, q:'¿Qué busca la "Estrategia del diario de ayer" dentro de la regla de desfiguración?',
+   options:['Promocionar noticias antiguas.','Ahorrar costos de impresión.','Descontextualizar o borrar información pasada para que no contradiga el presente.','Educar al público en historia.'], correct:2},
+  {n:23, q:'El "Primer Nivel" de la Agenda Setting se ocupa de:',
+   options:['Decirnos cómo debemos sentirnos sobre un tema.','Definir qué temas son relevantes y sobre qué debe pensar el público.','Analizar los sesgos de los periodistas.','Crear noticias falsas.'], correct:1},
+  {n:24, q:'¿Cuál es la función de un "Símbolo Significativo" según la cátedra?',
+   options:['Decorar los actos políticos.','Sustituir el voto popular.','Complicar el mensaje para que solo los expertos lo entiendan.','Disparar una respuesta automática y compartida en la masa.'], correct:3},
+  {n:25, q:'En el proceso de Foote & Hart, la fase donde el problema se traduce en acción política es:',
+   options:['Fase de Problema.','Fase de Propuesta.','Fase Política.','Fase de Valoración.'], correct:2},
+  {n:26, q:'En el Triángulo de Wolton, ¿cuál es la función del Periodista?',
+   options:['Ser militante de las ideas del gobierno.','Fabricar encuestas para influir en la gente.','Actuar como mediador y gatekeeper, jerarquizando la información.','Influir de manera objetiva en la toma de decisiones.'], correct:2},
+  {n:27, q:'¿Qué implica que la propaganda actual sea un "Ecosistema"?',
+   options:['Que se preocupa por el medio ambiente.','Que es un mensaje lineal enviado por televisión.','Que es una narrativa transmedia fragmentada en redes, memes y medios.','Que solo funciona en ciudades pequeñas.'], correct:2},
+  {n:28, q:'¿Qué concepto de Habermas describe la degradación del debate racional en espectáculo?',
+   options:['Globalización.','Refeudalización de la esfera pública.','Democratización digital.','Capitalismo cognitivo.'], correct:1},
+  {n:29, q:'El modelo "Difusionista" se caracteriza por ser:',
+   options:['Vertical, lineal y centrado en la transmisión desde una élite a una masa.','Horizontal y basado en el consenso.','Un sistema donde el receptor tiene el control total.','Exclusivo del entorno digital.'], correct:0},
+  {n:30, q:'El propagandista busca decir ___ ideas a ___ personas.', type:'text', correct:'muchas, pocas',
+   accept:['muchas, pocas','muchas pocas','muchas a pocas','pocas a muchas','pocas, muchas']},
+  {n:31, q:'El "Pseudo-entorno" de Lippmann es:',
+   options:['Un entorno virtual de videojuegos.','El mapa mental simplificado que reemplaza la realidad compleja.','La oficina de prensa de un candidato.','Un lugar de votación ficticio.'], correct:1},
+  {n:32, q:'En el modelo construccionista se busca:',
+   options:['Gestionar y luego informar.','Gestionar y no informar.','Gestionar e informar sin importar el orden.','Gestionar e informar de manera simultánea.','Ser constructivo.'], correct:4,
+   note:'Según el answer key oficial. (La opción d) también describe correctamente el construccionismo de Riorda.)'},
+  {n:33, q:'La regla de "Orquestación" requiere dos elementos fundamentales:',
+   options:['Mentira y Silencio.','Persistencia y Renovación.','Música y Baile.','Dinero y Redes Sociales.'], correct:1},
+  {n:34, q:'Según Lippmann, ¿por qué el ciudadano medio es un "espectador"?',
+   options:['Porque prefiere y necesita la mediación.','Porque el gobierno prohíbe la participación.','Porque la realidad es compleja y accede a ella vía imágenes simplificadas.','Porque el poder reside en una élite secreta nucleada en altas esferas financieras y masónicas.'], correct:2},
+  {n:35, q:'¿Qué busca el "Efecto de Unanimidad"?',
+   options:['Que todos voten por diferentes partidos.','Crear la ilusión de que una idea es mayoritaria para forzar el contagio social.','Consultar a cada ciudadano individualmente.','Fomentar la disidencia política.'], correct:1},
+  {n:36, q:'La "Estrategia del diario de ayer" busca:',
+   options:['Ahorrar costos reutilizando papel.','Educar sobre logros históricos del partido.','Lograr que el público pierda la memoria histórica sobre hechos pasados.','Hacer que las noticias de hoy parezcan más importantes.'], correct:2},
+  {n:37, q:'Las clases del profesor Layús me parecen un...', type:'open', correct:null,
+   note:'Pregunta abierta — opinión personal, no se puntúa.'}
+];
+
+const $quiz = document.getElementById('quiz');
+const $progressFill = document.getElementById('progressFill');
+const $progressText = document.getElementById('progressText');
+const $meta = document.getElementById('meta');
+
+let index = 0;
+let answers = [];
+
+function letter(i){ return String.fromCharCode(97 + i); }
+
+function normalize(s){
+  return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim().replace(/[.,;]+$/,'');
+}
+
+function checkText(input, q){
+  const v = normalize(input);
+  if(!v) return false;
+  if(q.accept) return q.accept.some(a => normalize(a) === v);
+  return normalize(q.correct) === v;
+}
+
+function updateProgress(){
+  const pct = (index / QUESTIONS.length) * 100;
+  $progressFill.style.width = pct + '%';
+  $progressText.textContent = `${index} / ${QUESTIONS.length}`;
+  const ok = answers.filter(a => a === true).length;
+  const ng = answers.filter(a => a === false).length;
+  if(ok || ng){
+    $meta.innerHTML = `<span style="color:var(--ok);font-weight:600;">✓ ${ok}</span> &nbsp; <span style="color:var(--err);font-weight:600;">✗ ${ng}</span>`;
+  }
+}
+
+function renderQuestion(){
+  if(index >= QUESTIONS.length){ renderResults(); return; }
+  const q = QUESTIONS[index];
+  updateProgress();
+
+  let html = `<div class="q-card" id="qcard">
+    <div class="q-num">Pregunta ${index+1} de ${QUESTIONS.length}</div>
+    <div class="q-text">${q.q}</div>`;
+
+  if(q.type === 'text'){
+    html += `<input type="text" class="text-input" id="textIn" placeholder="Escribí tu respuesta…" autocomplete="off">
+      <div id="feedback"></div>
+      <div class="controls">
+        <button class="btn ghost" id="skip">Saltar</button>
+        <button class="btn primary" id="checkBtn">Comprobar</button>
+      </div>`;
+  } else if(q.type === 'open'){
+    html += `<textarea class="text-input" id="textIn" rows="3" placeholder="Escribí lo que se te cante…"></textarea>
+      <div class="feedback info" style="margin-top:14px;">${q.note}</div>
+      <div class="controls">
+        <div class="score-mini"></div>
+        <button class="btn primary" id="finishBtn">Ver resultado final →</button>
+      </div>`;
+  } else {
+    html += `<div class="options" id="options">`;
+    q.options.forEach((opt,i) => {
+      html += `<button class="opt" data-i="${i}"><span class="opt-letter">${letter(i)}</span><span class="opt-text">${opt}</span></button>`;
+    });
+    html += `</div><div id="feedback"></div>
+      <div class="controls">
+        <div class="score-mini"></div>
+        <button class="btn primary" id="nextBtn" disabled>Siguiente →</button>
+      </div>`;
+  }
+  html += `</div>`;
+  $quiz.innerHTML = html;
+
+  if(q.type === 'text'){
+    const $in = document.getElementById('textIn');
+    const $check = document.getElementById('checkBtn');
+    const $skip = document.getElementById('skip');
+    const $fb = document.getElementById('feedback');
+    $in.focus();
+    function check(){
+      const ok = checkText($in.value, q);
+      answers.push(ok);
+      $in.disabled = true;
+      $in.classList.add(ok ? 'correct' : 'wrong');
+      $fb.innerHTML = `<div class="feedback ${ok?'ok':'bad'}">${ok ? '<strong>✓ Correcto</strong>' : `<strong>✗ Incorrecto.</strong> Respuesta esperada: <em>${q.correct}</em>`}</div>`;
+      $check.textContent = 'Siguiente →';
+      $check.onclick = advance;
+      $skip.style.display = 'none';
+      gtag('event','quiz_answer',{deck:'propaganda',q:q.n,correct:ok});
+    }
+    $check.onclick = check;
+    $skip.onclick = () => { answers.push(false); advance(); };
+    $in.onkeydown = e => { if(e.key === 'Enter' && !$in.disabled){ e.preventDefault(); check(); } };
+  } else if(q.type === 'open'){
+    document.getElementById('finishBtn').onclick = () => { answers.push(null); advance(); };
+  } else {
+    const $opts = document.getElementById('options');
+    const $next = document.getElementById('nextBtn');
+    const $fb = document.getElementById('feedback');
+    $opts.querySelectorAll('.opt').forEach(btn => {
+      btn.onclick = () => {
+        const picked = parseInt(btn.dataset.i);
+        const ok = picked === q.correct;
+        answers.push(ok);
+        $opts.querySelectorAll('.opt').forEach(b => {
+          const i = parseInt(b.dataset.i);
+          b.classList.add('locked');
+          if(i === q.correct) b.classList.add('correct');
+          else if(i === picked) b.classList.add('wrong');
+          else b.classList.add('dim');
+        });
+        let fbHtml = ok ? '<strong>✓ Correcto</strong>' : `<strong>✗ Incorrecto.</strong> La respuesta correcta es <em>${letter(q.correct)})</em> ${q.options[q.correct]}`;
+        if(q.note) fbHtml += `<br><small style="opacity:.85;">${q.note}</small>`;
+        $fb.innerHTML = `<div class="feedback ${ok?'ok':'bad'}">${fbHtml}</div>`;
+        $next.disabled = false;
+        $next.focus();
+        gtag('event','quiz_answer',{deck:'propaganda',q:q.n,correct:ok});
+      };
+    });
+    $next.onclick = advance;
+  }
+}
+
+function advance(){
+  index++;
+  renderQuestion();
+}
+
+function renderResults(){
+  const scored = QUESTIONS.filter((q,i) => q.type !== 'open');
+  const ok = answers.filter(a => a === true).length;
+  const total = scored.length;
+  const pct = Math.round(ok/total*100);
+  let verdict, emoji;
+  if(pct >= 90){ verdict = '<strong>Crack absoluto.</strong> Tenés el material muy bien internalizado.'; emoji = '🏆'; }
+  else if(pct >= 75){ verdict = '<strong>Muy bien.</strong> Estás bien preparado, repasá las que fallaste.'; emoji = '✨'; }
+  else if(pct >= 60){ verdict = '<strong>Bien encaminado.</strong> Hay temas para reforzar antes del parcial.'; emoji = '📚'; }
+  else if(pct >= 40){ verdict = '<strong>Hay que repasar.</strong> Volvé al resumen y reintentá.'; emoji = '⚠️'; }
+  else { verdict = '<strong>Tomátelo como punto de partida.</strong> El material está completo en el resumen.'; emoji = '🌱'; }
+
+  let reviewHtml = '<div class="review"><h3>Repaso por pregunta</h3>';
+  let answerIdx = 0;
+  QUESTIONS.forEach((q,i) => {
+    if(q.type === 'open'){ return; }
+    const ok = answers[answerIdx] === true;
+    answerIdx++;
+    let body = '';
+    if(q.type === 'text'){
+      body = `<div class="${ok?'right':'yours'}">${ok ? '✓ Correcta' : `Respuesta correcta: <em>${q.correct}</em>`}</div>`;
+    } else {
+      body = `<div class="${ok?'right':'yours'}">${ok ? '✓ Correcta' : `Correcta: <em>${letter(q.correct)})</em> ${q.options[q.correct]}`}</div>`;
+    }
+    reviewHtml += `<div class="review-item ${ok?'ok':'bad'}">
+      <div class="num">Pregunta ${q.n}</div>
+      <div class="qq">${q.q}</div>
+      ${body}
+    </div>`;
+  });
+  reviewHtml += '</div>';
+
+  $progressFill.style.width = '100%';
+  $progressText.textContent = `${total} / ${total}`;
+  $meta.innerHTML = `<span style="color:var(--ok);font-weight:600;">✓ ${ok}</span> &nbsp; <span style="color:var(--err);font-weight:600;">✗ ${total-ok}</span>`;
+
+  $quiz.innerHTML = `<div class="results">
+    <div style="font-size:48px;margin-bottom:4px;">${emoji}</div>
+    <div class="big-score">${ok}<span style="color:var(--fine);font-weight:400;">/${total}</span></div>
+    <div class="pct">${pct}% correctas</div>
+    <div class="verdict">${verdict}</div>
+    <div class="results-actions">
+      <button class="btn primary" id="retry">↺ Reintentar</button>
+      <a class="btn" href="/estudiante/propaganda/resumen">📖 Volver al resumen</a>
+      <a class="btn" href="/estudiante/propaganda/flashcards">🃏 Flashcards</a>
+    </div>
+    ${reviewHtml}
+  </div>`;
+  document.getElementById('retry').onclick = () => { index = 0; answers = []; renderQuestion(); window.scrollTo({top:0,behavior:'smooth'}); };
+  gtag('event','quiz_complete',{deck:'propaganda',score:ok,total:total,percentage:pct});
+}
+
+renderQuestion();
+</script>
+</body>
+</html>

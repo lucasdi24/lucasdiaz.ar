@@ -33,6 +33,12 @@ const materias = [
         descripcion: 'Conceptos clave del parcial: definiciones, falacias, autores y teorías.',
       },
       {
+        titulo: 'Quiz de repaso — 37 preguntas',
+        tipo: 'quiz',
+        url: '/estudiante/propaganda/quiz',
+        descripcion: 'Cuestionario interactivo con feedback inmediato y puntaje final.',
+      },
+      {
         titulo: 'NotebookLM — Notebook interactivo',
         tipo: 'notebook',
         url: 'https://notebooklm.google.com/notebook/5f6463bc-41fa-4417-b6dc-771fd40b6d97/artifact/a7b82642-85a3-4d9c-96b0-8edd4b3d5707?utm_source=nlm_web_share&utm_medium=google_oo&utm_campaign=art_share_2&utm_content=&utm_smc=nlm_web_share_google_oo_art_share_2_',
@@ -83,6 +89,10 @@ app.get('/estudiante/propaganda/resumen', (req, res) => {
 
 app.get('/estudiante/propaganda/flashcards', (req, res) => {
   res.sendFile(path.join(__dirname, 'content', 'propaganda', 'flashcards.html'))
+})
+
+app.get('/estudiante/propaganda/quiz', (req, res) => {
+  res.sendFile(path.join(__dirname, 'content', 'propaganda', 'quiz.html'))
 })
 
 app.get('/slug', (req, res) => {
