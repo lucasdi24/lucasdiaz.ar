@@ -169,9 +169,12 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 .corto-body li{margin-bottom:6px;}
 
 .ascii{font-family:'Courier New',monospace;font-size:12px;background:var(--surface);padding:16px 20px;border-radius:var(--r-md);border:1px solid var(--rule);white-space:pre;overflow-x:auto;line-height:1.5;color:var(--ink-soft);margin:24px 0;}
-.diagram{margin:36px 0;display:flex;flex-direction:column;align-items:center;}
-.diagram svg{max-width:100%;height:auto;}
-.diagram-caption{text-align:center;font-family:var(--font-ui);font-size:11.5px;color:var(--muted);font-style:italic;margin-top:10px;max-width:520px;line-height:1.5;}
+.diagram{margin:40px 0;display:flex;flex-direction:column;align-items:center;}
+.diagram svg{width:100%;height:auto;display:block;}
+.diagram-caption{text-align:center;font-family:var(--font-ui);font-size:12.5px;color:var(--muted);font-style:italic;margin-top:14px;max-width:640px;line-height:1.55;}
+@media (min-width:900px){.diagram{margin-left:-100px;margin-right:-100px;}}
+@media (min-width:1200px){.diagram{margin-left:-200px;margin-right:-200px;}}
+@media (min-width:1500px){.diagram{margin-left:-280px;margin-right:-280px;}}
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
