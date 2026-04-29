@@ -169,6 +169,9 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 .corto-body li{margin-bottom:6px;}
 
 .ascii{font-family:'Courier New',monospace;font-size:12px;background:var(--surface);padding:16px 20px;border-radius:var(--r-md);border:1px solid var(--rule);white-space:pre;overflow-x:auto;line-height:1.5;color:var(--ink-soft);margin:24px 0;}
+.diagram{margin:36px 0;display:flex;flex-direction:column;align-items:center;}
+.diagram svg{max-width:100%;height:auto;}
+.diagram-caption{text-align:center;font-family:var(--font-ui);font-size:11.5px;color:var(--muted);font-style:italic;margin-top:10px;max-width:520px;line-height:1.5;}
 </style>
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
@@ -438,7 +441,26 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 
 <h3>El planner como bisagra entre Marketing y Publicidad</h3>
 <blockquote>El publicitario que más sabe de marketing, el marketinero que más sabe de publicidad.</blockquote>
-<div class="callout">Gráficamente: <strong>Marketing ∩ Publicidad = Planner = Estratega</strong>.</div>
+<div class="diagram">
+<svg viewBox="0 0 600 340" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Diagrama de Venn: Marketing intersección Publicidad igual Planner">
+  <g font-family="Inter, sans-serif">
+    <circle cx="220" cy="170" r="135" fill="rgba(4,120,87,0.18)" stroke="#047857" stroke-width="2"/>
+    <text x="115" y="105" text-anchor="middle" fill="#065f46" font-size="20" font-weight="700">Marketing</text>
+    <text x="115" y="125" text-anchor="middle" fill="#64748b" font-size="11">Estrategia de marca</text>
+
+    <circle cx="380" cy="170" r="135" fill="rgba(194,65,12,0.18)" stroke="#c2410c" stroke-width="2"/>
+    <text x="485" y="105" text-anchor="middle" fill="#c2410c" font-size="20" font-weight="700">Publicidad</text>
+    <text x="485" y="125" text-anchor="middle" fill="#64748b" font-size="11">Comunicación creativa</text>
+
+    <text x="300" y="165" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="28" font-weight="600">Planner</text>
+    <text x="300" y="190" text-anchor="middle" fill="#0f172a" font-size="12" font-weight="500">= Estratega</text>
+
+    <text x="300" y="305" text-anchor="middle" fill="#64748b" font-size="13" font-style="italic">"El publicitario que más sabe de marketing,</text>
+    <text x="300" y="323" text-anchor="middle" fill="#64748b" font-size="13" font-style="italic">el marketinero que más sabe de publicidad."</text>
+  </g>
+</svg>
+<div class="diagram-caption">El planner vive en la intersección — es bilingüe entre los dos mundos.</div>
+</div>
 
 <h3>Roles del estratega — los "muchos sombreros"</h3>
 <p>14 roles que un solo planner puede cumplir:</p>
@@ -484,8 +506,56 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 
 <h2 class="anchor-offset" id="b2-8">2.8 Cómo funciona el proceso de desarrollo de la comunicación (Modelo BDN)</h2>
 <p>El proceso conecta los objetivos de negocio con la idea creativa a través de eslabones donde intervienen Cliente, Planner y Creativos:</p>
-<div class="callout green">
-  <strong>Objetivos de Negocio y Marketing → Conducta deseada / Objetivo Comunicación → Pensamiento clave (Concepto Comunicación) → Idea creativa</strong>
+<div class="diagram">
+<svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Modelo BDN - Proceso de desarrollo de la comunicación">
+  <defs>
+    <marker id="bdnArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <text x="400" y="30" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="20" font-weight="500">Modelo BDN</text>
+    <text x="400" y="48" text-anchor="middle" fill="#64748b" font-size="11">3 saltos · 3 inputs · cómo el insight conecta con la idea creativa</text>
+
+    <rect x="10" y="120" width="170" height="80" rx="10" fill="#047857"/>
+    <text x="95" y="148" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">1</text>
+    <text x="95" y="168" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Objetivos de</text>
+    <text x="95" y="184" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Negocio + MKTG</text>
+
+    <line x1="185" y1="160" x2="220" y2="160" stroke="#047857" stroke-width="2" marker-end="url(#bdnArr)"/>
+    <text x="202" y="135" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">Target</text>
+    <text x="202" y="148" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">market</text>
+
+    <rect x="225" y="120" width="170" height="80" rx="10" fill="#047857"/>
+    <text x="310" y="148" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">2</text>
+    <text x="310" y="168" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Conducta deseada /</text>
+    <text x="310" y="184" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Obj. comunicación</text>
+
+    <line x1="400" y1="160" x2="435" y2="160" stroke="#047857" stroke-width="2" marker-end="url(#bdnArr)"/>
+    <text x="417" y="135" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">Insight del</text>
+    <text x="417" y="148" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">consumidor</text>
+
+    <rect x="440" y="120" width="170" height="80" rx="10" fill="#10b981"/>
+    <text x="525" y="148" text-anchor="middle" fill="#fff" font-size="10" font-weight="700">3</text>
+    <text x="525" y="168" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Pensamiento clave</text>
+    <text x="525" y="184" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">(Concepto)</text>
+
+    <line x1="615" y1="160" x2="650" y2="160" stroke="#047857" stroke-width="2" marker-end="url(#bdnArr)"/>
+    <text x="632" y="135" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">Estímulos</text>
+    <text x="632" y="148" text-anchor="middle" fill="#64748b" font-size="9" font-style="italic">creativos</text>
+
+    <rect x="655" y="120" width="135" height="80" rx="10" fill="#c2410c"/>
+    <text x="722" y="148" text-anchor="middle" fill="#fed7aa" font-size="10" font-weight="700">4</text>
+    <text x="722" y="170" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Idea</text>
+    <text x="722" y="186" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">creativa</text>
+
+    <text x="95" y="232" text-anchor="middle" fill="#16a34a" font-size="10" font-weight="700">CLIENTE</text>
+    <text x="310" y="232" text-anchor="middle" fill="#16a34a" font-size="10" font-weight="700">PLANNER (primario)</text>
+    <text x="525" y="232" text-anchor="middle" fill="#16a34a" font-size="10" font-weight="700">PLANNER + CREATIVO</text>
+    <text x="722" y="232" text-anchor="middle" fill="#16a34a" font-size="10" font-weight="700">CREATIVO (primario)</text>
+  </g>
+</svg>
+<div class="diagram-caption">El planner es responsable de los dos saltos centrales: del target al concepto.</div>
 </div>
 <p>Insumos en cada salto:</p>
 <ul>
@@ -598,14 +668,56 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 
 <h3>3.4.1 Marco conceptual</h3>
 <p>Proceso anual cuyo entregable es el <strong>Plan Anual de Marketing</strong>. Responsable: el <strong>Gerente de Marca (Brand Manager)</strong>. Recorre las etapas Análisis → Decisión → Ejecución → Control.</p>
-<div class="ascii">
-        [01 Análisis de oportunidad]
-       /                            \
-[06 Implementación]              [02 Objetivo de negocios]
-       |                              |
-[05 Planes de acción]      [03 Estrategia de Marketing]
-       \                            /
-        [04 Sub-estrategias de Marketing]
+<div class="diagram">
+<svg viewBox="0 0 720 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Modelo Hexágono de Tandem Canadá - 6 pasos secuenciales">
+  <defs>
+    <marker id="hxArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <path d="M 410 90 L 580 210" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#hxArr)"/>
+  <path d="M 620 270 L 620 320" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#hxArr)"/>
+  <path d="M 580 380 L 410 500" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#hxArr)"/>
+  <path d="M 310 500 L 140 380" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#hxArr)"/>
+  <path d="M 100 320 L 100 270" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#hxArr)"/>
+  <path d="M 140 210 L 310 90" stroke="#047857" stroke-width="2" fill="none" marker-end="url(#hxArr)"/>
+  <g font-family="Inter, sans-serif">
+    <text x="360" y="20" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">Análisis de oportunidad</text>
+    <circle cx="360" cy="60" r="42" fill="#047857"/>
+    <text x="360" y="55" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">PASO</text>
+    <text x="360" y="78" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">01</text>
+
+    <text x="620" y="195" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">Objetivo de negocios</text>
+    <circle cx="620" cy="240" r="42" fill="#047857"/>
+    <text x="620" y="235" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">PASO</text>
+    <text x="620" y="258" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">02</text>
+
+    <circle cx="620" cy="350" r="42" fill="#047857"/>
+    <text x="620" y="345" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">PASO</text>
+    <text x="620" y="368" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">03</text>
+    <text x="620" y="410" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">Estrategia de Marketing</text>
+
+    <circle cx="360" cy="530" r="42" fill="#047857"/>
+    <text x="360" y="525" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">PASO</text>
+    <text x="360" y="548" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">04</text>
+    <text x="360" y="580" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">Sub-estrategias del Mix</text>
+
+    <circle cx="100" cy="350" r="42" fill="#047857"/>
+    <text x="100" y="345" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">PASO</text>
+    <text x="100" y="368" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">05</text>
+    <text x="100" y="410" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">Planes de acción</text>
+
+    <text x="100" y="195" text-anchor="middle" fill="#0f172a" font-size="13" font-weight="600">Implementación</text>
+    <circle cx="100" cy="240" r="42" fill="#047857"/>
+    <text x="100" y="235" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">PASO</text>
+    <text x="100" y="258" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">06</text>
+
+    <text x="360" y="285" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="22" font-weight="500">Hexágono</text>
+    <text x="360" y="307" text-anchor="middle" fill="#64748b" font-size="12">Tandem Canadá</text>
+    <text x="360" y="325" text-anchor="middle" fill="#94a3b8" font-size="10">Plan Anual de Marketing</text>
+  </g>
+</svg>
+<div class="diagram-caption">Modelo cíclico de 6 pasos. Una vuelta completa por año = un Plan Anual de Marketing.</div>
 </div>
 
 <h3>3.4.2 Paso 1 — Análisis de Oportunidad</h3>
@@ -720,9 +832,78 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 
 <h3>3.5.2 Brand Arrow (GSK)</h3>
 <p>Modelo piramidal estilo "casa": Pico = <strong>Esencia</strong>; luego <strong>Valores</strong>, <strong>Personalidad / Beneficio Emocional</strong>, <strong>Key Consumer Insight</strong> (eje central), <strong>Beneficio Racional / Razón para creer</strong>, <strong>Target Market</strong>; base = <strong>Mercado</strong>.</p>
+<div class="diagram">
+<svg viewBox="0 0 540 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brand Arrow de GSK">
+  <g font-family="Inter, sans-serif">
+    <polygon points="270,30 240,80 300,80" fill="#065f46"/>
+    <text x="270" y="65" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">Esencia</text>
+
+    <polygon points="240,80 220,130 320,130 300,80" fill="#047857"/>
+    <text x="270" y="113" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Valores</text>
+
+    <polygon points="220,130 195,180 345,180 320,130" fill="#10b981"/>
+    <text x="270" y="155" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Personalidad /</text>
+    <text x="270" y="170" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Beneficio Emocional</text>
+
+    <polygon points="195,180 165,230 375,230 345,180" fill="#fef3c7" stroke="#ca8a04" stroke-width="1.5"/>
+    <text x="270" y="206" text-anchor="middle" fill="#854d0e" font-size="10" font-weight="700">KEY CONSUMER INSIGHT</text>
+    <text x="270" y="220" text-anchor="middle" fill="#854d0e" font-size="10" font-style="italic">eje central</text>
+
+    <polygon points="165,230 140,280 400,280 375,230" fill="#10b981"/>
+    <text x="270" y="255" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Beneficio Racional /</text>
+    <text x="270" y="270" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Razón para creer</text>
+
+    <polygon points="140,280 115,330 425,330 400,280" fill="#047857"/>
+    <text x="270" y="312" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Target Market</text>
+
+    <polygon points="115,330 90,380 450,380 425,330" fill="#065f46"/>
+    <text x="270" y="362" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">Mercado</text>
+
+    <text x="270" y="430" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="20" font-weight="500">Brand Arrow</text>
+    <text x="270" y="450" text-anchor="middle" fill="#64748b" font-size="12">GSK</text>
+  </g>
+</svg>
+<div class="diagram-caption">Modelo piramidal de GlaxoSmithKline. El insight (banda amarilla) atraviesa la pirámide como eje central.</div>
+</div>
 
 <h3>3.5.3 Brand Key (Unilever)</h3>
 <p>Diagrama radial con base piramidal: núcleo = <strong>Esencia</strong>; cuatro cuadrantes = <strong>Valores &amp; Personalidad / Beneficios / Razón para creer / Discriminador</strong>; base piramidal = <strong>Insight → Target → Contexto Competitivo</strong>.</p>
+<div class="diagram">
+<svg viewBox="0 0 600 560" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brand Key de Unilever">
+  <g font-family="Inter, sans-serif">
+    <text x="300" y="30" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="20" font-weight="500">Brand Key</text>
+    <text x="300" y="50" text-anchor="middle" fill="#64748b" font-size="12">Unilever</text>
+
+    <path d="M 300 240 L 220 130 Q 300 105 380 130 Z" fill="#10b981"/>
+    <text x="300" y="155" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Valores y</text>
+    <text x="300" y="170" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Personalidad</text>
+
+    <path d="M 300 240 L 430 175 Q 455 240 430 305 Z" fill="#047857"/>
+    <text x="395" y="240" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Beneficios</text>
+
+    <path d="M 300 240 L 380 350 Q 300 375 220 350 Z" fill="#10b981"/>
+    <text x="300" y="320" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Razón</text>
+    <text x="300" y="335" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">para creer</text>
+
+    <path d="M 300 240 L 170 305 Q 145 240 170 175 Z" fill="#047857"/>
+    <text x="205" y="240" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Discriminador</text>
+
+    <circle cx="300" cy="240" r="50" fill="#065f46"/>
+    <text x="300" y="237" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">ESENCIA</text>
+    <text x="300" y="255" text-anchor="middle" fill="#a7f3d0" font-size="9">núcleo</text>
+
+    <rect x="100" y="420" width="400" height="36" fill="#fef9c3" stroke="#ca8a04" stroke-width="1.5"/>
+    <text x="300" y="442" text-anchor="middle" fill="#854d0e" font-size="11" font-weight="600">Consumer Insight</text>
+
+    <rect x="150" y="456" width="300" height="36" fill="#fde68a" stroke="#ca8a04" stroke-width="1.5"/>
+    <text x="300" y="478" text-anchor="middle" fill="#854d0e" font-size="11" font-weight="600">Target Market</text>
+
+    <rect x="200" y="492" width="200" height="36" fill="#fcd34d" stroke="#ca8a04" stroke-width="1.5"/>
+    <text x="300" y="514" text-anchor="middle" fill="#854d0e" font-size="11" font-weight="600">Contexto Competitivo</text>
+  </g>
+</svg>
+<div class="diagram-caption">Cuatro cuadrantes alrededor de la esencia, sobre una base piramidal que arranca con el insight.</div>
+</div>
 
 <h3>3.5.4 Brand Forward (Brand Healer)</h3>
 <p>Dos triángulos enfrentados:</p>
@@ -730,6 +911,39 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
   <li><strong>Plataforma Estratégica:</strong> Enfoque Competitivo + Target + Beneficio Racional + Racional.</li>
   <li><strong>Relación con el cliente:</strong> Key Consumer Insight + Beneficio Emocional + Personalidad + Valores + Esencia.</li>
 </ul>
+<div class="diagram">
+<svg viewBox="0 0 620 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Brand Forward de Brand Healer">
+  <g font-family="Inter, sans-serif">
+    <text x="310" y="30" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="20" font-weight="500">Brand Forward</text>
+    <text x="310" y="50" text-anchor="middle" fill="#64748b" font-size="12">Brand Healer</text>
+
+    <polygon points="50,80 290,190 50,300" fill="#047857"/>
+    <text x="120" y="115" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">PLATAFORMA</text>
+    <text x="120" y="130" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">ESTRATÉGICA</text>
+    <text x="120" y="160" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Enfoque Competitivo</text>
+    <text x="120" y="178" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Target Market</text>
+    <text x="120" y="196" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Beneficio Racional</text>
+    <text x="120" y="214" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Racional</text>
+
+    <polygon points="570,80 330,190 570,300" fill="#c2410c"/>
+    <text x="500" y="115" text-anchor="middle" fill="#fed7aa" font-size="9" font-weight="700">RELACIÓN</text>
+    <text x="500" y="130" text-anchor="middle" fill="#fed7aa" font-size="9" font-weight="700">CON EL CLIENTE</text>
+    <text x="500" y="155" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Insight</text>
+    <text x="500" y="173" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Beneficio Emocional</text>
+    <text x="500" y="191" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Personalidad</text>
+    <text x="500" y="209" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Valores</text>
+    <text x="500" y="227" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">Esencia</text>
+
+    <circle cx="310" cy="190" r="32" fill="#065f46"/>
+    <text x="310" y="186" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">PUNTO</text>
+    <text x="310" y="200" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">CLAVE</text>
+
+    <text x="310" y="330" text-anchor="middle" fill="#64748b" font-size="11" font-style="italic">Plataforma estratégica (interna) + Relación con el cliente (emocional)</text>
+    <text x="310" y="348" text-anchor="middle" fill="#64748b" font-size="11" font-style="italic">se encuentran en el punto clave de la marca.</text>
+  </g>
+</svg>
+<div class="diagram-caption">Dos triángulos enfrentados: lo estratégico interno encuentra lo emocional externo en un punto clave.</div>
+</div>
 <div class="callout">Estos cuatro modelos son <strong>alternativos al Hexágono completo</strong>: cubren especialmente el bloque de Estrategia de Marca, pero NO el ciclo Análisis-Implementación.</div>
 
 <h2 class="anchor-offset" id="b3-6">3.6 PLANEAMIENTO AGENCIA — Modelo DIAMANTE (Leslie Butterfield)</h2>
@@ -739,21 +953,48 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 <p><strong>Meta:</strong> desarrollar mejores comunicaciones de marca, más destacadas, relevantes y eficientes.</p>
 <p><strong>Cronología:</strong> se inicia una vez que el cliente terminó su proceso de planificación de marca (de ahí <em>"Planeamiento después del Planeamiento"</em>). Si el cliente no lo hizo, se lo trabaja conjuntamente — es imposible desarrollar comunicación sin pilares estratégicos.</p>
 <p><strong>Forma gráfica:</strong> rombo. Empieza y termina en un punto único; el ancho de cada etapa representa la cantidad de recursos y trabajo. <strong>No es medida de importancia, sino de carga y duración.</strong></p>
-<div class="ascii">
-          ▲
-         /1\           ← Definición del problema comercial
-        /---\
-       /  2  \         ← Interrogación del Mix de Marketing
-      /-------\
-     /         \
-    /     3     \      ← Análisis de la situación total del marketing
-     \         /
-      \-------/
-       \  4  /         ← Análisis de la relación del consumidor con la marca
-        \---/
-         \5/           ← Conclusión de un rol realista para la publicidad
-          ▼
-         /6\           ← Definición del objetivo y estrategia de comunicación
+<div class="diagram">
+<svg viewBox="0 0 700 580" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Modelo Diamante de Butterfield - 6 pasos">
+  <defs>
+    <marker id="dmArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#065f46"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <polygon points="350,40 320,100 380,100" fill="#065f46"/>
+    <text x="350" y="85" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">1</text>
+    <text x="420" y="80" text-anchor="start" fill="#0f172a" font-size="12" font-weight="600">Definición del problema comercial</text>
+    <text x="420" y="98" text-anchor="start" fill="#64748b" font-size="10">Entender por qué nos llama el cliente</text>
+
+    <polygon points="320,100 270,180 430,180 380,100" fill="#047857"/>
+    <text x="350" y="148" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">2</text>
+    <text x="450" y="143" text-anchor="start" fill="#0f172a" font-size="12" font-weight="600">Interrogación del Mix de Marketing</text>
+    <text x="450" y="161" text-anchor="start" fill="#64748b" font-size="10">🛡️ 1ª línea de defensa de la creatividad</text>
+
+    <polygon points="270,180 150,300 550,300 430,180" fill="#10b981"/>
+    <text x="350" y="240" text-anchor="middle" fill="#fff" font-size="18" font-weight="700">3</text>
+    <text x="350" y="263" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Análisis de la situación total del marketing</text>
+    <text x="350" y="282" text-anchor="middle" fill="#a7f3d0" font-size="10">Marca · Mercado · Contexto · Audiencias (etapa más demandante)</text>
+
+    <polygon points="150,300 270,400 430,400 550,300" fill="#047857"/>
+    <text x="350" y="345" text-anchor="middle" fill="#fff" font-size="14" font-weight="700">4</text>
+    <text x="350" y="368" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Análisis relación consumidor-marca</text>
+    <text x="350" y="385" text-anchor="middle" fill="#a7f3d0" font-size="10">→ INSIGHT</text>
+
+    <polygon points="270,400 320,470 380,470 430,400" fill="#10b981"/>
+    <text x="350" y="430" text-anchor="middle" fill="#fff" font-size="13" font-weight="700">5</text>
+    <text x="350" y="450" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">Rol realista para la publicidad</text>
+
+    <polygon points="320,470 350,510 380,470" fill="#065f46"/>
+    <line x1="350" y1="510" x2="350" y2="528" stroke="#065f46" stroke-width="2" marker-end="url(#dmArr)"/>
+
+    <rect x="190" y="535" width="320" height="38" rx="8" fill="#c2410c"/>
+    <text x="350" y="554" text-anchor="middle" fill="#fed7aa" font-size="9" font-weight="700">PASO 6 — RESULTADO</text>
+    <text x="350" y="570" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Objetivo y estrategia de comunicación</text>
+    <text x="525" y="555" text-anchor="start" fill="#64748b" font-size="10">🛡️ 2ª línea</text>
+  </g>
+</svg>
+<div class="diagram-caption">El ancho de cada banda es la <strong>carga de trabajo</strong>, no la importancia. Paso 3 es el más demandante. Paso 6 emerge como el output del proceso.</div>
 </div>
 <div class="callout warm">Asegurar el cierre de cada etapa antes de pasar a la siguiente. Estar dispuestos a repetir etapas si no aportan claridad.</div>
 
@@ -821,10 +1062,49 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 
 <h2 class="anchor-offset" id="b3-7">3.7 Modelo JWT — Ciclo de Planeamiento (Stephen King)</h2>
 <p>Cinco preguntas circulares:</p>
-<div class="ascii">
-[Where are we?] → [Why are we there?] → [Where could we be?]
-       ↑                                          ↓
-[Are we getting there?] ← [How could we get there?]
+<div class="diagram">
+<svg viewBox="0 0 640 480" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ciclo JWT de Stephen King - 5 preguntas circulares">
+  <defs>
+    <marker id="jwtArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <path d="M 380 75 Q 510 100 510 195" fill="none" stroke="#047857" stroke-width="2" marker-end="url(#jwtArr)"/>
+  <path d="M 510 245 Q 530 350 460 400" fill="none" stroke="#047857" stroke-width="2" marker-end="url(#jwtArr)"/>
+  <path d="M 410 425 Q 320 455 230 425" fill="none" stroke="#047857" stroke-width="2" marker-end="url(#jwtArr)"/>
+  <path d="M 180 400 Q 110 350 130 245" fill="none" stroke="#047857" stroke-width="2" marker-end="url(#jwtArr)"/>
+  <path d="M 130 195 Q 130 100 260 75" fill="none" stroke="#047857" stroke-width="2" marker-end="url(#jwtArr)"/>
+  <g font-family="Inter, sans-serif">
+    <circle cx="320" cy="60" r="50" fill="#047857"/>
+    <text x="320" y="55" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">1</text>
+    <text x="320" y="73" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">¿Dónde estamos?</text>
+
+    <circle cx="510" cy="220" r="50" fill="#047857"/>
+    <text x="510" y="213" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">2</text>
+    <text x="510" y="228" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">¿Por qué</text>
+    <text x="510" y="243" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">estamos ahí?</text>
+
+    <circle cx="435" cy="420" r="50" fill="#047857"/>
+    <text x="435" y="413" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">3</text>
+    <text x="435" y="428" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">¿Dónde podríamos</text>
+    <text x="435" y="443" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">estar?</text>
+
+    <circle cx="205" cy="420" r="50" fill="#047857"/>
+    <text x="205" y="410" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">4</text>
+    <text x="205" y="424" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">¿Cómo podríamos</text>
+    <text x="205" y="439" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">llegar ahí?</text>
+
+    <circle cx="130" cy="220" r="50" fill="#047857"/>
+    <text x="130" y="213" text-anchor="middle" fill="#a7f3d0" font-size="10" font-weight="700">5</text>
+    <text x="130" y="228" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">¿Estamos</text>
+    <text x="130" y="243" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">llegando ahí?</text>
+
+    <text x="320" y="225" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="22" font-weight="500">Ciclo JWT</text>
+    <text x="320" y="247" text-anchor="middle" fill="#64748b" font-size="12">Stephen King</text>
+    <text x="320" y="265" text-anchor="middle" fill="#94a3b8" font-size="10">Análisis ↔ Control</text>
+  </g>
+</svg>
+<div class="diagram-caption">Cinco preguntas en bucle — entronca el análisis con el control. La 5ª pregunta vuelve a abrir la 1ª.</div>
 </div>
 <ol>
   <li><strong>¿Dónde estamos?</strong> (situación actual)</li>
@@ -852,15 +1132,35 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 <h2 class="anchor-offset" id="b3-9">3.9 Jerarquía y Tipos de Objetivos</h2>
 
 <h3>Jerarquía descendente</h3>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>Nivel</th><th>Tipo</th><th>Definición</th></tr></thead>
-  <tbody>
-    <tr><td>1°</td><td>Negocio</td><td>El más amplio, el que persigue toda la operación del cliente.</td></tr>
-    <tr><td>2°</td><td>Marketing</td><td>Lo que se quiere lograr con la inversión del marketing de la marca.</td></tr>
-    <tr><td>3°</td><td>Comunicación</td><td>Lo que se pretende que haga la comunicación. <strong>El corazón del brief.</strong></td></tr>
-  </tbody>
-</table>
+<div class="diagram">
+<svg viewBox="0 0 540 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jerarquía de objetivos: Negocio, Marketing, Comunicación">
+  <defs>
+    <marker id="joArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <rect x="40" y="20" width="460" height="60" rx="10" fill="#065f46"/>
+    <text x="60" y="44" text-anchor="start" fill="#a7f3d0" font-size="11" font-weight="700">1°</text>
+    <text x="270" y="48" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">Objetivo de Negocio</text>
+    <text x="270" y="68" text-anchor="middle" fill="#a7f3d0" font-size="11">Toda la operación del cliente · Ventas, Profit, Market Share</text>
+
+    <line x1="270" y1="85" x2="270" y2="105" stroke="#047857" stroke-width="2" marker-end="url(#joArr)"/>
+
+    <rect x="100" y="110" width="340" height="60" rx="10" fill="#047857"/>
+    <text x="120" y="134" text-anchor="start" fill="#a7f3d0" font-size="11" font-weight="700">2°</text>
+    <text x="270" y="138" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">Objetivo de Marketing</text>
+    <text x="270" y="158" text-anchor="middle" fill="#a7f3d0" font-size="11">Inversión de marca · Penetración, Switching, Retención</text>
+
+    <line x1="270" y1="175" x2="270" y2="195" stroke="#047857" stroke-width="2" marker-end="url(#joArr)"/>
+
+    <rect x="160" y="200" width="220" height="60" rx="10" fill="#c2410c"/>
+    <text x="180" y="224" text-anchor="start" fill="#fed7aa" font-size="11" font-weight="700">3°</text>
+    <text x="270" y="228" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">Objetivo de Comunicación</text>
+    <text x="270" y="248" text-anchor="middle" fill="#fed7aa" font-size="10">El corazón del brief · Lo que la agencia firma</text>
+  </g>
+</svg>
+<div class="diagram-caption">La agencia es responsable solo del 3° nivel. Comprometerse con el 1° o el 2° es un error: la agencia no controla las otras P del mix.</div>
 </div>
 
 <h3>Tabla maestra — Tipos de Objetivos</h3>
@@ -936,6 +1236,64 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 </ol>
 
 <h3>Los 5 elementos de la Copy Strategy</h3>
+
+<div class="diagram">
+<svg viewBox="0 0 720 360" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Los 5 elementos de la Copy Strategy">
+  <g font-family="Inter, sans-serif">
+    <text x="360" y="30" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="20" font-weight="500">Copy Strategy</text>
+    <text x="360" y="50" text-anchor="middle" fill="#64748b" font-size="11">Núcleo de todo brief — guía al trabajo creativo</text>
+
+    <rect x="30" y="90" width="120" height="170" rx="10" fill="#047857"/>
+    <text x="90" y="118" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">NÚCLEO 1</text>
+    <text x="90" y="148" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">A</text>
+    <text x="90" y="180" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Audiencia</text>
+    <text x="90" y="195" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">objetivo</text>
+    <text x="90" y="225" text-anchor="middle" fill="#a7f3d0" font-size="9">Duras +</text>
+    <text x="90" y="240" text-anchor="middle" fill="#a7f3d0" font-size="9">blandas</text>
+
+    <rect x="160" y="90" width="120" height="170" rx="10" fill="#10b981"/>
+    <text x="220" y="118" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">EXTRA (BDN)</text>
+    <text x="220" y="148" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">I</text>
+    <text x="220" y="180" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Insight</text>
+    <text x="220" y="195" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">consumidor</text>
+    <text x="220" y="225" text-anchor="middle" fill="#a7f3d0" font-size="9">Por qué</text>
+    <text x="220" y="240" text-anchor="middle" fill="#a7f3d0" font-size="9">hacen</text>
+
+    <rect x="290" y="90" width="120" height="170" rx="10" fill="#047857"/>
+    <text x="350" y="118" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">NÚCLEO 2</text>
+    <text x="350" y="148" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">P</text>
+    <text x="350" y="180" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Propuesta</text>
+    <text x="350" y="195" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">de marca</text>
+    <text x="350" y="225" text-anchor="middle" fill="#a7f3d0" font-size="9">Simple ·</text>
+    <text x="350" y="240" text-anchor="middle" fill="#a7f3d0" font-size="9">distintiva</text>
+
+    <rect x="420" y="90" width="120" height="170" rx="10" fill="#047857"/>
+    <text x="480" y="118" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">NÚCLEO 3</text>
+    <text x="480" y="148" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">R</text>
+    <text x="480" y="180" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Razón para</text>
+    <text x="480" y="195" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">creer (RTB)</text>
+    <text x="480" y="225" text-anchor="middle" fill="#a7f3d0" font-size="9">Soporte ·</text>
+    <text x="480" y="240" text-anchor="middle" fill="#a7f3d0" font-size="9">racional</text>
+
+    <rect x="550" y="90" width="120" height="170" rx="10" fill="#10b981"/>
+    <text x="610" y="118" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">EXTRA (BDN)</text>
+    <text x="610" y="148" text-anchor="middle" fill="#fff" font-size="22" font-weight="700">P</text>
+    <text x="610" y="180" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">Personalidad</text>
+    <text x="610" y="195" text-anchor="middle" fill="#fff" font-size="12" font-weight="600">de marca</text>
+    <text x="610" y="225" text-anchor="middle" fill="#a7f3d0" font-size="9">Tono ·</text>
+    <text x="610" y="240" text-anchor="middle" fill="#a7f3d0" font-size="9">espíritu</text>
+
+    <rect x="30" y="285" width="380" height="50" rx="8" fill="#ecfdf5" stroke="#047857" stroke-width="1.5"/>
+    <text x="220" y="305" text-anchor="middle" fill="#065f46" font-size="11" font-weight="700">NÚCLEO BÁSICO — Sin alguno NO HAY estrategia</text>
+    <text x="220" y="324" text-anchor="middle" fill="#065f46" font-size="11">Audiencia + Propuesta + Racional</text>
+
+    <rect x="420" y="285" width="270" height="50" rx="8" fill="#fef3c7" stroke="#10b981" stroke-width="1.5"/>
+    <text x="555" y="305" text-anchor="middle" fill="#065f46" font-size="11" font-weight="700">COMPLEMENTOS BDN</text>
+    <text x="555" y="324" text-anchor="middle" fill="#065f46" font-size="11">Insight + Personalidad</text>
+  </g>
+</svg>
+<div class="diagram-caption">Los 3 núcleos básicos (A · P · R) son obligatorios. Insight y Personalidad enriquecen la estrategia desde el modelo BDN.</div>
+</div>
 
 <h4>1. Audiencia Objetivo</h4>
 <ul>
@@ -1071,10 +1429,35 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 </div>
 
 <h2 class="anchor-offset" id="b4-5">4.5 Jerarquía de Estrategias</h2>
-<div class="ascii">
-01. Estrategia Corporativa
-02. Estrategia de Negocios
-03. Estrategia Operativa
+<div class="diagram">
+<svg viewBox="0 0 540 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Jerarquía de Estrategias">
+  <defs>
+    <marker id="jeArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <rect x="40" y="20" width="460" height="60" rx="10" fill="#065f46"/>
+    <text x="65" y="44" text-anchor="start" fill="#a7f3d0" font-size="11" font-weight="700">01</text>
+    <text x="270" y="48" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">Estrategia Corporativa</text>
+    <text x="270" y="68" text-anchor="middle" fill="#a7f3d0" font-size="11">Toda la organización</text>
+
+    <line x1="270" y1="85" x2="270" y2="105" stroke="#047857" stroke-width="2" marker-end="url(#jeArr)"/>
+
+    <rect x="100" y="110" width="340" height="60" rx="10" fill="#047857"/>
+    <text x="125" y="134" text-anchor="start" fill="#a7f3d0" font-size="11" font-weight="700">02</text>
+    <text x="270" y="138" text-anchor="middle" fill="#fff" font-size="16" font-weight="600">Estrategia de Negocios</text>
+    <text x="270" y="158" text-anchor="middle" fill="#a7f3d0" font-size="11">Por unidad de negocio</text>
+
+    <line x1="270" y1="175" x2="270" y2="195" stroke="#047857" stroke-width="2" marker-end="url(#jeArr)"/>
+
+    <rect x="160" y="200" width="220" height="60" rx="10" fill="#10b981"/>
+    <text x="185" y="224" text-anchor="start" fill="#fff" font-size="11" font-weight="700">03</text>
+    <text x="270" y="228" text-anchor="middle" fill="#fff" font-size="15" font-weight="600">Estrategia Operativa</text>
+    <text x="270" y="248" text-anchor="middle" fill="#a7f3d0" font-size="10">Áreas funcionales</text>
+  </g>
+</svg>
+<div class="diagram-caption">De más amplia a más específica. Cada nivel responde al de arriba.</div>
 </div>
 <h3>Niveles de Objetivos, Estrategias y Tácticas</h3>
 <div class="table-wrap">
@@ -1091,32 +1474,105 @@ details.corto[open] .corto-chevron{transform:rotate(180deg);}
 </div>
 
 <h2 class="anchor-offset" id="b4-6">4.6 Dirección Comercial — Cascada estratégica</h2>
-<div class="ascii">
-Visión
-  ↓
-Misión
-  ↓
-Plan de Negocios
-  ↓
-Plan de Marketing
-  ↓
-Objetivos / Metas
-  ├── Corporativos
-  ├── Divisionales
-  └── Departamentales
+<div class="diagram">
+<svg viewBox="0 0 540 540" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cascada estratégica de la Dirección Comercial">
+  <defs>
+    <marker id="csArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <rect x="180" y="20" width="180" height="50" rx="10" fill="#065f46"/>
+    <text x="270" y="42" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">FILOSOFÍA</text>
+    <text x="270" y="58" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Visión</text>
+
+    <line x1="270" y1="75" x2="270" y2="95" stroke="#047857" stroke-width="2" marker-end="url(#csArr)"/>
+
+    <rect x="180" y="100" width="180" height="50" rx="10" fill="#065f46"/>
+    <text x="270" y="122" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">FILOSOFÍA</text>
+    <text x="270" y="138" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Misión</text>
+
+    <line x1="270" y1="155" x2="270" y2="175" stroke="#047857" stroke-width="2" marker-end="url(#csArr)"/>
+
+    <rect x="150" y="180" width="240" height="50" rx="10" fill="#047857"/>
+    <text x="270" y="202" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">PLAN DE LA COMPAÑÍA</text>
+    <text x="270" y="218" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Plan de Negocios</text>
+
+    <line x1="270" y1="235" x2="270" y2="255" stroke="#047857" stroke-width="2" marker-end="url(#csArr)"/>
+
+    <rect x="150" y="260" width="240" height="50" rx="10" fill="#047857"/>
+    <text x="270" y="282" text-anchor="middle" fill="#a7f3d0" font-size="9" font-weight="700">PLAN DE MARCA</text>
+    <text x="270" y="298" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Plan de Marketing</text>
+
+    <line x1="270" y1="315" x2="270" y2="335" stroke="#047857" stroke-width="2" marker-end="url(#csArr)"/>
+
+    <rect x="130" y="340" width="280" height="44" rx="10" fill="#10b981"/>
+    <text x="270" y="367" text-anchor="middle" fill="#fff" font-size="14" font-weight="600">Objetivos / Metas</text>
+
+    <line x1="200" y1="384" x2="115" y2="425" stroke="#10b981" stroke-width="2" marker-end="url(#csArr)"/>
+    <line x1="270" y1="384" x2="270" y2="425" stroke="#10b981" stroke-width="2" marker-end="url(#csArr)"/>
+    <line x1="340" y1="384" x2="425" y2="425" stroke="#10b981" stroke-width="2" marker-end="url(#csArr)"/>
+
+    <rect x="20" y="435" width="180" height="60" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="110" y="458" text-anchor="middle" fill="#065f46" font-size="12" font-weight="600">Corporativos</text>
+    <text x="110" y="478" text-anchor="middle" fill="#64748b" font-size="10">Toda la compañía</text>
+
+    <rect x="180" y="435" width="180" height="60" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="270" y="458" text-anchor="middle" fill="#065f46" font-size="12" font-weight="600">Divisionales</text>
+    <text x="270" y="478" text-anchor="middle" fill="#64748b" font-size="10">Por unidad / marca</text>
+
+    <rect x="340" y="435" width="180" height="60" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+    <text x="430" y="458" text-anchor="middle" fill="#065f46" font-size="12" font-weight="600">Departamentales</text>
+    <text x="430" y="478" text-anchor="middle" fill="#64748b" font-size="10">Operativos / Áreas</text>
+  </g>
+</svg>
+<div class="diagram-caption">La filosofía de compañía baja a planes y los planes bajan a metas concretas por nivel de la organización.</div>
 </div>
 
 <h2 class="anchor-offset" id="b4-7">4.7 Las 4 preguntas guía del Planeamiento</h2>
-<div class="table-wrap">
-<table>
-  <thead><tr><th>#</th><th>Etapa</th><th>Pregunta</th></tr></thead>
-  <tbody>
-    <tr><td>A</td><td>Análisis de Situación</td><td>¿Dónde estamos?</td></tr>
-    <tr><td>B</td><td>Definición de Objetivos</td><td>¿Dónde queremos ir?</td></tr>
-    <tr><td>C</td><td>Definición de Estrategias</td><td>¿Cómo llegaremos?</td></tr>
-    <tr><td>D</td><td>Desarrollo de Acciones</td><td>¿Qué haremos?</td></tr>
-  </tbody>
-</table>
+<div class="diagram">
+<svg viewBox="0 0 720 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Las 4 preguntas guía del planeamiento">
+  <defs>
+    <marker id="pgArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#047857"/>
+    </marker>
+  </defs>
+  <g font-family="Inter, sans-serif">
+    <rect x="10" y="60" width="160" height="110" rx="10" fill="#047857"/>
+    <text x="90" y="90" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="700">A · ANÁLISIS</text>
+    <text x="90" y="118" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">¿Dónde</text>
+    <text x="90" y="135" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">estamos?</text>
+    <text x="90" y="158" text-anchor="middle" fill="#a7f3d0" font-size="9">FODA</text>
+
+    <line x1="175" y1="115" x2="200" y2="115" stroke="#047857" stroke-width="2" marker-end="url(#pgArr)"/>
+
+    <rect x="205" y="60" width="160" height="110" rx="10" fill="#047857"/>
+    <text x="285" y="90" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="700">B · OBJETIVOS</text>
+    <text x="285" y="118" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">¿Dónde queremos</text>
+    <text x="285" y="135" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">ir?</text>
+    <text x="285" y="158" text-anchor="middle" fill="#a7f3d0" font-size="9">CP / MP / LP</text>
+
+    <line x1="370" y1="115" x2="395" y2="115" stroke="#047857" stroke-width="2" marker-end="url(#pgArr)"/>
+
+    <rect x="400" y="60" width="160" height="110" rx="10" fill="#047857"/>
+    <text x="480" y="90" text-anchor="middle" fill="#a7f3d0" font-size="11" font-weight="700">C · ESTRATEGIA</text>
+    <text x="480" y="118" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">¿Cómo</text>
+    <text x="480" y="135" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">llegaremos?</text>
+    <text x="480" y="158" text-anchor="middle" fill="#a7f3d0" font-size="9">Ansoff · GE</text>
+
+    <line x1="565" y1="115" x2="590" y2="115" stroke="#047857" stroke-width="2" marker-end="url(#pgArr)"/>
+
+    <rect x="595" y="60" width="115" height="110" rx="10" fill="#10b981"/>
+    <text x="652" y="90" text-anchor="middle" fill="#fff" font-size="11" font-weight="700">D · ACCIÓN</text>
+    <text x="652" y="118" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">¿Qué</text>
+    <text x="652" y="135" text-anchor="middle" fill="#fff" font-size="13" font-weight="600">haremos?</text>
+    <text x="652" y="158" text-anchor="middle" fill="#a7f3d0" font-size="9">Tácticas</text>
+
+    <text x="360" y="30" text-anchor="middle" fill="#065f46" font-family="Fraunces, serif" font-style="italic" font-size="18" font-weight="500">Las 4 preguntas guía</text>
+    <text x="360" y="200" text-anchor="middle" fill="#94a3b8" font-size="10" font-style="italic">Análisis → Objetivos → Estrategia → Acción</text>
+  </g>
+</svg>
+<div class="diagram-caption">Las 4 preguntas estructuran cualquier plan estratégico. Cada herramienta del bloque IV cae en uno de estos pasos.</div>
 </div>
 
 <h2 class="anchor-offset" id="b4-8">4.8 Las 5 preguntas de JWT (Stephen King)</h2>
