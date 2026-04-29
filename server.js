@@ -62,6 +62,23 @@ const materias = [
         descripcion: 'Todos los conceptos, gráficos SVG y videos de Saussure embebidos.',
       }
     ]
+  },
+  {
+    slug: 'planificacion',
+    nombre: 'Planificación Estratégica',
+    año: '2do año',
+    carrera: 'Lic. en Publicidad',
+    descripcion: 'Account Planning, modelos Hexágono y Diamante, Copy Strategy y bases del planeamiento. Profs. Balaz · Moretta · Wainerman.',
+    color: '#047857',
+    actualizacion: '29 abr 2026',
+    recursos: [
+      {
+        titulo: 'Resumen integral — Clases 1, 2 y 3',
+        tipo: 'resumen',
+        url: '/estudiante/planificacion/resumen',
+        descripcion: 'Marco general, Account Planning, Hexágono (cliente), Diamante (agencia), objetivos, Copy Strategy, FODA, PESTEL y matrices.',
+      }
+    ]
   }
 ]
 
@@ -93,6 +110,10 @@ app.get('/estudiante/propaganda/flashcards', (req, res) => {
 
 app.get('/estudiante/propaganda/quiz', (req, res) => {
   res.sendFile(path.join(__dirname, 'content', 'propaganda', 'quiz.html'))
+})
+
+app.get('/estudiante/planificacion/resumen', (req, res) => {
+  res.sendFile(path.join(__dirname, 'content', 'planificacion', 'resumen.html'))
 })
 
 app.get('/slug', (req, res) => {

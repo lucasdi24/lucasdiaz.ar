@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resumen — Planificación Estratégica</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&display=swap');
+
+:root {
+  --ink:         #0f172a;
+  --ink-soft:    #334155;
+  --muted:       #64748b;
+  --fine:        #94a3b8;
+  --rule:        #e2e8f0;
+  --rule-soft:   #f1f5f9;
+  --paper:       #fbfaf6;
+  --card:        #ffffff;
+  --surface:     #f8fafc;
+  --accent:      #047857;
+  --accent-dark: #065f46;
+  --accent-soft: #ecfdf5;
+  --warm:        #c2410c;
+  --warm-soft:   #fff7ed;
+  --warm-border: #fed7aa;
+  --ok:          #047857;
+  --ok-soft:     #ecfdf5;
+  --yellow-soft: #fef9c3;
+  --yellow-text: #854d0e;
+  --shadow-sm:   0 1px 2px rgba(15,23,42,.04),0 1px 3px rgba(15,23,42,.06);
+  --shadow-md:   0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+  --shadow-lg:   0 10px 15px -3px rgba(15,23,42,.08),0 4px 6px -4px rgba(15,23,42,.05);
+  --shadow-xl:   0 20px 25px -5px rgba(15,23,42,.10),0 8px 10px -6px rgba(15,23,42,.08);
+  --r-sm: 6px; --r-md: 10px; --r-lg: 14px; --r-xl: 20px;
+  --font-ui:    'Inter', -apple-system, sans-serif;
+  --font-serif: 'Fraunces', Georgia, serif;
+}
+
+*{box-sizing:border-box;}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+body{margin:0;font-family:var(--font-serif);font-size:18px;line-height:1.7;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;}
+::selection{background:var(--accent-soft);color:var(--accent-dark);}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:10px;border:2px solid var(--paper);}
+::-webkit-scrollbar-thumb:hover{background:#94a3b8;}
+
+.read-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--accent) 0%,var(--warm) 100%);z-index:2100;transition:width .15s ease;pointer-events:none;}
+
+.layout{display:flex;align-items:flex-start;max-width:1400px;margin:0 auto;padding-left:300px;transition:padding-left .3s ease;}
+body.sidebar-collapsed .layout{padding-left:0;}
+.content{flex:1;min-width:0;}
+.wrap{max-width:760px;margin:0 auto;padding:80px 40px 140px;}
+
+.sidebar{position:fixed;top:0;left:0;height:100vh;width:300px;overflow-y:auto;padding:32px 20px 40px 28px;border-right:1px solid var(--rule);background:var(--card);font-family:var(--font-ui);z-index:999;transform:translateX(0);transition:transform .3s cubic-bezier(.25,.8,.25,1);box-shadow:1px 0 0 var(--rule);}
+body.sidebar-collapsed .sidebar{transform:translateX(-100%);box-shadow:none;}
+.sidebar-close{display:none;position:absolute;top:14px;right:14px;width:30px;height:30px;border:1px solid var(--rule);background:var(--card);border-radius:7px;cursor:pointer;font-size:17px;line-height:1;color:var(--muted);align-items:center;justify-content:center;transition:all .15s ease;}
+.sidebar-close:hover{color:var(--ink);background:var(--surface);}
+.sidebar .sb-title{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--ink);line-height:1.2;letter-spacing:-.01em;margin:0 0 3px;}
+.sidebar .sb-subtitle{font-size:12px;color:var(--muted);font-style:italic;margin-bottom:24px;}
+.sidebar h3{margin:0 0 8px;font-family:var(--font-ui);font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--fine);font-weight:700;border:0;padding:0;}
+.sidebar ol{list-style:none;padding:0;margin:0;}
+.sidebar>ol>li{margin:0 0 12px;}
+.sidebar>ol>li>a{display:block;color:var(--ink);font-weight:600;font-size:13px;text-decoration:none;padding:5px 0;letter-spacing:-.005em;}
+.sidebar>ol>li>a::before{content:"—";color:var(--accent);margin-right:7px;font-weight:400;}
+.sidebar>ol>li>a:hover{color:var(--accent);}
+.sidebar ol ol{margin:4px 0 4px 10px;padding:0;}
+.sidebar ol ol li a{display:block;font-size:12px;color:var(--muted);text-decoration:none;padding:3px 0 3px 8px;border-left:2px solid var(--rule-soft);transition:all .15s ease;}
+.sidebar ol ol li a:hover{color:var(--accent);border-left-color:var(--accent);}
+.sidebar ol ol li a.active{color:var(--accent);border-left-color:var(--accent);font-weight:600;}
+.sidebar-footer{margin-top:32px;padding-top:20px;border-top:1px solid var(--rule);font-size:11.5px;color:var(--fine);}
+.sidebar-footer a{color:var(--muted);text-decoration:none;}
+.sidebar-footer a:hover{color:var(--accent);}
+
+.menu-toggle{position:fixed;top:40px;left:300px;z-index:1000;background:var(--card);color:var(--muted);border:1px solid var(--rule);border-left:none;padding:0;width:20px;height:48px;border-radius:0 8px 8px 0;font-size:14px;cursor:pointer;box-shadow:2px 0 8px rgba(15,23,42,.06);display:flex;align-items:center;justify-content:center;transition:left .3s ease,color .15s ease,background .15s ease;font-family:var(--font-ui);}
+.menu-toggle:hover{color:var(--accent);background:var(--accent-soft);}
+body.sidebar-collapsed .menu-toggle{left:0;border-radius:0 8px 8px 0;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(15,23,42,.35);z-index:998;backdrop-filter:blur(2px);opacity:0;transition:opacity .25s ease;}
+
+.cover{background:linear-gradient(135deg,var(--accent-dark) 0%,#022c22 100%);color:#fff;margin:-80px -40px 70px;padding:90px 40px 70px;border-radius:0 0 var(--r-xl) var(--r-xl);}
+.cover .kicker{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:16px;}
+.cover h1{font-family:var(--font-serif);font-size:clamp(32px,5vw,48px);font-weight:400;line-height:1.1;letter-spacing:-.02em;margin:0 0 16px;color:#fff;}
+.cover h1 em{font-style:italic;color:rgba(255,255,255,.85);}
+.cover .sub{font-family:var(--font-ui);font-size:15px;color:rgba(255,255,255,.7);max-width:520px;line-height:1.6;margin-bottom:28px;}
+.cover .meta-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.cover .chip{font-family:var(--font-ui);font-size:12px;font-weight:500;padding:4px 12px;border-radius:20px;background:rgba(255,255,255,.15);color:rgba(255,255,255,.85);border:1px solid rgba(255,255,255,.2);}
+
+h1.autor{font-family:var(--font-serif);font-size:clamp(32px,4.5vw,44px);font-weight:400;line-height:1.15;letter-spacing:-.02em;color:var(--accent-dark);margin:70px 0 14px;padding-top:20px;}
+h1.autor[data-kicker]::before{content:attr(data-kicker);display:block;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.anchor-offset{scroll-margin-top:24px;}
+h2{font-family:var(--font-serif);font-size:26px;font-weight:500;color:var(--ink);letter-spacing:-.01em;margin:52px 0 16px;line-height:1.2;}
+h2::before{content:'';display:block;width:28px;height:3px;background:var(--accent);border-radius:2px;margin-bottom:10px;}
+h3{font-family:var(--font-ui);font-size:19px;font-weight:600;color:var(--accent-dark);margin:36px 0 12px;}
+h4{font-family:var(--font-ui);font-size:11.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:28px 0 10px;}
+p{margin:0 0 18px;}
+strong{font-weight:600;color:var(--ink);}
+ul,ol{margin:0 0 20px;padding-left:24px;}
+li{margin-bottom:6px;}
+a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(4,120,87,.3);}
+a:hover{text-decoration-color:var(--accent);}
+
+blockquote{border-left:3px solid var(--accent);margin:28px 0;padding:16px 0 16px 24px;font-style:italic;font-size:17px;color:var(--ink-soft);}
+blockquote cite{display:block;margin-top:10px;font-family:var(--font-ui);font-size:12.5px;font-style:normal;color:var(--muted);}
+blockquote cite::before{content:"— ";}
+
+.callout{background:var(--accent-soft);border:1px solid rgba(4,120,87,.15);border-left:3px solid var(--accent);border-radius:var(--r-md);padding:18px 22px;margin:24px 0;font-family:var(--font-ui);font-size:14.5px;}
+.callout::before{content:"✦";color:var(--accent);font-size:12px;margin-right:8px;}
+.callout.warm{background:var(--warm-soft);border-color:var(--warm-border);border-left-color:var(--warm);}
+.callout.warm::before{content:"⚑";color:var(--warm);}
+.callout.green{background:var(--ok-soft);border-color:rgba(4,120,87,.15);border-left-color:var(--ok);}
+.callout.green::before{content:"✓";color:var(--ok);}
+
+.example{position:relative;background:var(--yellow-soft);border:1px solid #fde68a;border-radius:var(--r-md);padding:18px 22px 16px;margin:24px 0;font-family:var(--font-ui);font-size:14px;}
+.example::before{content:"EJEMPLO";position:absolute;top:-1px;left:16px;transform:translateY(-50%);background:#fde68a;color:var(--yellow-text);font-size:10px;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:20px;}
+
+table{width:100%;border-collapse:collapse;margin:24px 0;font-family:var(--font-ui);font-size:13.5px;}
+thead tr{background:var(--surface);}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--rule);}
+td{padding:10px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+td:first-child{font-weight:600;color:var(--ink);}
+.table-wrap{overflow-x:auto;margin:24px 0;border:1px solid var(--rule);border-radius:var(--r-md);}
+.table-wrap table{margin:0;}
+
+.section-break{border:none;text-align:center;margin:60px 0;color:var(--fine);font-size:16px;letter-spacing:.3em;}
+.section-break::after{content:"✦  ✦  ✦";}
+
+@media print{
+  body{font-size:11pt;background:#fff;}
+  .sidebar,.menu-toggle,.read-progress,.sidebar-overlay,.pdf-btn,.corto{display:none !important;}
+  .layout{padding-left:0 !important;}
+  .content{width:100%;}
+  .wrap{max-width:100%;padding:0;}
+  .cover{page-break-after:always;margin:0;}
+  h1.autor{page-break-before:always;}
+}
+
+@media(max-width:768px){
+  .layout{padding-left:0 !important;}
+  .sidebar{transform:translateX(-100%) !important;box-shadow:none !important;width:85%;}
+  body.sidebar-open .sidebar{transform:translateX(0) !important;box-shadow:var(--shadow-xl) !important;}
+  body.sidebar-open .sidebar-overlay{display:block;opacity:1;}
+  .sidebar-close{display:flex !important;}
+  .menu-toggle{left:14px !important;top:14px !important;width:40px;height:40px;border:1px solid var(--rule) !important;border-radius:10px !important;}
+  body.sidebar-open .menu-toggle{left:14px !important;}
+}
+@media(max-width:600px){
+  body{font-size:17px;}
+  .wrap{padding:80px 22px 100px;}
+  .cover{margin:-80px -22px 60px;padding:80px 22px 60px;}
+  h1.autor{font-size:30px;}
+  h2{font-size:22px;}
+}
+
+.pdf-btn{position:fixed;bottom:28px;right:28px;z-index:1100;display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:11px 18px;font-family:var(--font-ui);font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:background .15s,transform .1s,box-shadow .15s;letter-spacing:.01em;}
+.pdf-btn:hover{background:var(--accent-dark);transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.25);}
+.pdf-btn:active{transform:translateY(0);}
+
+.corto{background:var(--yellow-soft);border:1px solid #fde68a;border-left:3px solid #ca8a04;border-radius:var(--r-md);margin:18px 0 36px;font-family:var(--font-ui);font-size:14px;}
+.corto summary{list-style:none;display:flex;align-items:center;gap:10px;padding:12px 18px;cursor:pointer;user-select:none;}
+.corto summary::-webkit-details-marker{display:none;}
+.corto-badge{background:#fde68a;color:#854d0e;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;flex-shrink:0;}
+.corto-title{font-weight:600;color:#854d0e;flex:1;}
+.corto-chevron{color:#a16207;font-size:11px;transition:transform .2s;margin-left:auto;flex-shrink:0;}
+details.corto[open] .corto-chevron{transform:rotate(180deg);}
+.corto-body{padding:4px 18px 14px;color:var(--ink-soft);line-height:1.6;}
+.corto-body ul{margin:0;padding-left:20px;}
+.corto-body li{margin-bottom:6px;}
+
+.ascii{font-family:'Courier New',monospace;font-size:12px;background:var(--surface);padding:16px 20px;border-radius:var(--r-md);border:1px solid var(--rule);white-space:pre;overflow-x:auto;line-height:1.5;color:var(--ink-soft);margin:24px 0;}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
+</head>
+<body>
+
+<div class="read-progress" id="readProgress"></div>
+<button class="pdf-btn" onclick="gtag('event','download_pdf',{resumen:'planificacion',location:'floating_button'});window.print();" title="Descargar como PDF">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  PDF
+</button>
+<button class="menu-toggle" id="menuToggle" title="Contraer índice">‹</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <button class="sidebar-close" id="sidebarClose" aria-label="Cerrar">×</button>
+  <div class="sb-title">Planificación Estratégica</div>
+  <div class="sb-subtitle">Clases 1, 2 y 3 — UADE 2026</div>
+  <h3>Contenido</h3>
+  <ol>
+    <li><a href="#bloque1">I. Marco general</a>
+      <ol>
+        <li><a href="#b1-1">1.1 Qué es Planificación Estratégica</a></li>
+        <li><a href="#b1-2">1.2 Objetivos de la materia</a></li>
+        <li><a href="#b1-3">1.3 Estructura de la cursada</a></li>
+        <li><a href="#b1-4">1.4 Tabla de contenidos</a></li>
+        <li><a href="#b1-5">1.5 Filosofía pedagógica</a></li>
+        <li><a href="#b1-6">1.6 Bibliografía</a></li>
+      </ol>
+    </li>
+    <li><a href="#bloque2">II. Clase 1 — Intro al Planning</a>
+      <ol>
+        <li><a href="#b2-1">2.1 Tres miradas (Feldwick)</a></li>
+        <li><a href="#b2-2">2.2 La mirada del curso</a></li>
+        <li><a href="#b2-3">2.3 ¿Por qué invertir en planear?</a></li>
+        <li><a href="#b2-4">2.4 Qué es el planeamiento estratégico</a></li>
+        <li><a href="#b2-5">2.5 Planeando comunicación</a></li>
+        <li><a href="#b2-6">2.6 Relaciones básicas</a></li>
+        <li><a href="#b2-7">2.7 Account Planning — origen y roles</a></li>
+        <li><a href="#b2-8">2.8 Modelo BDN</a></li>
+        <li><a href="#b2-9">2.9 Concepto, idea, ejecución</a></li>
+        <li><a href="#b2-10">2.10 Proceso creativo completo</a></li>
+        <li><a href="#b2-13">2.13 Resumen visual</a></li>
+      </ol>
+    </li>
+    <li><a href="#bloque3">III. Clase 2 — Plan. Comunicación</a>
+      <ol>
+        <li><a href="#b3-2">3.2 El planeamiento es un proceso</a></li>
+        <li><a href="#b3-3">3.3 Planeamiento después del Plan</a></li>
+        <li><a href="#b3-4">3.4 Hexágono (Cliente)</a></li>
+        <li><a href="#b3-5">3.5 Otros modelos cliente</a></li>
+        <li><a href="#b3-6">3.6 Diamante (Agencia)</a></li>
+        <li><a href="#b3-7">3.7 Ciclo JWT (Stephen King)</a></li>
+        <li><a href="#b3-8">3.8 Marca &amp; Performance (95:5)</a></li>
+        <li><a href="#b3-9">3.9 Jerarquía y tipos de objetivos</a></li>
+        <li><a href="#b3-10">3.10 Copy Strategy</a></li>
+        <li><a href="#b3-12">3.12 Resumen visual</a></li>
+      </ol>
+    </li>
+    <li><a href="#bloque4">IV. Clase 3 — Bases del Planeamiento</a>
+      <ol>
+        <li><a href="#b4-1">4.1 Concepto de Estrategia</a></li>
+        <li><a href="#b4-2">4.2 Decisiones estratégicas</a></li>
+        <li><a href="#b4-3">4.3 ¿Por qué hacer estrategia?</a></li>
+        <li><a href="#b4-4">4.4 Dirección Estratégica</a></li>
+        <li><a href="#b4-5">4.5 Jerarquía de Estrategias</a></li>
+        <li><a href="#b4-6">4.6 Cascada estratégica</a></li>
+        <li><a href="#b4-7">4.7 Las 4 preguntas guía</a></li>
+        <li><a href="#b4-9">4.9 FODA</a></li>
+        <li><a href="#b4-12">4.12 Matrices clásicas</a></li>
+        <li><a href="#b4-13">4.13 Herramientas (PESTEL, BM, Stakeholders)</a></li>
+        <li><a href="#b4-14">4.14 Resumen visual</a></li>
+      </ol>
+    </li>
+    <li><a href="#glosario">V. Glosario integrador</a></li>
+  </ol>
+  <div class="sidebar-footer">
+    <a href="/estudiante/planificacion">← Volver a la materia</a>
+  </div>
+</aside>
+
+<div class="layout">
+  <main class="content">
+    <div class="wrap">
+
+<div class="cover">
+  <div class="kicker">Lic. en Publicidad — UADE 2026</div>
+  <h1>Planificación <em>Estratégica</em></h1>
+  <p class="sub">Resumen integral de las tres primeras clases. Marco general, Account Planning, modelos Hexágono y Diamante, objetivos, Copy Strategy y bases del planeamiento (FODA, PESTEL, Ansoff, GE, Stakeholders).</p>
+  <div class="meta-chips">
+    <span class="chip">Clase 1 — Intro al Planning</span>
+    <span class="chip">Clase 2 — Plan. Comunicación</span>
+    <span class="chip">Clase 3 — Bases del Planeamiento</span>
+    <span class="chip">Profs. Balaz · Moretta · Wainerman</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE I — MARCO GENERAL                                    -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque1" data-kicker="Marco general">Bloque I — Marco general de la materia</h1>
+
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial del Bloque I</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>Planning = decidir antes de hacer. Pensar antes para trabajar menos, más rápido y mejor.</li>
+    <li>La materia define <strong>qué es el planeamiento estratégico</strong>, qué incluye, quién lo hace y con qué herramientas.</li>
+    <li>Tres pilares: marco conceptual, implementación práctica y evaluación (parcial + TP).</li>
+    <li>Filosofía: <em>"Creemos en que lleguen lejos"</em>. Más importante que cargar conocimiento es saber qué mirar, cómo preguntar y cómo desafiar.</li>
+  </ul></div>
+</details>
+
+<h2 class="anchor-offset" id="b1-1">1.1 ¿Qué es Planificación Estratégica?</h2>
+<p>La materia es parte de la <strong>especialización de Planning / Cuentas</strong> de Lic. en Publicidad de UADE. Es el punto de partida del Planeamiento Estratégico, complementado más adelante con Planificación Estratégica II.</p>
+<p>Define qué es el planeamiento estratégico de la comunicación y qué hay que hacer para implementarlo. "Planning" se escucha en todos lados — clientes, agencias, medios, digitales — pero <strong>no siempre se habla de lo mismo</strong>. La materia recorre: qué es, qué incluye, quién lo hace, cómo involucra a clientes, cuáles son los roles del estratega y cómo trabajar con buenas herramientas.</p>
+<div class="callout">
+  <strong>Contenidos principales:</strong> Estrategia de marca · Procesos de planeamiento (Cliente y Agencia) · Objetivos y estrategia de la comunicación.
+</div>
+
+<h2 class="anchor-offset" id="b1-2">1.2 Objetivos de la materia</h2>
+<ul>
+  <li>Revisar los <strong>conceptos básicos</strong> del planeamiento estratégico, su origen y herramientas generales.</li>
+  <li>Comprender <strong>qué es la estrategia</strong> y cómo se desarrolla en empresas y proveedores de servicios de marketing (agencias de comunicación, medios, digitales, etc.).</li>
+  <li>Entender el <strong>rol de los elementos</strong> del planeamiento estratégico.</li>
+  <li>Desarrollar las <strong>bases del planeamiento estratégico</strong> de las marcas y su comunicación.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b1-3">1.3 Estructura de la cursada</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Pilar</th><th>Contenido</th></tr></thead>
+  <tbody>
+    <tr><td>01 — Marco conceptual</td><td>Contenido teórico de los diferentes puntos del programa.</td></tr>
+    <tr><td>02 — Implementación</td><td>Actividades prácticas en clase, individuales y grupales.</td></tr>
+    <tr><td>03 — Evaluación</td><td>Parcial y Trabajo Práctico. Solo se puede desaprobar uno de los dos.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b1-4">1.4 Tabla de contenidos del programa</h2>
+<ol>
+  <li>Intro al Planning</li>
+  <li>Planeamiento Cliente — Marcas</li>
+  <li>Planeamiento de la Comunicación</li>
+  <li>Bases de Planeamiento</li>
+  <li>Tendencias, Target y Competencia</li>
+</ol>
+
+<h2 class="anchor-offset" id="b1-5">1.5 Filosofía pedagógica: "Creemos en que lleguen lejos"</h2>
+<p>Se busca formar profesionales que <strong>se distingan y lleguen más lejos que sus propios profesores</strong>, haciendo de esta una mejor profesión, de más calidad. Que cada día dé más ganas de trabajar y se consigan mejores trabajos.</p>
+<blockquote>Más importante que cargar conocimientos en sus mentes, sepan qué mirar, cómo mirar, cómo preguntar, cómo desafiar y cómo actuar ante los planteos que tendrán en sus futuras carreras.<cite>Noam Chomsky</cite></blockquote>
+<p>Otros pilares filosóficos:</p>
+<ul>
+  <li><em>"Lo importante es no dejar de hacerse preguntas."</em> — <strong>Albert Einstein</strong>.</li>
+  <li><em>"El principal problema de este mundo es que los tontos y los fanáticos están siempre seguros de ellos mismos, mientras que la gente inteligente anda llena de dudas."</em> — <strong>Bertrand Russell</strong>.</li>
+  <li><em>"La información se vuelve conocimiento que lleva a la experiencia. Esta nos lleva a la competencia, que sigue en sabiduría, que con más experiencia nos da autoridad. Cada paso es un camino largo y trabajado."</em> — <strong>Roy H. Williams</strong>.</li>
+  <li><em>"Escuchar y mirar todo con una lente: la de estar al acecho de las cosas que les puedan servir."</em> — <strong>Emi Chamorro</strong> (Instituto Baikal).</li>
+  <li>Uno siempre <strong>aprende en contraposición a un conocimiento anterior</strong>.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b1-6">1.6 Bibliografía y fuentes</h2>
+<h4>Principal</h4>
+<ul>
+  <li><em>Planning, cómo hacer el planeamiento estratégico de las comunicaciones</em>. Compilación Alain Cooper, APG Argentina, Editorial Thompson.</li>
+</ul>
+<h4>Secundaria</h4>
+<ul>
+  <li><em>Lealtad de marca</em> — T. Avalos (Paidós).</li>
+  <li><em>Verdades, mentiras y publicidad</em> — Jon Steel (Fragua).</li>
+  <li><em>Administración estratégica de marca</em> — Kevin Keller (Pearson).</li>
+  <li><em>The advertising effect</em> — Adam Ferrer (Oxford).</li>
+  <li><em>Bajo la influencia del branded content</em> — Antón Álvarez (ESIC).</li>
+  <li><em>Pensar rápido, pensar lento</em> — Daniel Kahneman (Debate).</li>
+  <li><em>Dirección Estratégica</em> — Johnson, Scholes &amp; Whittington (Pearson).</li>
+</ul>
+<h4>Marco transversal</h4>
+<ul>
+  <li><em>La generación ansiosa</em> — Jonathan Haidt (Deusto). Contexto de los estudiantes universitarios y el impacto de redes en salud mental.</li>
+  <li><em>Argentinos por la educación</em> — Andrea Goldin (CONICET-UTDT). Datos PISA 2022 sobre distracción digital en clase.</li>
+</ul>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE II — CLASE 1 INTRO AL PLANNING                       -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque2" data-kicker="Clase 1">Bloque II — Introducción al Planning</h1>
+
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial del Bloque II</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>El Planning nació en UK en los 60: <strong>Stephen King (JWT)</strong> y <strong>Stanley Pollitt (BMP)</strong>. UK sigue siendo el "hogar espiritual" de la disciplina.</li>
+    <li>El planner es la <strong>bisagra entre Marketing y Publicidad</strong>: el publicitario que más sabe de marketing, el marketinero que más sabe de publicidad.</li>
+    <li>5 meta-roles (Baskin): Investigador · Voz del mercado · Estratega · Catalizador creativo · Activista de procesos.</li>
+    <li>El proceso BDN: Negocio → Conducta → Pensamiento clave (concepto) → Idea creativa. <strong>Concepto ≠ Idea ≠ Ejecución</strong>.</li>
+    <li>Caso paradigmático: <em>Mastercard "Priceless"</em> — un solo concepto sostiene 25 años y miles de ejecuciones.</li>
+  </ul></div>
+</details>
+
+<h2 class="anchor-offset" id="b2-1">2.1 Las tres miradas de la publicidad (Paul Feldwick)</h2>
+<p>Paul Feldwick (autor de <em>The Anatomy of Humbug</em>) plantea tres narrativas dominantes desde las cuales los publicitarios se cuentan a sí mismos qué es la publicidad:</p>
+<ol>
+  <li><strong>Narrativa Iluminista</strong> → <em>"El pasado es irrelevante."</em> Solo importa el avance racional, los datos, los métodos modernos.</li>
+  <li><strong>Narrativa de la Época de Oro</strong> → <em>"Todo tiempo pasado fue mejor."</em> Romantiza la era de Bernbach, Ogilvy y Madison Avenue.</li>
+  <li><strong>Narrativa Año Cero</strong> → <em>"El mundo cambió y todo se reseteó."</em> Internet y la fragmentación lo destruyeron todo.</li>
+</ol>
+<div class="callout">Ninguna de las tres es completa por sí sola. La materia adopta una <strong>mirada integradora</strong>.</div>
+
+<h2 class="anchor-offset" id="b2-2">2.2 La mirada que adopta el curso</h2>
+<ul>
+  <li>Las <strong>marcas son el generador de ingresos</strong> de las compañías dueñas, y por eso éstas invierten en ellas para aumentar el negocio.</li>
+  <li>La <strong>publicidad</strong> es, generalmente, la principal inversión de las marcas. Se esperan retornos económicos y estratégicos.</li>
+  <li>Comunicar es un <strong>trabajo en equipo y a lo largo del tiempo</strong>: equipo interno y extendido (cliente + agencia + proveedores).</li>
+  <li>Es un <strong>trabajo complejo</strong>. Hay que ser profesionales de clase mundial.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b2-3">2.3 ¿Por qué invertir en planear? "Haciendo cuentas"</h2>
+<ul>
+  <li>Subir ingresos y bajar costos.</li>
+  <li><strong>Pensar antes, trabajar menos, más rápido y mejor.</strong></li>
+</ul>
+<blockquote>Failing to plan is planning to fail. (Fallar en planear es planear en fallar.)<cite>Alan Lakein</cite></blockquote>
+
+<h2 class="anchor-offset" id="b2-4">2.4 ¿Qué es el planeamiento estratégico?</h2>
+<p>Es un proceso que responde a:</p>
+<ul>
+  <li><strong>Qué es planear</strong></li>
+  <li><strong>Por qué se necesita</strong></li>
+  <li><strong>Qué se decide</strong> — tres dimensiones secuenciales:
+    <ul>
+      <li><strong>Objetivo</strong> → adónde queremos llegar.</li>
+      <li><strong>Estrategia</strong> → el cómo general para llegar.</li>
+      <li><strong>Acción</strong> → la implementación concreta.</li>
+    </ul>
+  </li>
+  <li><strong>Resultado</strong> → el <strong>Plan</strong>.</li>
+</ul>
+<p>El planeamiento es el camino del punto A al punto B con un mapa pensado, no improvisado.</p>
+
+<h2 class="anchor-offset" id="b2-5">2.5 Planeando comunicación</h2>
+<blockquote>El propósito de la comunicación es afectar favorablemente las actitudes de las personas del segmento objetivo, llevándolas a que prefieran una marca determinada y eso motive una conducta (decisión) en ellas que genere ventas de esa marca.<cite>Richard D. Czerniawski</cite></blockquote>
+<div class="callout">La cadena completa: <strong>actitud → preferencia → conducta → venta</strong>.</div>
+
+<h2 class="anchor-offset" id="b2-6">2.6 Las relaciones básicas de la disciplina</h2>
+<ul>
+  <li><strong>Un objetivo claro:</strong> construir <em>marcas</em>, generadoras de ingresos y capital.</li>
+  <li><strong>Un camino:</strong> el <em>Marketing</em>.</li>
+  <li><strong>Una herramienta destacada:</strong> la <em>Comunicación</em>.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b2-7">2.7 Account Planning — origen y roles</h2>
+
+<h3>Origen de la disciplina</h3>
+<p>El Account Planning surgió de la <strong>insatisfacción con las agencias de publicidad</strong> a principios de los 60 en UK. Dos protagonistas clave fueron los padres fundadores:</p>
+<ul>
+  <li><strong>Stephen King (JWT, 1964)</strong> — desarrolló el <strong>Thompson T-Plan</strong> (Target Plan): combinar investigación e <em>insights</em> para crear publicidad más efectiva. Buscaba un enfoque sistemático e intelectual, menos dependiente del instinto.</li>
+  <li><strong>Stanley Pollitt (BMP, 1968)</strong> — preocupado por cómo se redactaban los briefs creativos. Quiso un investigador formado como <strong>socio igual al ejecutivo de cuentas</strong>. Para Pollitt, la voz del consumidor era de suma importancia.</li>
+</ul>
+<div class="callout warm">El término "Account Planning" fue acuñado por <strong>Tony Stead</strong> en un retiro de JWT en 1968. A fines de los 70 se formó el <strong>UK Account Planning Group (APG)</strong>. Hoy la disciplina se aplica en EE.UU., Canadá, Hong Kong, Australia, Escandinavia, Chile, Brasil, China y Europa. <strong>UK sigue siendo el hogar espiritual de la planificación de cuentas.</strong></div>
+
+<h3>Definición práctica de la APG</h3>
+<ul>
+  <li><strong>Un proceso</strong> que desarrolla mejor comunicación, más destacada y efectiva en el mercado.</li>
+  <li>Basado en el <strong>conocimiento profundo de las audiencias</strong>, busca descubrir <strong>insights</strong> para mejor desarrollo creativo.</li>
+  <li>Busca <strong>relevancia, distinción y efectividad</strong> del mensaje, ayudando al desempeño del negocio de marca.</li>
+</ul>
+
+<h3>El planner como bisagra entre Marketing y Publicidad</h3>
+<blockquote>El publicitario que más sabe de marketing, el marketinero que más sabe de publicidad.</blockquote>
+<div class="callout">Gráficamente: <strong>Marketing ∩ Publicidad = Planner = Estratega</strong>.</div>
+
+<h3>Roles del estratega — los "muchos sombreros"</h3>
+<p>14 roles que un solo planner puede cumplir:</p>
+<ul>
+  <li>Investigador de mercados</li>
+  <li>Analista de datos</li>
+  <li>Moderador de grupos focales cualitativos</li>
+  <li>Centro de información (knowledge manager)</li>
+  <li>Policía malo (devil's advocate)</li>
+  <li>Consultor de Nuevos Productos (NPD)</li>
+  <li>Facilitador de Brainstorming</li>
+  <li>Voz del Consumidor</li>
+  <li>Futurólogo / adivino</li>
+  <li>Planner de medios y comunicación</li>
+  <li>Pensador y desarrollador estratégico</li>
+  <li>Escritor del brief creativo</li>
+  <li>Pensador polémico</li>
+  <li>Antropólogo social, buscador / minero de Insights, aplicador del conocimiento</li>
+</ul>
+
+<h3>Los cinco meta-roles de Baskin (2001)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Meta-rol</th><th>Sub-roles principales</th></tr></thead>
+  <tbody>
+    <tr><td>1. Investigador (Researcher)</td><td>Investigador de mercado, analista e intérprete de datos, moderador de focus groups, centro de información, antropólogo social, adivino/futurólogo.</td></tr>
+    <tr><td>2. Voz del Mercado</td><td>Representante de la audiencia objetivo / voz del consumidor — abarca dinámica del mercado, posicionamiento competitivo, otros miembros de la audiencia.</td></tr>
+    <tr><td>3. Estratega</td><td>Pensador estratégico, planificador de medios/comunicaciones, polemicista, minero de insights, consultor de NPD.</td></tr>
+    <tr><td>4. Catalizador Creativo</td><td>Redactor del brief creativo, aplicador del conocimiento, facilitador de brainstorming.</td></tr>
+    <tr><td>5. Activista y Facilitador de Procesos</td><td>Bad cop / good cop, activista de equipo.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cuatro etapas del trabajo del planner (D'Souza, 1986)</h3>
+<ol>
+  <li><strong>Desarrollo de la estrategia</strong> — estudiar brief, analizar datos, encargar investigación, descubrir insight clave, definir y acordar la estrategia.</li>
+  <li><strong>Desarrollo creativo</strong> — escribir brief creativo, briefar al equipo, orquestar investigación diagnóstica, evaluar ideas creativas.</li>
+  <li><strong>Aprobación</strong> — trabajar con cuentas para aprobación del cliente.</li>
+  <li><strong>Post-campaña</strong> — seguimiento y evaluación.</li>
+</ol>
+<blockquote>Cliente dice: <em>Mi producto.</em> Director de cuentas dice: <em>Mi cliente.</em> Director creativo dice: <em>Mi anuncio.</em> Planner dice: <em>Mi consumidor.</em><cite>D'Souza, 1986</cite></blockquote>
+
+<h2 class="anchor-offset" id="b2-8">2.8 Cómo funciona el proceso de desarrollo de la comunicación (Modelo BDN)</h2>
+<p>El proceso conecta los objetivos de negocio con la idea creativa a través de eslabones donde intervienen Cliente, Planner y Creativos:</p>
+<div class="callout green">
+  <strong>Objetivos de Negocio y Marketing → Conducta deseada / Objetivo Comunicación → Pensamiento clave (Concepto Comunicación) → Idea creativa</strong>
+</div>
+<p>Insumos en cada salto:</p>
+<ul>
+  <li>Del objetivo a la conducta deseada → <strong>Target market</strong> (input del planner).</li>
+  <li>De la conducta al pensamiento clave → <strong>Insight del consumidor</strong> (rol primario del planner).</li>
+  <li>Del pensamiento clave a la idea creativa → <strong>Estímulos a la creatividad</strong> (rol primario de los creativos, planner secundario).</li>
+</ul>
+
+<h2 class="anchor-offset" id="b2-9">2.9 Concepto, idea y ejecución</h2>
+<p>Tres niveles que <strong>NO deben confundirse</strong>:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Nivel</th><th>Qué es</th></tr></thead>
+  <tbody>
+    <tr><td>Concepto de campaña</td><td>La propuesta de la marca, <strong>de qué hablaremos</strong>.</td></tr>
+    <tr><td>Idea creativa</td><td><strong>Cómo decimos</strong> el concepto en forma cautivante.</td></tr>
+    <tr><td>Ejecución / Pieza</td><td>Las <strong>múltiples maneras de representar</strong> la idea (TV, gráfica, OOH, digital, etc.).</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Caso paradigmático: Mastercard "Priceless"</h3>
+<div class="example">
+  <strong>+25 años</strong> en mercado · <strong>Miles de ejecuciones</strong> distintas · <strong>+200 países</strong>.<br>
+  <strong>Insight clave:</strong> usar la tarjeta para aquellas cosas nobles, para los propios, que no se pueden pagar.<br>
+  <strong>Concepto claro:</strong> <em>"Si se paga, podés usar Mastercard"</em>. Para todo lo demás, <strong>Priceless</strong>.<br>
+  Demuestra cómo un mismo concepto sostiene múltiples generaciones de ejecuciones a lo largo de décadas.
+</div>
+
+<h2 class="anchor-offset" id="b2-10">2.10 Proceso de desarrollo creativo y producción de un aviso</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Etapa</th><th>Cliente</th><th>Planner</th><th>Herramientas</th></tr></thead>
+  <tbody>
+    <tr><td>Planeamiento estratégico cliente</td><td>Primario</td><td>Secundario</td><td><strong>Hexágono</strong>, Insights, Drivers, Conductas, Propósito, Conceptos M/P</td></tr>
+    <tr><td>Planeamiento estratégico agencia</td><td>Secundario</td><td>Primario</td><td><strong>Diamante</strong>, Desk research, Insights, Conductas, Concepto Comunicación, Personalidad</td></tr>
+    <tr><td>Briefing</td><td>—</td><td>Primario</td><td>Modelo brief, Referencias, Experiencias</td></tr>
+    <tr><td>Presentación interna</td><td>—</td><td>Primario</td><td>Modelo brief, Modelo evaluación creativa, Técnicas de devolución</td></tr>
+    <tr><td>Presentación al Cliente</td><td>Primario</td><td>Primario</td><td>Modelo brief, Racionales, Objetivos, Estrategia</td></tr>
+    <tr><td>Evaluación y Testeo de la creatividad</td><td>Primario</td><td>Primario</td><td>Modelo evaluación, Técnicas de Inv. Mdo, Pre-test</td></tr>
+    <tr><td>Devolución de la creatividad</td><td>—</td><td>Primario</td><td>Manejo de Inv. Mdo, Pre-test, Modelo brief, Técnica de devolución</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout warm">El <strong>Brief</strong> es coordinado por Planning. Si la creatividad no aprueba la evaluación → vuelve atrás. Si aprueba → presentación interna → cliente → testeo → aprobación → producción.</div>
+
+<h2 class="anchor-offset" id="b2-13">2.13 Resumen visual de la Clase 1</h2>
+<div class="callout green">
+  <ul style="margin-bottom:0;">
+    <li><strong>Relación básica:</strong> Construir marcas → A través del MKTG → Desarrollar comunicación.</li>
+    <li><strong>El Planning:</strong> Articula Marca y Comunicación. Logra mejor comunicación, más destacada y efectiva. Se basa en el insight para llegar a la idea. Roles diferentes para un mismo planner.</li>
+    <li><strong>Proceso desarrollo creativo:</strong> De objetivos de negocio y mktg a los de comunicación. Conexión insight–concepto para generar la conducta. Resumir en el Brief. Estimular la creatividad. Evaluarla y devolverla.</li>
+    <li><strong>Presentación creativa:</strong> Interna (juez y coach) — Externa (defensor y apoyo).</li>
+  </ul>
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE III — CLASE 2 PLANEAMIENTO ESTRATÉGICO COMUNICACIÓN  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque3" data-kicker="Clase 2">Bloque III — Planeamiento Estratégico de la Comunicación</h1>
+
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial del Bloque III</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>Planning es un proceso: <strong>Analizar → Decidir → Ejecutar → Controlar</strong>.</li>
+    <li>El cliente planea con el <strong>Hexágono</strong> (Tandem Canadá, 6 pasos, plan anual). La agencia planea con el <strong>Diamante</strong> (Butterfield, 6 pasos, comunicación).</li>
+    <li>"<em>Planeamiento después del Planeamiento</em>": la agencia trabaja sobre la P de Publicidad del mix una vez que el cliente ya planeó su Marketing.</li>
+    <li>Jerarquía de objetivos: <strong>Negocio → Marketing → Comunicación</strong>. La agencia es responsable del de comunicación.</li>
+    <li>Copy Strategy = guía al trabajo creativo. Núcleo: <strong>Audiencia + Insight + Propuesta + Razón para creer + Personalidad</strong>.</li>
+  </ul></div>
+</details>
+
+<h2 class="anchor-offset" id="b3-1">3.1 Objetivos y utilidad práctica</h2>
+<h4>Objetivos</h4>
+<ul>
+  <li>Entender cómo se planea en el marketing de marca (cliente y agencia).</li>
+  <li>Recorrer los pasos de cada proceso, similitudes y particularidades.</li>
+</ul>
+<h4>Utilidad en el trabajo</h4>
+<ul>
+  <li>Reuniones más profesionales con el cliente: entender qué hizo y por qué nos contacta.</li>
+  <li>Saber dónde empieza y termina el trabajo de planning de agencia: roles, inputs y entregables.</li>
+  <li>Asegurar una intervención sólida en el proceso creativo (Agencia &amp; Cliente).</li>
+</ul>
+
+<h2 class="anchor-offset" id="b3-2">3.2 El planeamiento es un proceso</h2>
+<p>Cuatro fases circulares:</p>
+<ol>
+  <li><strong>De la información…</strong></li>
+  <li><strong>…a las decisiones (el Plan)</strong></li>
+  <li><strong>Después la ejecución (las Acciones)</strong></li>
+  <li><strong>Y por último, saber si lo logramos (el Control)</strong></li>
+</ol>
+<div class="callout"><strong>Planear (Análisis + Decisión) → Ejecutar → Controlar.</strong></div>
+<h4>Lo que hacemos en planning</h4>
+<ul>
+  <li><strong>Analizar:</strong> relevar, revisar, procesar, profundizar e interpretar información para definir un diagnóstico que permita tomar mejores decisiones.</li>
+  <li><strong>Decidir:</strong> definir cómo se trabajará la comunicación de la marca para cada caso, modelo o herramienta.</li>
+  <li><strong>Ejecutar:</strong> participar del briefeo que lleva a la ejecución.</li>
+  <li><strong>Controlar:</strong> revisar si los objetivos definidos fueron alcanzados. Determinar la brecha si la hay.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b3-3">3.3 "Planeamiento después del Planeamiento"</h2>
+<p>La publicidad nace de la necesidad de comunicar, pero el trabajo de la agencia <strong>se inicia DESPUÉS del planeamiento del cliente</strong>: planear lo comunicacional una vez que la marca cliente ya planeó su Marketing.</p>
+<p>La agencia trabaja sobre la <strong>P de Publicidad</strong> (o Comunicación) del Mix de Marketing, pero requiere que el cliente le entregue las definiciones estratégicas de marca previamente decididas.</p>
+
+<h2 class="anchor-offset" id="b3-4">3.4 PLANEAMIENTO CLIENTE — Modelo HEXÁGONO (Tandem Canadá)</h2>
+
+<h3>3.4.1 Marco conceptual</h3>
+<p>Proceso anual cuyo entregable es el <strong>Plan Anual de Marketing</strong>. Responsable: el <strong>Gerente de Marca (Brand Manager)</strong>. Recorre las etapas Análisis → Decisión → Ejecución → Control.</p>
+<div class="ascii">
+        [01 Análisis de oportunidad]
+       /                            \
+[06 Implementación]              [02 Objetivo de negocios]
+       |                              |
+[05 Planes de acción]      [03 Estrategia de Marketing]
+       \                            /
+        [04 Sub-estrategias de Marketing]
+</div>
+
+<h3>3.4.2 Paso 1 — Análisis de Oportunidad</h3>
+<p>Sobre la información del mercado y sus elementos: <strong>Mercado, Consumidor, Competencia, Canales/Clientes, Marca Propia</strong>.</p>
+<h4>Identificando los fundamentales</h4>
+<ul>
+  <li>¿En qué negocio estamos?</li>
+  <li>¿Cómo se segmenta el mercado?</li>
+  <li>¿Cuáles son los factores clave para el éxito?</li>
+  <li>¿Dónde está yendo el negocio (tendencias)?</li>
+  <li>¿Quién es el consumidor? ¿Cuáles son sus necesidades?</li>
+  <li>¿Cuán bien satisfacemos esas necesidades?</li>
+  <li>¿Quién es la competencia? ¿Cómo es nuestro desempeño comparado?</li>
+</ul>
+<h4>Identificando las oportunidades</h4>
+<ul>
+  <li>¿Cuáles son las oportunidades para construir el negocio?</li>
+  <li>¿Cuáles son las oportunidades prioritarias en: mercado, consumidor, lo competitivo, los canales, la marca propia?</li>
+</ul>
+<div class="callout">A cada punto se le hace un triple test: <strong>¿Por qué? ¿Qué podemos hacer? ¿Dónde está la oportunidad?</strong></div>
+
+<h4>Análisis variable por variable</h4>
+<p><strong>MERCADO:</strong> en qué mercado competimos (percepción del consumidor); tendencias (tamaño 3-5 años, demografía, estacionalidad); tendencias geográficas y por segmento; tendencias internacionales (tamaño, hábitos, nuevos productos, esfuerzos de marketing).</p>
+<p><strong>Fuentes:</strong> data analysis, desk research, IA, auditorías (AC Nielsen), estadísticas oficiales, publicaciones especializadas, asociaciones, reportes anuales de competidores, agencias de investigación.</p>
+<p><strong>CONSUMIDORES:</strong> tendencias demográficas (población, ingreso, desempleo); sociológicas y de valores; quién es nuestro consumidor (influenciador, comprador, usuario); hábitos de uso y compra; necesidades clave (¿por qué usan? — <em>insight</em>); percepciones de la categoría.</p>
+<p><strong>CLIENTES (canales de distribución):</strong> estructura de la distribución; importancia de cada canal (share, distribución, posibilidades de promoción); tendencias.</p>
+<p><strong>COMPETITIVO:</strong> quién es la competencia (desde el punto de vista del consumidor); tendencias; fuerzas y debilidades en posicionamiento, productos, packaging, publicidad, promoción, precio, distribución, fuerza de ventas, servicio, finanzas, reputación.</p>
+<p><strong>MARCA PROPIA:</strong> factores clave de éxito (manufactura, trade, cash flow, calidad); desempeño de la marca; rentabilidad; efectividad histórica del marketing.</p>
+
+<h3>3.4.3 Paso 2 — Definición de Objetivos del Negocio</h3>
+<p>Declaración cualitativa y cuantitativa de lo que el producto alcanzará a corto y largo plazo.</p>
+<h4>Cualitativos — grandes lineamientos</h4>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dimensión</th><th>Ejemplo</th></tr></thead>
+  <tbody>
+    <tr><td>Posición en el mercado</td><td>Dominio del segmento, claro liderazgo, fuerte posición N°2</td></tr>
+    <tr><td>Volumen</td><td>Duplicar el volumen en 5 años</td></tr>
+    <tr><td>Market Share</td><td>Incrementar el share un 16%</td></tr>
+    <tr><td>Crecimiento</td><td>La de mayor crecimiento</td></tr>
+    <tr><td>Ganancia</td><td>Duplicar la ganancia en 3 años</td></tr>
+  </tbody>
+</table>
+</div>
+<h4>Cuantitativos</h4>
+<p>Describen numéricamente: ventas (volumen y valores), market share, contribución a la ganancia. Se reflejan en formato de <strong>Estado de resultados</strong>. Otras variables: P&amp;G, crecimiento, posición.</p>
+
+<h3>3.4.4 Paso 3 — Estrategia de Marketing</h3>
+<p>Define la <strong>forma general</strong> para alcanzar los objetivos y, dentro de ella, el <strong>posicionamiento</strong> que la marca tendrá. Debe ser <strong>realista, específica, simple y de largo plazo</strong>. Es una <strong>política de trabajo</strong> sobre la que se basan las estrategias del mix. Se revisa anualmente.</p>
+
+<h4>Los 6 elementos de la Estrategia de Marketing</h4>
+
+<p><strong>1. Prioridades de esfuerzo (Objetivo de Marketing).</strong> ¿Qué queremos alcanzar con nuestra inversión y esfuerzo?</p>
+<ul>
+  <li>Respecto al <strong>consumidor</strong>: conocimiento, prueba, reprueba, lealtad, frecuencia, volumen, continuidad, atraer consumidores de competencia.</li>
+  <li>Respecto a <strong>canales</strong>: distribución, exhibición, merchandising, publicidad/promoción específica, mueblería POP, precio.</li>
+</ul>
+<p>"Las pocas cosas que tenemos que hacer bien": cambios de fórmula/forma, ampliación de distribución, ahorro de costos, programas de promoción, comunicar el posicionamiento, programas de inventario/prueba/exhibición, RRPP, etc.</p>
+
+<p><strong>2. Target Market / Mercado o Segmento Objetivo.</strong> A quién buscaremos influir. Roles del proceso de compra:</p>
+<ul>
+  <li>Iniciador · Influenciador · Decisor · Comprador · Usuario.</li>
+</ul>
+<p>Variables de clasificación: demográficas, estilos de vida, usos y hábitos, psicográficas, beneficios buscados, vínculos, emociones.</p>
+
+<p><strong>3. Posición Básica o Posicionamiento.</strong> La decisión más crítica. Siete maneras de pensarlo:</p>
+<ol>
+  <li>La posición básica que tomaremos para alcanzar las necesidades del consumidor.</li>
+  <li>Cómo posicionamos la marca en la mente del consumidor y vs. la competencia.</li>
+  <li>La simple razón por la que los consumidores comprarán/usarán nuestra marca y no otra.</li>
+  <li>Lo que representamos cuando comunicamos nuestra marca, relativa a la competencia.</li>
+  <li>El nicho que ocupamos en la escala de valores del consumidor.</li>
+  <li>La definición de nuestro más importante beneficio al consumidor.</li>
+  <li>Lo que completa la frase: <em>"Nosotros somos los que..."</em></li>
+</ol>
+<div class="callout">Condiciones de un buen posicionamiento: <strong>Significativo · Simple · Creíble · Competitivo · De largo plazo</strong>.</div>
+
+<p><strong>4. Razón para Creer / Racional.</strong> El <strong>Reason Why</strong>. Explicación basada en hechos/datos, apoyada en algo que el producto/servicio tiene entre sus características.</p>
+<p><strong>5. Posición Competitiva.</strong> Comparar mi posicionamiento con el de competidores. Identifica ventajas y áreas no derrotables. Establece puntos de diferencia. <strong>Herramienta:</strong> mapping de posicionamiento.</p>
+<p><strong>6. Personalidad de Marca.</strong> Asignación de <strong>características humanas</strong> a una marca. Establece estilo y espíritu. Factor esencial para la diferenciación.</p>
+
+<h3>3.4.5 Paso 4 — Sub-estrategias de Marketing (Mix)</h3>
+<p>Estrategias de cada elemento del mix (largo plazo):</p>
+<ul>
+  <li>Producto · Packaging · Precio · Comunicación (online &amp; offline → Mensaje + Medio) · Relaciones Públicas · Promoción · Merchandising · Distribución (Plaza) · Otros puntos de contacto.</li>
+</ul>
+<div class="callout warm">Las cuatro P's clásicas de <strong>Jerome McCarthy</strong>: <em>Producto, Precio, Promoción, Plaza</em>.</div>
+
+<h3>3.4.6 Paso 5 — Planes de Acción</h3>
+<p>Para cada variable del Mix se define: <strong>Acción · Timing · Inversión · Responsable</strong>.</p>
+
+<h3>3.4.7 Paso 6 — Implementación</h3>
+<p>Llevarlo a la práctica según el calendario y la inversión asignada. Es el día a día de la marca.</p>
+
+<h2 class="anchor-offset" id="b3-5">3.5 Otros modelos de Planning Cliente (alternativos al Hexágono)</h2>
+
+<h3>3.5.1 B.P.S. (Brand Positioning Statement)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Elemento</th><th>Pregunta guía</th></tr></thead>
+  <tbody>
+    <tr><td>1. Nombre de Marca</td><td>¿Cómo llaman los consumidores a la marca?</td></tr>
+    <tr><td>2. Descripción del mercado</td><td>¿Cómo describen los consumidores al grupo de productos con el cual compite la marca?</td></tr>
+    <tr><td>3. Audiencia objetivo (Target)</td><td>¿A quién se enfocará el trabajo? ¿Qué los diferencia de la audiencia general?</td></tr>
+    <tr><td>4. Puntos de diferencia</td><td>El beneficio (racional y/o emocional) único de la marca.</td></tr>
+    <tr><td>5. Propuesta simple (SMP)</td><td>La simple promesa que los consumidores deben creer que la marca da mejor que la competencia.</td></tr>
+    <tr><td>6. Soporte / Razón por qué</td><td>La razón por la cual creer la propuesta.</td></tr>
+    <tr><td>7. Personalidad de Marca</td><td>Cómo le gustaría que la audiencia describa a la marca si fuera una persona.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>3.5.2 Brand Arrow (GSK)</h3>
+<p>Modelo piramidal estilo "casa": Pico = <strong>Esencia</strong>; luego <strong>Valores</strong>, <strong>Personalidad / Beneficio Emocional</strong>, <strong>Key Consumer Insight</strong> (eje central), <strong>Beneficio Racional / Razón para creer</strong>, <strong>Target Market</strong>; base = <strong>Mercado</strong>.</p>
+
+<h3>3.5.3 Brand Key (Unilever)</h3>
+<p>Diagrama radial con base piramidal: núcleo = <strong>Esencia</strong>; cuatro cuadrantes = <strong>Valores &amp; Personalidad / Beneficios / Razón para creer / Discriminador</strong>; base piramidal = <strong>Insight → Target → Contexto Competitivo</strong>.</p>
+
+<h3>3.5.4 Brand Forward (Brand Healer)</h3>
+<p>Dos triángulos enfrentados:</p>
+<ul>
+  <li><strong>Plataforma Estratégica:</strong> Enfoque Competitivo + Target + Beneficio Racional + Racional.</li>
+  <li><strong>Relación con el cliente:</strong> Key Consumer Insight + Beneficio Emocional + Personalidad + Valores + Esencia.</li>
+</ul>
+<div class="callout">Estos cuatro modelos son <strong>alternativos al Hexágono completo</strong>: cubren especialmente el bloque de Estrategia de Marca, pero NO el ciclo Análisis-Implementación.</div>
+
+<h2 class="anchor-offset" id="b3-6">3.6 PLANEAMIENTO AGENCIA — Modelo DIAMANTE (Leslie Butterfield)</h2>
+
+<h3>3.6.1 Marco conceptual</h3>
+<p>Guía el trabajo del equipo de planners durante el desarrollo de las comunicaciones de una marca. Se realiza una vez que la agencia es contactada por el cliente.</p>
+<p><strong>Meta:</strong> desarrollar mejores comunicaciones de marca, más destacadas, relevantes y eficientes.</p>
+<p><strong>Cronología:</strong> se inicia una vez que el cliente terminó su proceso de planificación de marca (de ahí <em>"Planeamiento después del Planeamiento"</em>). Si el cliente no lo hizo, se lo trabaja conjuntamente — es imposible desarrollar comunicación sin pilares estratégicos.</p>
+<p><strong>Forma gráfica:</strong> rombo. Empieza y termina en un punto único; el ancho de cada etapa representa la cantidad de recursos y trabajo. <strong>No es medida de importancia, sino de carga y duración.</strong></p>
+<div class="ascii">
+          ▲
+         /1\           ← Definición del problema comercial
+        /---\
+       /  2  \         ← Interrogación del Mix de Marketing
+      /-------\
+     /         \
+    /     3     \      ← Análisis de la situación total del marketing
+     \         /
+      \-------/
+       \  4  /         ← Análisis de la relación del consumidor con la marca
+        \---/
+         \5/           ← Conclusión de un rol realista para la publicidad
+          ▼
+         /6\           ← Definición del objetivo y estrategia de comunicación
+</div>
+<div class="callout warm">Asegurar el cierre de cada etapa antes de pasar a la siguiente. Estar dispuestos a repetir etapas si no aportan claridad.</div>
+
+<h3>3.6.2 Paso 1 — Definición del problema comercial de la marca</h3>
+<p>Entender por qué nos llama el cliente y por qué cree que la comunicación puede aportar.</p>
+<p>El <strong>dato inicial debe ser su Objetivo de Marketing</strong>. Si no lo tiene definido, hay que trabajarlo conjuntamente.</p>
+<blockquote>El médico consulta al paciente sobre los síntomas → diagnóstico → tratamiento. Debe saber primero qué llevó a la persona a visitarlo.<cite>Analogía médica de Butterfield</cite></blockquote>
+<div class="callout">La palabra original en inglés es <em>issue</em>: una situación a resolver. La traducción "problema" suena negativa, pero no siempre debe serlo.</div>
+
+<h3>3.6.3 Paso 2 — Interrogación del Mix de Marketing</h3>
+<p>El marketing es resultado de las <strong>4 P's de McCarthy</strong>: Producto, Precio, Promoción, Plaza. <strong>Cuestionarnos si la solución/causa del problema está en alguna de esas variables</strong>: a veces el problema NO es de comunicación.</p>
+<p>Una vez resuelta la interrogación, definimos si la publicidad participaría de la solución:</p>
+<div class="callout warm">
+  <strong>🛡️ PRIMERA LÍNEA DE DEFENSA DE LA CREATIVIDAD</strong> — al asumir que la comunicación podrá ayudar, le damos al trabajo creativo certeza de su utilidad. Si no fuera así, estaríamos trabajando con la duda de si el desarrollo creativo tendrá efecto.
+</div>
+
+<h3>3.6.4 Paso 3 — Análisis de la situación total del marketing de la marca</h3>
+<p><strong>Es la etapa que más recursos demanda</strong> (de ahí el ancho del rombo). Replica al análisis de oportunidad del Hexágono cliente.</p>
+<h4>Lecturas obligatorias</h4>
+<ul>
+  <li>BPS, Brand Key, Brand Arrow del cliente.</li>
+  <li>Toda investigación y documento aportado por el cliente.</li>
+  <li>Investigaciones anteriores, bibliografía, web research, casos similares.</li>
+</ul>
+<h4>Las cuatro dimensiones a articular</h4>
+<ol>
+  <li><strong>Marca</strong> → todo el negocio, evolución, actividades, fortalezas y debilidades vs. competidores.</li>
+  <li><strong>Mercado / Categoría</strong> → estructura, ventas, geografía, estacionalidad, formatos, tendencias.</li>
+  <li><strong>Contexto</strong> → cambios sociales, políticos, económicos, legales, tecnológicos, culturales. Canales.</li>
+  <li><strong>Audiencias</strong> → multi-variable: duras, blandas, de consumo, compra, comunicación.</li>
+</ol>
+
+<h3>3.6.5 Paso 4 — Análisis de la relación consumidor-marca</h3>
+<p>El planning ejerce uno de sus roles más destacados: <strong>ser la voz del consumidor</strong>. Hay que "ponerle la lupa" — no basta con un <em>customer persona</em>: hay que comprender lo que sucede en la mente de esas personas en su relación con la marca y la categoría.</p>
+<p><strong>Producto clave de esta etapa: el descubrimiento del INSIGHT.</strong></p>
+<div class="callout green">
+  <strong>Insight</strong> = el por qué hacen lo que hacen las personas cuando piensan, compran y consumen la marca o la categoría.
+</div>
+
+<h3>3.6.6 Paso 5 — Conclusión de un rol realista para la publicidad</h3>
+<p>Inicia las etapas de definiciones (luego de 4 pasos de análisis). Es <strong>simple pero crítico</strong>: clarificar para qué será útil la comunicación dentro del mix.</p>
+
+<h3>3.6.7 Paso 6 — Definición del objetivo y estrategia de publicidad</h3>
+<p>El paso más difícil. Es la conclusión articulada de TODO lo recorrido.</p>
+<div class="callout"><strong>Jerarquía de objetivos:</strong> Negocio → Marketing → <strong>Comunicación</strong>.</div>
+
+<h4>El objetivo de comunicación</h4>
+<p>Una campaña/pieza debe tener objetivos de comunicación. <strong>NO puede ser "vender más" o "aumentar la participación de mercado"</strong> — eso es objetivo de negocio o marketing. Aceptar eso compromete a la agencia con algo de lo que NO es única responsable.</p>
+<div class="callout warm">
+  <strong>🛡️ SEGUNDA LÍNEA DE DEFENSA A LA CREATIVIDAD</strong> — si definimos correctamente el objetivo de comunicación, aseguramos que sea uno adecuado al proceso de entendimiento y posibilitamos a los creativos enfocarse en lo que una comunicación verdaderamente puede hacer.
+</div>
+
+<h4>La estrategia de comunicación / Copy Strategy</h4>
+<p>Núcleo (3 elementos básicos — sin alguno no hay estrategia):</p>
+<ol>
+  <li><strong>Audiencia</strong> (a quién le hablaremos)</li>
+  <li><strong>Propuesta</strong> (qué le diremos)</li>
+  <li><strong>Racional de la propuesta</strong> (por qué se lo podremos decir)</li>
+</ol>
+<p>+ Dos elementos complementarios del modelo BDN:</p>
+<ol start="4">
+  <li><strong>Insight clave del consumidor</strong> (descubierto en el paso 4)</li>
+  <li><strong>Personalidad de Marca</strong></li>
+</ol>
+
+<h2 class="anchor-offset" id="b3-7">3.7 Modelo JWT — Ciclo de Planeamiento (Stephen King)</h2>
+<p>Cinco preguntas circulares:</p>
+<div class="ascii">
+[Where are we?] → [Why are we there?] → [Where could we be?]
+       ↑                                          ↓
+[Are we getting there?] ← [How could we get there?]
+</div>
+<ol>
+  <li><strong>¿Dónde estamos?</strong> (situación actual)</li>
+  <li><strong>¿Por qué estamos ahí?</strong> (diagnóstico)</li>
+  <li><strong>¿Dónde podríamos estar?</strong> (oportunidad)</li>
+  <li><strong>¿Cómo podríamos llegar ahí?</strong> (estrategia)</li>
+  <li><strong>¿Estamos llegando ahí?</strong> (control)</li>
+</ol>
+
+<h2 class="anchor-offset" id="b3-8">3.8 Nuevo Modelo Marca &amp; Performance (WARC / Google Think 2025)</h2>
+<p>Basado en la <strong>Ley 95:5 de Dale Harrison</strong>:</p>
+<ul>
+  <li><strong>95% de los compradores potenciales están "out of market"</strong> (fuera del mercado activo).</li>
+  <li><strong>5% están "in market"</strong> (con intención activa de compra).</li>
+</ul>
+<h4>Implicancia estratégica</h4>
+<ul>
+  <li>La <strong>Comunicación de Marca</strong> construye asociaciones y relevancia con el 95%, preparando el terreno.</li>
+  <li>A medida que los consumidores se acercan al mercado, dan señales de su intención.</li>
+  <li>Las marcas con activos más sólidos afectan directamente las métricas de <strong>performance</strong>.</li>
+  <li>A medida que el activo de marca se refuerza, se incrementa la <strong>potencia de precio</strong>.</li>
+</ul>
+<div class="callout green">El trabajo enfocado en el activo de marca → conduce a Performance → Sales → Profit.</div>
+
+<h2 class="anchor-offset" id="b3-9">3.9 Jerarquía y Tipos de Objetivos</h2>
+
+<h3>Jerarquía descendente</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Nivel</th><th>Tipo</th><th>Definición</th></tr></thead>
+  <tbody>
+    <tr><td>1°</td><td>Negocio</td><td>El más amplio, el que persigue toda la operación del cliente.</td></tr>
+    <tr><td>2°</td><td>Marketing</td><td>Lo que se quiere lograr con la inversión del marketing de la marca.</td></tr>
+    <tr><td>3°</td><td>Comunicación</td><td>Lo que se pretende que haga la comunicación. <strong>El corazón del brief.</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Tabla maestra — Tipos de Objetivos</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>NEGOCIO</th><th>MARKETING</th><th>COMUNICACIÓN</th></tr></thead>
+  <tbody>
+    <tr><td>Ventas en $</td><td>Nuevos consumidores categoría (Penetración / Adopción)</td><td>Cambiar actitudes y creencias, profundizarlas</td></tr>
+    <tr><td>Ventas en Volumen</td><td>Nuevos consumidores marca (Switching / Conversión)</td><td>Dar conocimiento / Saliencia</td></tr>
+    <tr><td>Market Share</td><td>Recuperar ex consumidores marca (Abandonadores)</td><td>Facilitar conducta de compra: Prueba / Recompra / Tráfico / Consideración</td></tr>
+    <tr><td>Posición en mercado</td><td>Consumidores actuales (carga, frecuencia, trade up, continuidad)</td><td>Informar / Educar</td></tr>
+    <tr><td>Resultado (Profit)</td><td></td><td>Construir identidad / personalidad (imagen)</td></tr>
+    <tr><td></td><td></td><td>Persuadir</td></tr>
+    <tr><td></td><td></td><td>Mantenimiento / Recordación</td></tr>
+    <tr><td></td><td></td><td>Generar / Mantener vínculo (Engagement)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Las dos macro-funciones del objetivo de comunicación</h3>
+<ol>
+  <li><strong>CREAR CONCIENCIA</strong> — que las personas conozcan algo que interesa al marketing del cliente.</li>
+  <li><strong>CONSTRUIR UNA RELACIÓN</strong> — que las personas se vinculen y establezcan relación con la marca.</li>
+</ol>
+
+<h3>Las tres búsquedas deseadas</h3>
+<ul>
+  <li><strong>PENSAR</strong> — lo que queremos que las personas piensen al contactar nuestras piezas.</li>
+  <li><strong>SENTIR</strong> — lo que queremos que las personas sientan.</li>
+  <li><strong>HACER</strong> — lo que queremos que las personas hagan.</li>
+</ul>
+
+<h3>Las 5 dimensiones de tareas de la Publicidad</h3>
+<ol>
+  <li><strong>INFORMAR</strong> — creando conciencia entre el público objetivo.</li>
+  <li><strong>PERSUADIR</strong> — formando preferencia por la marca anunciada vs. competidores.</li>
+  <li><strong>RECORDAR</strong> — manteniendo conocimiento e interés.</li>
+  <li><strong>EMOCIONAR</strong> — creando vínculo afectivo-emocional con el target.</li>
+  <li><strong>ACTIVAR</strong> — motivando conductas inmediatas.</li>
+</ol>
+
+<h3>Verbos que guían la comunicación (Howard Ibach)</h3>
+<div class="table-wrap">
+<table>
+  <tbody>
+    <tr><td>Convencer</td><td>Educar</td><td>Persuadir</td></tr>
+    <tr><td>Recordar</td><td>Reasegurar</td><td>Compeler / Forzar deseo</td></tr>
+    <tr><td>Informar</td><td>Conectar</td><td>Romantizar</td></tr>
+    <tr><td>Seducir</td><td>Empoderar</td><td>Alentar / Estimular</td></tr>
+    <tr><td>Impulsar / Motorizar acción</td><td>Re-vincular / Reenganchar</td><td>Instalar</td></tr>
+    <tr><td>Inspirar</td><td>Motivar</td><td>Inculcar</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b3-10">3.10 Estrategia de Comunicación / Publicidad / Creativa (Copy Strategy)</h2>
+
+<h3>Definición</h3>
+<ul>
+  <li>Una <strong>guía</strong> al trabajo creativo. Provee la dirección.</li>
+  <li>Resume los <strong>pilares</strong> de la marca en idioma publicitario.</li>
+  <li>Determina el <strong>a quién, qué, cómo y por qué</strong> al hablar la marca.</li>
+  <li>La base para todos los pedidos. <strong>El núcleo de todo brief &amp; briefing.</strong></li>
+  <li>Es el <strong>primer parámetro para evaluar</strong> trabajo creativo.</li>
+</ul>
+<blockquote>Denme la libertad de una ajustada y marcada estrategia creativa.<cite>Norman Berry, ex Director Creativo Global de Ogilvy</cite></blockquote>
+
+<h3>3 preguntas básicas de diferenciación</h3>
+<ol>
+  <li>¿Quién eres?</li>
+  <li>¿Qué haces?</li>
+  <li>¿Por qué importa eso?</li>
+</ol>
+
+<h3>Los 5 elementos de la Copy Strategy</h3>
+
+<h4>1. Audiencia Objetivo</h4>
+<ul>
+  <li>Describir las personas a las que la marca dirige su comunicación.</li>
+  <li>Definir públicos y roles.</li>
+  <li>Si hay más de un segmento claramente distinto → escribir más de una estrategia.</li>
+  <li><strong>NO es el segmento objetivo de medios</strong> (Audiencia).</li>
+  <li>Misma o muy parecida a la del BPS de marketing.</li>
+  <li>Variables <strong>duras</strong> (demográficas) + <strong>blandas</strong> (psicográficas: momento de la vida, motivaciones, aspiraciones, hábitos, vínculos, actitudes, relevancia del producto en su vida).</li>
+  <li>Darle vida como si habláramos de una persona que representa al grupo.</li>
+</ul>
+<div class="example">
+  Adultos ABC1 que practican deportes... fanáticos del deporte que buscan superarse a sí mismos. Sienten una tremenda fuerza interior a la hora de alcanzar nuevos desafíos. Sienten profundamente el espíritu deportivo. Son de clase media-alta entre 20 y 35 años. Viven en grandes centros urbanos.
+</div>
+
+<h4>2. Insight del Consumidor</h4>
+<div class="callout green">
+  <strong>Insight:</strong> entendimiento profundo del consumidor y sus acciones, actitudes, conductas, creencias, sentimientos y emociones que explican <strong>por qué hacen lo que hacen</strong> cuando compran o usan un producto / una marca.
+</div>
+<div class="example">
+  <strong>AXE:</strong> los jóvenes adolescentes dicen que el desodorante es de rico perfume... pero necesitan algo que les dé confianza en sí mismos a la hora de la seducción.
+</div>
+
+<h4>3. Propuesta de Marca</h4>
+<ul>
+  <li>La <strong>promesa clara y distintiva</strong> que queremos que nuestros consumidores crean que entregamos mejor que nadie.</li>
+  <li>Bien definida cuando es: <strong>Simple de entender · Importante · Distintiva</strong>.</li>
+</ul>
+<h5>Tipos de Beneficios</h5>
+<ul>
+  <li><strong>Básicos:</strong> tangibles, funcionales, de desempeño.</li>
+  <li><strong>Extra:</strong> psicológicos o emocionales. Son el plus.</li>
+  <li><strong>Múltiples:</strong> mantenerlos simples, priorizar siempre que sea posible. Punto de entrada y punto de diferencia.</li>
+</ul>
+<div class="example">
+  <strong>Pañales:</strong> mantiene seco al bebé... ayuda al bebé a dormir toda la noche, lo que es crítico para su crecimiento.
+</div>
+
+<h4>4. Prueba a la Propuesta — Razón para Creer</h4>
+<ul>
+  <li>Lo que permite a la audiencia creer en la propuesta.</li>
+  <li>Agrega credibilidad, persuasión y ventaja competitiva.</li>
+  <li>Bien elegida cuando: <strong>Tiene sentido común · Agrega valor a la propuesta · Es corta y recordable.</strong></li>
+</ul>
+
+<h4>5. Personalidad de Marca</h4>
+<ul>
+  <li>Conjunto de <strong>características humanas</strong> asociadas exclusivamente a una marca.</li>
+  <li>Imagen subjetiva que queremos que se forme la audiencia.</li>
+  <li>Ayuda a atraer y vincular a la audiencia.</li>
+  <li>Muchas veces es la <strong>verdadera diferenciación</strong> entre marcas.</li>
+  <li>Establece tono y espíritu (guía para la ejecución).</li>
+</ul>
+
+<h2 class="anchor-offset" id="b3-12">3.12 Resumen visual de la Clase 2</h2>
+<div class="callout green">
+  <ul style="margin-bottom:0;">
+    <li><strong>Planeamiento es un proceso:</strong> de la información a la decisión, ejecución, control y feedback.</li>
+    <li><strong>Planning Cliente — Hexágono:</strong> Análisis oportunidades → Objetivos negocio → Estrategia mktg → Sub-estrategias → Plan de acción → Implementación.</li>
+    <li><strong>Otros modelos cliente:</strong> B.P.S., Brand Arrow, Brand Forward, Brand Key.</li>
+    <li><strong>Planning Agencia — Diamante (Butterfield):</strong> 1) Problema comercial → 2) Mix Marketing → 3) Situación total mktg → 4) Relación marca-consumidor (Insights) → 5) Rol comunicación → 6) Objetivo y estrategia de comunicación.</li>
+    <li><strong>Objetivos:</strong> Jerarquía Negocio / Marketing / Comunicación.</li>
+    <li><strong>Estrategia de Comunicación:</strong> Audiencia + Insight + Propuesta + Prueba + Personalidad.</li>
+  </ul>
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- BLOQUE IV — CLASE 3 BASES DEL PLANEAMIENTO                  -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="bloque4" data-kicker="Clase 3">Bloque IV — Bases del Planeamiento</h1>
+
+<details class="corto">
+  <summary><span class="corto-badge">en criollo</span><span class="corto-title">Lo esencial del Bloque IV</span><span class="corto-chevron">▾</span></summary>
+  <div class="corto-body"><ul>
+    <li>Estrategia (Johnson, Scholes &amp; Whittington) = <strong>dirección + alcance + ventaja + entorno + recursos + stakeholders</strong>, todo a largo plazo.</li>
+    <li>Las decisiones estratégicas son <strong>complejas, en incertidumbre, integradas e implican cambios considerables</strong>.</li>
+    <li>4 preguntas guía: <strong>¿Dónde estamos? ¿Dónde queremos ir? ¿Cómo llegaremos? ¿Qué haremos?</strong></li>
+    <li>Herramientas centrales: <strong>FODA, PESTEL, Ansoff, Matriz GE, Stakeholders, Benchmarking</strong>.</li>
+  </ul></div>
+</details>
+
+<h2 class="anchor-offset" id="b4-1">4.1 Concepto de Estrategia</h2>
+<blockquote>Es la dirección y el alcance de una organización a largo plazo que permite lograr una ventaja en un entorno cambiante mediante la configuración de sus recursos y competencias, con el fin de satisfacer las expectativas de las partes interesadas.<cite>Johnson, Scholes &amp; Whittington, <em>Dirección Estratégica</em></cite></blockquote>
+
+<h2 class="anchor-offset" id="b4-2">4.2 Decisiones estratégicas</h2>
+<h4>Consisten en</h4>
+<ul>
+  <li>La <strong>dirección a largo plazo</strong> de la organización.</li>
+  <li>El <strong>alcance de las actividades</strong>.</li>
+  <li>La consecución de una <strong>ventaja para los consumidores</strong> respecto a competidores.</li>
+  <li>Abordar los <strong>cambios del entorno empresarial</strong>.</li>
+  <li><strong>Crecer a partir de los recursos y competencias</strong> propios.</li>
+  <li>Satisfacer los <strong>valores y expectativas de las partes interesadas (Stakeholders)</strong>.</li>
+</ul>
+<h4>Por lo tanto</h4>
+<ul>
+  <li>Tienen <strong>naturaleza compleja</strong>.</li>
+  <li>Se toman en <strong>situaciones de incertidumbre</strong>.</li>
+  <li><strong>Afectan a las decisiones operativas</strong>.</li>
+  <li>Requieren un <strong>planteo integrado (interno y externo)</strong>.</li>
+  <li><strong>Implican cambios considerables</strong>.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b4-3">4.3 ¿Por qué hacer estrategia?</h2>
+<ul>
+  <li><strong>Herramientas y marcos disciplinados</strong> vs. corazonada y intuición ciega.</li>
+  <li>Hay que <strong>determinar las reglas del juego</strong>.</li>
+  <li>Necesidad de <strong>comprender los fenómenos de los negocios</strong>.</li>
+  <li>Es <strong>preciso fijar objetivos</strong>.</li>
+  <li>Tanto para <strong>grandes compañías como para emprendimientos</strong>. Es la diferencia de ser profesional.</li>
+  <li>Se requiere <strong>fuerte interacción entre niveles de dirección</strong>.</li>
+  <li><strong>Planes flexibles</strong> para adaptarse al entorno.</li>
+  <li>Aún con resultados aceptables, hay que <strong>mejorar sistemas de dirección y gestión</strong>.</li>
+  <li>Implantar novedades en entornos estables; estudio reflexivo en entornos inciertos.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b4-4">4.4 Dirección Estratégica</h2>
+<blockquote>Es la <strong>comprensión</strong> de la <strong>posición estratégica</strong> de una organización, las <strong>decisiones estratégicas</strong> para el futuro y la <strong>conversión de la estrategia en acción</strong>.</blockquote>
+
+<h3>Diferencias entre Dirección Estratégica y Dirección Operativa</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Dirección Estratégica</th><th>Dirección Operativa</th></tr></thead>
+  <tbody>
+    <tr><td>Alcance integral, traza grandes lineamientos.</td><td>Gestiona en forma eficiente los recursos disponibles.</td></tr>
+    <tr><td>Complejidad de situaciones no rutinarias.</td><td>Producción.</td></tr>
+    <tr><td>Situaciones ambiguas.</td><td>Ventas.</td></tr>
+    <tr><td>Contempla a la organización en su conjunto.</td><td>Rendimiento financiero. Desarrollo de sistemas. Marketing.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b4-5">4.5 Jerarquía de Estrategias</h2>
+<div class="ascii">
+01. Estrategia Corporativa
+02. Estrategia de Negocios
+03. Estrategia Operativa
+</div>
+<h3>Niveles de Objetivos, Estrategias y Tácticas</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Nivel</th><th>Contenido</th></tr></thead>
+  <tbody>
+    <tr><td>Nivel 0</td><td>Misión / Visión de la Compañía</td></tr>
+    <tr><td>Nivel 1</td><td>Objetivos Corporativos → Estrategias Corporativas</td></tr>
+    <tr><td>Nivel 2</td><td>Objetivos Divisionales → Estrategias Divisionales</td></tr>
+    <tr><td>Nivel 3</td><td>Objetivos de Producto–Marca → Estrategias de Marca</td></tr>
+    <tr><td>Nivel 4</td><td>Objetivos de los Programas → Tácticas</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b4-6">4.6 Dirección Comercial — Cascada estratégica</h2>
+<div class="ascii">
+Visión
+  ↓
+Misión
+  ↓
+Plan de Negocios
+  ↓
+Plan de Marketing
+  ↓
+Objetivos / Metas
+  ├── Corporativos
+  ├── Divisionales
+  └── Departamentales
+</div>
+
+<h2 class="anchor-offset" id="b4-7">4.7 Las 4 preguntas guía del Planeamiento</h2>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>Etapa</th><th>Pregunta</th></tr></thead>
+  <tbody>
+    <tr><td>A</td><td>Análisis de Situación</td><td>¿Dónde estamos?</td></tr>
+    <tr><td>B</td><td>Definición de Objetivos</td><td>¿Dónde queremos ir?</td></tr>
+    <tr><td>C</td><td>Definición de Estrategias</td><td>¿Cómo llegaremos?</td></tr>
+    <tr><td>D</td><td>Desarrollo de Acciones</td><td>¿Qué haremos?</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b4-8">4.8 Las 5 preguntas de JWT (Stephen King)</h2>
+<ol>
+  <li>¿Dónde estamos?</li>
+  <li>¿Por qué estamos ahí?</li>
+  <li>¿Dónde podríamos estar?</li>
+  <li>¿Cómo podríamos llegar ahí?</li>
+  <li>¿Estamos llegando ahí?</li>
+</ol>
+<div class="callout">Es el mismo Ciclo de Planeamiento JWT visto en la Clase 2 — entronca el análisis con el control, cerrando el ciclo.</div>
+
+<h2 class="anchor-offset" id="b4-9">4.9 ¿Dónde estamos? — Análisis de Situación con FODA</h2>
+
+<h3>Estructura de la matriz F.O.D.A.</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th></th><th>Positivos ✓</th><th>Negativos ✗</th></tr></thead>
+  <tbody>
+    <tr><td>Internos</td><td>F — Fortalezas</td><td>D — Debilidades</td></tr>
+    <tr><td>Externos</td><td>O — Oportunidades</td><td>A — Amenazas</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Inventario de variables típicas</h3>
+
+<h4>Fortalezas (internas, positivas)</h4>
+<ul>
+  <li>Recursos (técnicos, desarrollo, servicios, financieros).</li>
+  <li>Nombre de marca conocido. Clasificado como número uno en el sector.</li>
+  <li>Economías de escala. Procesos patentados.</li>
+  <li>Menores costos (materias primas o procesos).</li>
+  <li>Respeto por la imagen. Talento administrativo superior.</li>
+  <li>Mejores habilidades de marketing. Alianzas con otras empresas.</li>
+  <li>Capacidades diferenciales de distribución.</li>
+</ul>
+
+<h4>Debilidades (internas, negativas)</h4>
+<ul>
+  <li>Falta de rumbo estratégico. Recursos financieros limitados.</li>
+  <li>Poca inversión en I+D. Línea de productos muy restringida.</li>
+  <li>Distribución limitada. Costos elevados.</li>
+  <li>Productos o tecnología anticuados. Imagen deteriorada.</li>
+  <li>Habilidades deficientes de marketing. Alianzas con empresas débiles.</li>
+  <li>Habilidades administrativas limitadas. Empleados poco capacitados.</li>
+</ul>
+
+<h4>Oportunidades (externas, positivas)</h4>
+<ul>
+  <li>Crecimiento rápido del mercado. Empresas competidoras poco agresivas.</li>
+  <li>Cambio en necesidades o gustos de los clientes. Apertura a mercados extranjeros.</li>
+  <li>Contratiempo de un competidor. Descubrimiento de nuevos usos para el producto.</li>
+  <li>Apogeo de la economía. Desregularización gubernamental. Cambios demográficos.</li>
+  <li>Otras empresas buscan alianzas. Cambio en la marca líder. Disminución de ventas de un sustituto.</li>
+</ul>
+
+<h4>Amenazas (externas, negativas)</h4>
+<ul>
+  <li>Ingreso de competidores extranjeros. Productos sustitutos.</li>
+  <li>Disminución del ciclo de vida del producto. Cambios en gustos del cliente.</li>
+  <li>Competidores con nuevas estrategias. Mayor reglamentación gubernamental.</li>
+  <li>Empeora la economía. Nueva tecnología. Cambios demográficos.</li>
+  <li>Barreras al comercio. Mal desempeño de la empresa aliada.</li>
+</ul>
+
+<h3>Preguntas guía para armar un buen FODA</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Cuadrante</th><th>Preguntas</th></tr></thead>
+  <tbody>
+    <tr><td>Fortalezas</td><td>¿Qué hacemos bien? ¿Qué recursos internos tenemos? ¿Qué ventajas tenemos sobre la competencia? ¿Qué I+D fuerte tenemos? ¿Qué otros aspectos positivos internos agregan valor o crean ventaja competitiva?</td></tr>
+    <tr><td>Debilidades</td><td>¿Qué factores bajo control dificultan obtener o mantener una ventaja? ¿Qué áreas necesitan mejoras? ¿Qué le falta al negocio (experiencias, habilidades, tecnología)? ¿Tiene recursos limitados?</td></tr>
+    <tr><td>Oportunidades</td><td>¿Qué oportunidades hay en el mercado o el contexto? ¿La marca tiene buena imagen? ¿Ha habido crecimiento reciente? ¿Cuál es el timing?</td></tr>
+    <tr><td>Amenazas</td><td>¿Quiénes son los principales competidores? ¿Qué factores fuera de control pueden poner al negocio en riesgo? ¿Cambios en cadena de abastecimiento, conducta del consumidor, economía o gobierno?</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 class="anchor-offset" id="b4-10">4.10 ¿A dónde queremos ir? — Definición de Objetivos</h2>
+<h4>Decidir sobre</h4>
+<ul>
+  <li><strong>Objetivos</strong> (CP, MP y LP)</li>
+  <li><strong>Planeamiento de estrategias</strong> (CP y LP)</li>
+  <li><strong>Proyecciones, Desviaciones, Planes de contingencia, Necesidades de inversión</strong></li>
+</ul>
+
+<h3>Plan de Marketing — definición</h3>
+<ul>
+  <li>Documento <strong>escrito, sistemático y estructurado</strong> con objetivos a conseguir y medios de acción para alcanzarlos en un tiempo determinado.</li>
+  <li>Define campos de responsabilidad y procedimientos de control.</li>
+  <li>Tiene <strong>UN objetivo general</strong> en un <strong>TIEMPO determinado</strong>.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b4-11">4.11 ¿Cómo llegaremos? — Implementación</h2>
+<ul>
+  <li>Ejecución de estrategias.</li>
+  <li>Aplicación de tácticas.</li>
+  <li>Lanzamiento.</li>
+  <li>Control y seguimiento.</li>
+  <li>Acciones correctivas.</li>
+  <li>Optimización de recursos.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b4-12">4.12 Decisiones estratégicas — Matrices clásicas</h2>
+
+<h3>4.12.1 Matriz de Ansoff (producto × mercado)</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th></th><th>Productos existentes</th><th>Productos nuevos</th></tr></thead>
+  <tbody>
+    <tr><td>Mercados existentes</td><td>Penetración en el mercado</td><td>Desarrollo de producto</td></tr>
+    <tr><td>Mercados nuevos</td><td>Desarrollo de mercados</td><td>Diversificación</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout">Cuatro estrategias genéricas de crecimiento, ordenadas <strong>de menor a mayor riesgo</strong>: penetración → desarrollo de producto / desarrollo de mercados → diversificación.</div>
+
+<h3>4.12.2 Matriz General Electric (GE) — Atractivo × Posición competitiva</h3>
+<div class="table-wrap">
+<table>
+  <thead><tr><th></th><th>Pos. Comp. BAJA</th><th>Pos. Comp. MEDIA</th><th>Pos. Comp. ALTA</th></tr></thead>
+  <tbody>
+    <tr><td>Atractivo ALTO</td><td>D — Selectividad oportunista (interrogantes)</td><td>B — Inversión y crecimiento selectivo</td><td>A — Esfuerzo en inversión y crecimiento. Productos prioritarios (estrella)</td></tr>
+    <tr><td>Atractivo MEDIO</td><td>G — Desinversión controlada</td><td>E — Prudencia (segmentación)</td><td>C — Inversión y crecimiento selectivo</td></tr>
+    <tr><td>Atractivo BAJO</td><td>I — Desinversión rápida</td><td>H — Desinversión parcial vía segmentación. Abandono.</td><td>F — Selección protectora (productos bolsa)</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout warm">Lectura del color de cada celda: <strong>verde (A, B, C)</strong> → invertir; <strong>amarillo (D, E, F)</strong> → mantener / selectividad; <strong>rojo (G, H, I)</strong> → desinvertir.</div>
+
+<h2 class="anchor-offset" id="b4-13">4.13 Herramientas para la decisión estratégica</h2>
+
+<h3>4.13.1 Marco PESTEL (análisis del entorno)</h3>
+<p>Distingue dos niveles:</p>
+<ul>
+  <li><strong>Macroentorno (PESTEL)</strong> — los seis factores generales.</li>
+  <li><strong>Microentorno</strong> — Sector, Mercado, Clientes, Público, Competencia, Proveedores, Intermediarios, Asociados.</li>
+</ul>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Letra</th><th>Dimensión</th><th>Variables a analizar</th></tr></thead>
+  <tbody>
+    <tr><td>P</td><td>Político</td><td>Actitud y organización del gobierno, estabilidad política, tendencias electorales, política fiscal, tratados comerciales, subvenciones, corrupción, facilidades para crear negocios.</td></tr>
+    <tr><td>E</td><td>Económico</td><td>Situación económica actual, gasto presupuestario, IVA, tipos de interés, financiación, reforma fiscal, inflación, tipo de cambio, crisis, ciclos, innovación.</td></tr>
+    <tr><td>S</td><td>Socio-cultural</td><td>Distribución de ingresos, gasto medio de las familias, estilos de vida, modas, hábitos, nivel educativo, calidad de vida, confianza del consumidor, demografía, escala de valores.</td></tr>
+    <tr><td>T</td><td>Tecnológico</td><td>Tecnología disponible, gasto gubernamental en I+D, nuevos productos, internet, uso de tecnología por el consumidor, móvil, apps, TIC, patentes, infraestructura.</td></tr>
+    <tr><td>E</td><td>Ecológico</td><td>Leyes medioambientales, regulación de consumo energético, reciclaje de residuos, eliminación de desechos, recursos limitados, políticas medioambientales.</td></tr>
+    <tr><td>L</td><td>Legal / Legislativo</td><td>Forma jurídica, licencias, ayudas/subvenciones, legislación laboral, leyes de competencia, salud y seguridad laboral, reglamentación nacional, decretos, regulación de precios.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>4.13.2 Benchmarking</h3>
+<blockquote>Permite analizar la <strong>capacidad estratégica</strong> de una organización en referencia a sus competidores. Y su <strong>potencial de cambio</strong> para igualar o superarlos.</blockquote>
+<h4>Tipos de comparación</h4>
+<ul>
+  <li><strong>Histórico</strong> — comparar contra uno mismo en el tiempo.</li>
+  <li><strong>En la Industria / Sector</strong> — competidores directos.</li>
+  <li><strong>El mejor de su clase</strong> — el mejor del mundo aunque sea de otra industria.</li>
+</ul>
+<h4>Elementos de un informe de Benchmarking</h4>
+<ul>
+  <li>Declaración de necesidad / propósito · Clientes del proyecto · Necesidades del cliente · Equipo · Proceso · Calendario · Temas para hacer el BM.</li>
+  <li>Fuentes de información · Metodología · Resultados / resumen · Relatos · Análisis · Próximos pasos.</li>
+</ul>
+
+<h3>4.13.3 Stakeholders / Partes interesadas</h3>
+<blockquote>Son aquellos grupos o individuos que dependen de una organización para alcanzar sus propias metas y de quien depende, a su vez, la propia organización.</blockquote>
+<p>Las partes interesadas externas pueden influir sobre las estrategias mediante su relación con las internas, aún sin intencionalidad directa: CLIENTES → DIRECTIVOS DE VENTAS · SINDICATOS → DIRECTIVOS DE RRHH.</p>
+
+<h4>Clasificación de Stakeholders</h4>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Internos</th><th>Externos</th></tr></thead>
+  <tbody>
+    <tr><td>Empleados, Directivos, Propietarios</td><td>Sociedad, Gobiernos, Acreedores, Accionistas, Clientes, Proveedores, Sindicatos, Comunidades locales, Asociaciones del sector, Agentes tecnológicos clave, Agentes de certificación, Instituciones financieras</td></tr>
+  </tbody>
+</table>
+</div>
+<blockquote>Las organizaciones deben tener una responsabilidad más visible, no solo hacia los propietarios/accionistas y directivos (cadena de gobierno), sino a las expectativas de una serie de partes interesadas (stakeholders).</blockquote>
+
+<h4>Mapa de Stakeholders — Matriz Poder × Interés</h4>
+<div class="table-wrap">
+<table>
+  <thead><tr><th></th><th>Interés BAJO</th><th>Interés ALTO</th></tr></thead>
+  <tbody>
+    <tr><td>Poder ALTO</td><td><strong>LATENTES</strong> — Mantener satisfechos</td><td><strong>PROMOTORES</strong> — Mantener cerca y gestionar en mayor grado</td></tr>
+    <tr><td>Poder BAJO</td><td><strong>INDIFERENTES</strong> — Monitorear sin empeñar mucho esfuerzo</td><td><strong>DEFENSORES</strong> — Mantener informados</td></tr>
+  </tbody>
+</table>
+</div>
+<div class="callout">Identifica las expectativas y el poder de las partes interesadas. Destaca el INTERÉS de cada grupo para influir en las estrategias y el PODER para conseguirlo.</div>
+
+<h3>4.13.4 Análisis de competidores y mercados</h3>
+<h4>La Industria se descompone en</h4>
+<ul>
+  <li><strong>Segmentos de mercado</strong> → definidos por lo que los consumidores valoran.</li>
+  <li><strong>Grupos estratégicos</strong> → compiten en función de ciertas variables.</li>
+</ul>
+
+<h4>Grupos estratégicos</h4>
+<blockquote>Organizaciones dentro de una industria con características estratégicas parecidas, que aplican estrategias parecidas o que compiten utilizando las mismas variables.</blockquote>
+<div class="example">
+  <strong>Industria: Distribución minorista de alimentos.</strong> Grupo 1 — Hipermercados / Grupo 2 — Almacenes de barrio / Grupo 3 — Supermercados / Grupo 4 — Auto-servicios.
+</div>
+
+<h4>Segmentos de mercado</h4>
+<blockquote>Grupo de consumidores con necesidades parecidas, distintas a las de otros grupos.</blockquote>
+<ul>
+  <li>Su estudio es clave para comprender la capacidad estratégica.</li>
+  <li>Se puede segmentar de muchas maneras, siempre respecto a las necesidades de los consumidores.</li>
+</ul>
+
+<h2 class="anchor-offset" id="b4-14">4.14 Resumen visual de la Clase 3</h2>
+<div class="callout green">
+  <ul style="margin-bottom:0;">
+    <li><strong>Estrategia:</strong> Dirección-guía / Asegura ventaja / Adapta al entorno / Satisface stakeholders.</li>
+    <li><strong>Decisiones estratégicas:</strong> Naturaleza compleja / Incertidumbre / Afectan operación / Planteo integral / Cambios considerables.</li>
+    <li><strong>Por qué:</strong> Marco vs. intuición / Reglas de juego / Comprensión de fenómenos / Fijar objetivos / Grandes empresas y Pymes / Planes flexibles, mejoras continuas.</li>
+    <li><strong>Estrategias por jerarquía:</strong> Corporativa, Negocio, Operativa.</li>
+    <li><strong>Dirección comercial:</strong> Visión, Misión, Plan de negocios, Plan de Marketing, Objetivos / Metas.</li>
+    <li><strong>Herramientas:</strong> FODA, Matrices Ansoff y G&amp;E, PESTEL, Benchmarking, Stakeholders, Grupos estratégicos y Segmentos.</li>
+  </ul>
+</div>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- GLOSARIO INTEGRADOR                                         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h1 class="autor anchor-offset" id="glosario" data-kicker="Referencia rápida">Anexo — Glosario integrador</h1>
+<p style="font-style:italic;color:var(--muted);margin-top:-8px;">Mini-fichas de los conceptos clave de las tres clases.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Concepto</th><th>Definición sintética</th></tr></thead>
+  <tbody>
+    <tr><td>Account Planning</td><td>Disciplina nacida en UK en los 60s (King en JWT, Pollitt en BMP) que combina investigación y planificación estratégica para informar el desarrollo creativo y proporcionar dirección a partir del insight del consumidor.</td></tr>
+    <tr><td>Benchmarking</td><td>Análisis comparativo de la capacidad estratégica de una organización contra competidores, históricos o el mejor de su clase.</td></tr>
+    <tr><td>BPS (Brand Positioning Statement)</td><td>Modelo de declaración de posicionamiento de marca con 7 elementos (nombre, mercado, target, puntos de diferencia, SMP, soporte, personalidad).</td></tr>
+    <tr><td>Brand Arrow / Brand Key / Brand Forward</td><td>Modelos alternativos al BPS para sintetizar la estrategia de marca, propios de GSK, Unilever y Brand Healer respectivamente.</td></tr>
+    <tr><td>Brief</td><td>Documento entregable del planner que destila las cuestiones clave para que el equipo creativo desarrolle la solución. Brevedad, claridad y "fertilidad" para que las ideas broten.</td></tr>
+    <tr><td>Concepto de campaña</td><td>La propuesta de la marca, <strong>de qué se hablará</strong>.</td></tr>
+    <tr><td>Copy Strategy / Estrategia Creativa</td><td>Guía al trabajo creativo. Núcleo: Audiencia + Propuesta + Racional. Más Insight + Personalidad.</td></tr>
+    <tr><td>Diamante (Butterfield)</td><td>Modelo de planning de agencia en 6 pasos para desarrollar la estrategia de comunicación.</td></tr>
+    <tr><td>Dirección Estratégica</td><td>Comprensión de la posición estratégica + decisiones estratégicas + conversión de la estrategia en acción.</td></tr>
+    <tr><td>Ejecución / Pieza</td><td>Las múltiples maneras de representar una idea en un aviso.</td></tr>
+    <tr><td>FODA</td><td>Matriz de análisis: Fortalezas + Debilidades (internas) + Oportunidades + Amenazas (externas).</td></tr>
+    <tr><td>Hexágono (Tandem Canadá)</td><td>Modelo de planeamiento de marketing del lado cliente, en 6 pasos, con entregable Plan Anual de Marketing.</td></tr>
+    <tr><td>Idea Creativa</td><td>El cómo decimos el concepto de forma cautivante.</td></tr>
+    <tr><td>Insight</td><td>El por qué hacen lo que hacen las personas cuando piensan, compran y consumen una marca o categoría.</td></tr>
+    <tr><td>Jerarquía de Objetivos</td><td>Negocio → Marketing → Comunicación.</td></tr>
+    <tr><td>Matriz Ansoff</td><td>Producto × Mercado: penetración / desarrollo de producto / desarrollo de mercados / diversificación.</td></tr>
+    <tr><td>Matriz GE</td><td>Atractivo del mercado × Posición competitiva (3×3, 9 cuadrantes).</td></tr>
+    <tr><td>Mix de Marketing (4 P's)</td><td>McCarthy: Producto, Precio, Promoción, Plaza. Extendido suma comunicación, packaging, personas, RRPP, merchandising, etc.</td></tr>
+    <tr><td>Personalidad de Marca</td><td>Asignación de características humanas a una marca. Diferenciador clave y guía del tono ejecucional.</td></tr>
+    <tr><td>PESTEL</td><td>Análisis de macroentorno: Político / Económico / Socio-cultural / Tecnológico / Ecológico / Legal.</td></tr>
+    <tr><td>Planeamiento Estratégico</td><td>Proceso de decisión: Objetivo + Estrategia + Acción → Plan.</td></tr>
+    <tr><td>Posicionamiento</td><td>La razón por la que el consumidor elegirá una marca y no otra. La posición que la marca ocupa en su mente.</td></tr>
+    <tr><td>Primera línea de defensa de la creatividad</td><td>(Diamante, paso 2) Definir si la comunicación es la herramienta adecuada antes de pedir creatividad.</td></tr>
+    <tr><td>Razón para creer (RTB)</td><td>Soporte / racional que da credibilidad a la propuesta de marca.</td></tr>
+    <tr><td>Segunda línea de defensa de la creatividad</td><td>(Diamante, paso 6) Definir un objetivo de comunicación adecuado, no de negocio o marketing.</td></tr>
+    <tr><td>Stakeholders</td><td>Partes interesadas (internas y externas) cuyas expectativas la organización debe satisfacer.</td></tr>
+    <tr><td>Target Market</td><td>Segmento al que la marca dirige su esfuerzo. Definido por roles de compra (iniciador, influenciador, decisor, comprador, usuario) y por variables duras y blandas.</td></tr>
+    <tr><td>Ley 95:5 (Dale Harrison)</td><td>95% de los compradores potenciales están "out of market" en cualquier momento; solo 5% están "in market". Justifica invertir en construcción de marca para el 95%.</td></tr>
+    <tr><td>BDN</td><td>Modelo de proceso: Objetivos de Negocio → Conducta deseada → Pensamiento clave (Concepto) → Idea creativa.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p style="font-size:13px;color:var(--muted);font-style:italic;margin-top:40px;">Documento elaborado a partir de las slides oficiales de PE 2026 (Entregas 1, 2 y 3) y los modelos Hexágono y Diamante de los profesores Pablo Balaz y Leslie Butterfield. Referencias adicionales: paper "Account Planning - de la Génesis a la Revelación" de Baskin &amp; Pickton.</p>
+
+    </div>
+  </main>
+</div>
+
+<script>
+const sb=document.getElementById('sidebar'),mt=document.getElementById('menuToggle'),sc=document.getElementById('sidebarClose'),so=document.getElementById('sidebarOverlay');
+const isMobile=()=>window.matchMedia('(max-width:768px)').matches;
+const stored=localStorage.getItem('sidebar_collapsed_planificacion');
+if(stored==='true'&&!isMobile()){document.body.classList.add('sidebar-collapsed');mt.textContent='›';mt.title='Mostrar índice';}
+mt.addEventListener('click',()=>{
+  if(isMobile()){document.body.classList.toggle('sidebar-open');}
+  else{const c=document.body.classList.toggle('sidebar-collapsed');mt.textContent=c?'›':'‹';mt.title=c?'Mostrar índice':'Contraer índice';localStorage.setItem('sidebar_collapsed_planificacion',c);}
+});
+sc.addEventListener('click',()=>document.body.classList.remove('sidebar-open'));
+so.addEventListener('click',()=>document.body.classList.remove('sidebar-open'));
+document.querySelectorAll('.sidebar a[href^="#"]').forEach(a=>a.addEventListener('click',()=>{if(isMobile())document.body.classList.remove('sidebar-open');}));
+const rp=document.getElementById('readProgress');
+window.addEventListener('scroll',()=>{const h=document.documentElement,b=document.body;const st=h.scrollTop||b.scrollTop;const sh=(h.scrollHeight||b.scrollHeight)-h.clientHeight;rp.style.width=(sh>0?(st/sh)*100:0)+'%';},{passive:true});
+const links=[...document.querySelectorAll('.sidebar ol ol a')];
+const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+id));}});},{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('h2[id],h1.autor[id]').forEach(h=>obs.observe(h));
+</script>
+</body>
+</html>
