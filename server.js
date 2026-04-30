@@ -77,6 +77,12 @@ const materias = [
         tipo: 'resumen',
         url: '/estudiante/planificacion/resumen',
         descripcion: 'Marco general, Account Planning, Hexágono (cliente), Diamante (agencia), objetivos, Copy Strategy, FODA, PESTEL y matrices.',
+      },
+      {
+        titulo: 'Parciales — Resolución de los 3 modelos',
+        tipo: 'parciales',
+        url: '/estudiante/planificacion/parciales',
+        descripcion: 'Helado, Apps de música y Motos. Cada respuesta en un desplegable para ejercitar la memoria.',
       }
     ]
   }
@@ -114,6 +120,10 @@ app.get('/estudiante/propaganda/quiz', (req, res) => {
 
 app.get('/estudiante/planificacion/resumen', (req, res) => {
   res.sendFile(path.join(__dirname, 'content', 'planificacion', 'resumen.html'))
+})
+
+app.get('/estudiante/planificacion/parciales', (req, res) => {
+  res.sendFile(path.join(__dirname, 'content', 'planificacion', 'parciales.html'))
 })
 
 app.get('/slug', (req, res) => {

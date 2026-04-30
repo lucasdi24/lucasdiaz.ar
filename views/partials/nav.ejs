@@ -2,7 +2,11 @@
   <div class="nav-inner">
     <a href="/" class="nav-logo">Lucas<span>.</span></a>
     <ul class="nav-links">
-      <li><a href="/estudiante" class="<%= currentPath.startsWith('/estudiante') ? 'active' : '' %>">Apuntes</a></li>
+      <li><a href="/estudiante" class="<%= currentPath === '/estudiante' ? 'active' : '' %>">Apuntes</a></li>
+      <li><a href="/estudiante/planificacion" class="<%= currentPath.startsWith('/estudiante/planificacion') ? 'active' : '' %>">Planificación</a></li>
+      <li><a href="/estudiante/propaganda" class="<%= currentPath.startsWith('/estudiante/propaganda') ? 'active' : '' %>">Propaganda</a></li>
+      <li><a href="/estudiante/semiologia" class="<%= currentPath.startsWith('/estudiante/semiologia') ? 'active' : '' %>">Semiología</a></li>
+      <li><a href="/slug" class="<%= currentPath === '/slug' ? 'active' : '' %>">Slug</a></li>
     </ul>
   </div>
 </nav>

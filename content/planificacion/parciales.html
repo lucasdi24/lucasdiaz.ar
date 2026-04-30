@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parciales — Planificación Estratégica</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><text y='26' font-size='28'>✦</text></svg>">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&display=swap');
+
+:root {
+  --ink:#0f172a; --ink-soft:#334155; --muted:#64748b; --fine:#94a3b8;
+  --rule:#e2e8f0; --rule-soft:#f1f5f9; --paper:#fbfaf6; --card:#fff; --surface:#f8fafc;
+  --accent:#047857; --accent-dark:#065f46; --accent-soft:#ecfdf5;
+  --warm:#c2410c; --warm-soft:#fff7ed;
+  --r-md:10px; --r-lg:14px; --r-xl:20px;
+  --font-ui:'Inter',-apple-system,sans-serif;
+  --font-serif:'Fraunces',Georgia,serif;
+  --shadow-md:0 4px 6px -1px rgba(15,23,42,.08),0 2px 4px -2px rgba(15,23,42,.05);
+}
+
+*{box-sizing:border-box;}
+*:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px;}
+html{scroll-behavior:smooth;}
+body{margin:0;font-family:var(--font-serif);font-size:18px;line-height:1.7;color:var(--ink);background:var(--paper);-webkit-font-smoothing:antialiased;}
+
+/* TOP NAV */
+.topnav{position:sticky;top:0;background:rgba(255,255,255,.94);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--rule);z-index:2000;font-family:var(--font-ui);}
+.topnav-inner{max-width:1400px;margin:0 auto;padding:12px 28px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;}
+.topnav-logo{font-family:var(--font-serif);font-size:17px;font-weight:600;color:var(--ink);text-decoration:none;letter-spacing:-.01em;}
+.topnav-logo span{color:var(--accent);}
+.topnav-spacer{flex:1;}
+.topnav-links{display:flex;gap:4px;font-size:13px;flex-wrap:wrap;}
+.topnav-links a{color:var(--muted);text-decoration:none;font-weight:500;padding:6px 12px;border-radius:7px;transition:all .15s;}
+.topnav-links a:hover{color:var(--accent);background:var(--accent-soft);}
+.topnav-links a.active{color:var(--accent);background:var(--accent-soft);font-weight:600;}
+
+.wrap{max-width:880px;margin:0 auto;padding:48px 28px 120px;}
+
+.cover{margin-bottom:48px;}
+.cover .kicker{font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.cover h1{font-family:var(--font-serif);font-size:clamp(34px,5vw,48px);font-weight:500;letter-spacing:-.02em;margin:0 0 14px;line-height:1.1;color:var(--ink);}
+.cover h1 em{font-style:italic;color:var(--accent-dark);}
+.cover .sub{font-family:var(--font-ui);font-size:15px;color:var(--muted);max-width:640px;line-height:1.6;}
+
+h2.tema{font-family:var(--font-serif);font-size:32px;font-weight:500;letter-spacing:-.015em;color:var(--accent-dark);margin:64px 0 8px;line-height:1.15;padding-top:24px;}
+h2.tema[data-kicker]::before{content:attr(data-kicker);display:block;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.tema-sub{font-family:var(--font-ui);font-size:14px;color:var(--muted);font-style:italic;margin:0 0 28px;}
+
+h3.preg{font-family:var(--font-ui);font-size:20px;font-weight:600;color:var(--ink);margin:36px 0 12px;letter-spacing:-.005em;}
+h3.preg .num{display:inline-block;background:var(--accent);color:#fff;font-size:13px;padding:3px 10px;border-radius:6px;margin-right:10px;font-weight:700;letter-spacing:.04em;vertical-align:middle;}
+
+p{margin:0 0 18px;}
+strong{font-weight:600;color:var(--ink);}
+ul,ol{margin:0 0 20px;padding-left:24px;}
+li{margin-bottom:6px;}
+a{color:var(--accent);text-decoration:underline;text-decoration-color:rgba(4,120,87,.3);}
+a:hover{text-decoration-color:var(--accent);}
+
+blockquote{border-left:3px solid var(--accent);margin:24px 0;padding:14px 0 14px 22px;font-style:italic;font-size:16px;color:var(--ink-soft);}
+
+.callout{background:var(--accent-soft);border:1px solid rgba(4,120,87,.15);border-left:3px solid var(--accent);border-radius:var(--r-md);padding:18px 22px;margin:22px 0;font-family:var(--font-ui);font-size:14.5px;line-height:1.65;}
+.callout.warm{background:var(--warm-soft);border-color:#fed7aa;border-left-color:var(--warm);}
+
+table{width:100%;border-collapse:collapse;margin:24px 0;font-family:var(--font-ui);font-size:13.5px;}
+thead tr{background:var(--surface);}
+th{padding:10px 14px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:2px solid var(--rule);}
+td{padding:10px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top;}
+tr:last-child td{border-bottom:none;}
+.table-wrap{overflow-x:auto;margin:24px 0;border:1px solid var(--rule);border-radius:var(--r-md);}
+.table-wrap table{margin:0;}
+
+/* RESPUESTA collapsibles */
+.respuesta{background:var(--card);border:1px solid var(--rule);border-left:3px solid var(--accent);border-radius:var(--r-md);margin:14px 0 28px;font-family:var(--font-ui);overflow:hidden;box-shadow:var(--shadow-md);}
+.respuesta summary{list-style:none;padding:14px 20px;cursor:pointer;font-size:14px;font-weight:600;color:var(--accent-dark);display:flex;align-items:center;gap:12px;user-select:none;}
+.respuesta summary::-webkit-details-marker{display:none;}
+.respuesta-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:20px;flex-shrink:0;}
+.respuesta-q{flex:1;color:var(--ink);font-weight:500;}
+.respuesta summary::after{content:"▾";color:var(--accent);font-size:13px;transition:transform .2s;flex-shrink:0;}
+details.respuesta[open] summary::after{transform:rotate(180deg);}
+.respuesta-body{padding:8px 22px 22px;font-size:14.5px;line-height:1.7;color:var(--ink-soft);border-top:1px solid var(--rule-soft);padding-top:18px;}
+.respuesta-body p{margin:0 0 14px;}
+.respuesta-body strong{color:var(--ink);}
+.respuesta-body ul{margin:0 0 14px;padding-left:22px;}
+.respuesta-body li{margin-bottom:5px;}
+.respuesta-body blockquote{margin:14px 0;padding:12px 0 12px 18px;border-left:2px solid var(--accent);font-size:14px;color:var(--ink-soft);font-style:italic;background:var(--accent-soft);padding-right:16px;border-radius:0 var(--r-md) var(--r-md) 0;}
+
+.section-break{border:none;text-align:center;margin:56px 0;color:var(--fine);font-size:14px;letter-spacing:.3em;}
+.section-break::after{content:"✦  ✦  ✦";}
+
+/* PDF button */
+.pdf-btn{position:fixed;bottom:28px;right:28px;z-index:1100;display:flex;align-items:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:50px;padding:11px 18px;font-family:var(--font-ui);font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .15s;}
+.pdf-btn:hover{background:var(--accent-dark);transform:translateY(-1px);}
+
+@media print{
+  .topnav,.pdf-btn{display:none !important;}
+  .respuesta{box-shadow:none;}
+  details.respuesta{open:""}
+  .respuesta-body{display:block !important;}
+}
+
+@media(max-width:640px){
+  .topnav-inner{padding:10px 16px;gap:12px;}
+  .topnav-logo{font-size:15px;}
+  .topnav-links{gap:2px;font-size:12px;}
+  .topnav-links a{padding:5px 8px;}
+  .wrap{padding:32px 18px 80px;}
+  h2.tema{font-size:26px;}
+  h3.preg{font-size:18px;}
+}
+</style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-VVMBZEWJPC"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-VVMBZEWJPC');</script>
+</head>
+<body>
+
+<header class="topnav">
+  <div class="topnav-inner">
+    <a href="/" class="topnav-logo">Lucas<span>.</span></a>
+    <div class="topnav-spacer"></div>
+    <nav class="topnav-links">
+      <a href="/">Inicio</a>
+      <a href="/estudiante">Apuntes</a>
+      <a href="/estudiante/planificacion" class="active">Planificación</a>
+      <a href="/estudiante/propaganda">Propaganda</a>
+      <a href="/estudiante/semiologia">Semiología</a>
+      <a href="/slug">Slug</a>
+    </nav>
+  </div>
+</header>
+
+<button class="pdf-btn" onclick="gtag('event','download_pdf',{page:'parciales_planificacion'});window.print();" title="Descargar como PDF">
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+  PDF
+</button>
+
+<main class="wrap">
+
+<div class="cover">
+  <div class="kicker">Planificación Estratégica · Modelos de Parcial</div>
+  <h1>Resolución de los <em>3 modelos</em> de parcial</h1>
+  <p class="sub">Dirección Estratégica Publicitaria — Resolución basada en los apuntes de las clases 1 a 3 (Hexágono Tandem, Diamante Butterfield, BPS / Brand Arrow / Brand Key / Brand Forward, Copy Strategy de 5 elementos).</p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- MARCO COMÚN                                                 -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="tema" data-kicker="Antes de empezar">Marco común que se repite en los 3 modelos</h2>
+<p class="tema-sub">Mapa mental que conviene fijar antes de bajar a cada Tema.</p>
+
+<ul>
+  <li><strong>Modelo de proceso de trabajo de planning de comunicación (agencia)</strong> → <strong>Diamante de Leslie Butterfield</strong>, 6 pasos: (1) Definición del problema comercial, (2) Interrogación del Mix, (3) Análisis situación total del marketing, (4) Análisis relación marca–consumidor (insight), (5) Rol realista de la publicidad, (6) Objetivo y estrategia de comunicación.</li>
+  <li><strong>Modelo de planeamiento del cliente</strong> → <strong>Hexágono Tandem Canadá</strong>, 6 pasos: (1) Análisis de oportunidad, (2) Objetivos de negocio, (3) Estrategia de marketing — incluye Posicionamiento, (4) Sub-estrategias de mix, (5) Planes de acción, (6) Implementación.</li>
+  <li><strong>Modelos de estrategia / plataforma de marca (alternativos al Hexágono completo)</strong> → <strong>BPS, Brand Arrow (GSK), Brand Key (Unilever), Brand Forward</strong>. Todos articulan, con distintos formatos, la jerarquía: atributo / RTB → beneficio funcional → beneficio emocional → valores → esencia, más target, insight, personalidad.</li>
+  <li><strong>Copy Strategy (núcleo de cualquier brief y de cualquier pieza)</strong> → 5 elementos: (1) Audiencia, (2) Insight, (3) Propuesta de marca, (4) Prueba / razón para creer, (5) Personalidad de marca.</li>
+  <li><strong>Jerarquía de objetivos:</strong> Negocio → Marketing → Comunicación. Cada nivel deriva del anterior.</li>
+</ul>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TEMA 3 - HELADO                                             -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="tema" data-kicker="Tema 3">Helado — nuevos consumidores a la categoría</h2>
+
+<h3 class="preg"><span class="num">P1</span>Pregunta 1 — Modelo de proceso, etapa actual y decisión futura</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Modelo de proceso de trabajo (PC)</span></summary>
+  <div class="respuesta-body">
+    <p><strong>Diamante de Leslie Butterfield</strong>, porque:</p>
+    <ul>
+      <li>Es el modelo específico para el trabajo de planning <strong>de agencia</strong> (a diferencia del Hexágono, que ordena el planning del cliente).</li>
+      <li>Estamos haciendo "planeamiento después del planeamiento": el cliente ya cerró su estrategia de marketing (la nueva inversión, el target de nuevos consumidores) y la agencia debe construir comunicación a partir de esa decisión.</li>
+      <li>Sus seis pasos secuenciales aseguran que se llegue al objetivo y estrategia de comunicación tras un análisis ordenado del problema, el mix, la situación total y la relación con el consumidor — y blindan dos veces al trabajo creativo (Primera línea de defensa en el paso 2, Segunda línea en el paso 6).</li>
+    </ul>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Etapa donde se está trabajando con la información del cliente</span></summary>
+  <div class="respuesta-body">
+    <p>La información compartida —"nueva inversión de marketing enfocada en sumar nuevos consumidores a la categoría"— es <strong>el Objetivo de Marketing</strong> del cliente. Por lo tanto se está trabajando en el <strong>Paso 1 del Diamante: Definición del problema comercial de la marca</strong>, etapa que busca entender por qué nos llama el cliente, qué está trabajando con su marketing y por qué cree que la comunicación puede aportar. El dato inicial esperado en este paso es justamente el Objetivo de Marketing.</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">C</span><span class="respuesta-q">c) Decisión futura del proceso afectada por este dato</span></summary>
+  <div class="respuesta-body">
+    <p>Más adelante, en el <strong>Paso 6 del Diamante (Definición del objetivo y estrategia de comunicación)</strong> este dato condiciona la <strong>definición del Objetivo de Comunicación</strong>. La jerarquía es Negocio → Marketing → Comunicación: el objetivo de comunicación tiene que estar alineado al de marketing pero formulado en términos de lo que la comunicación efectivamente puede hacer (no "vender más"). Esa es la <strong>Segunda Línea de Defensa de la Creatividad</strong>.</p>
+    <blockquote><strong>Ejemplo aplicado:</strong> si el objetivo de marketing es de <strong>Penetración / Adopción</strong> (sumar nuevos consumidores a la categoría helado), el futuro objetivo de comunicación que vamos a definir podría ser: <em>"Lograr que los no consumidores actuales de helado consideren a la marca X como una opción válida tras la primera exposición a la campaña"</em>. Es decir, <strong>dar conocimiento / saliencia + persuadir cambio de actitud</strong>, no "vender helados".</blockquote>
+  </div>
+</details>
+
+<h3 class="preg"><span class="num">P2</span>Pregunta 2 — Helado sin TACC: propuesta principal</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Herramienta para escalar de la característica a la propuesta (PC)</span></summary>
+  <div class="respuesta-body">
+    <p>Cualquiera de los <strong>modelos de Estrategia de Marca con estructura piramidal</strong>: <strong>Brand Arrow (GSK)</strong>, <strong>Brand Key (Unilever)</strong>, <strong>Brand Forward</strong> o el <strong>BPS</strong>. Estos modelos permiten escalar desde un atributo concreto (sin TACC) subiendo por beneficio racional/funcional → beneficio emocional → valores → esencia, hasta llegar a una propuesta articulada para la audiencia.</p>
+    <p>A nivel de Copy Strategy, la herramienta equivalente es el desglose de <strong>Tipos de Beneficios</strong> dentro del elemento Propuesta: Básicos (funcionales), Extra (emocionales) y Múltiples.</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Niveles principales para definir la propuesta a la audiencia</span></summary>
+  <div class="respuesta-body">
+    <ul>
+      <li><strong>Beneficio Racional / Funcional</strong> — qué le entrega objetivamente al consumidor (lo puede comer un celíaco, no le cae mal, lo puede compartir cualquier persona).</li>
+      <li><strong>Beneficio Emocional</strong> — qué siente el consumidor (libertad de comer sin culpa, inclusión, no quedar afuera del momento social).</li>
+      <li><strong>Valores / Esencia</strong> — qué representa la marca (helado para todos, inclusión, disfrute sin restricciones).</li>
+    </ul>
+    <p>A la hora de armar la propuesta a la audiencia objetivo, los niveles principales son <strong>Beneficio Emocional + Valores</strong>, porque "sin TACC" como atributo es solo descriptivo de categoría: la propuesta se construye al traducir ese atributo en una verdad emocional relevante para la audiencia.</p>
+  </div>
+</details>
+
+<h3 class="preg"><span class="num">P3</span>Pregunta 3 — Pieza McCain ("Se hacen rápido. Se comen rápido.")</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Puntos a analizar estratégicamente (PC)</span></summary>
+  <div class="respuesta-body">
+    <p>Se desarman los <strong>5 elementos de la Copy Strategy</strong> que cualquier pieza implementa:</p>
+    <ol>
+      <li><strong>Audiencia objetivo</strong> — a quién le habla.</li>
+      <li><strong>Insight</strong> — qué verdad del consumidor activa.</li>
+      <li><strong>Propuesta de marca</strong> — qué le promete (beneficio funcional + emocional).</li>
+      <li><strong>Prueba / Razón para creer</strong> — con qué argumenta esa promesa.</li>
+      <li><strong>Personalidad de marca</strong> — tono, espíritu, carácter humano.</li>
+    </ol>
+    <p>Complementariamente puede analizarse: el <strong>objetivo de comunicación</strong> que parece perseguir, la <strong>idea creativa</strong> (cómo dice el concepto), y la <strong>ejecución</strong> (medio, formato, código visual).</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Aplicación a la pieza adjunta</span></summary>
+  <div class="respuesta-body">
+    <ul>
+      <li><strong>Audiencia:</strong> jóvenes adultos consumidores de cultura pop, fans del universo cómic / otaku / gaming, asistentes de Argentina Comic Con. Público nicho, urbano, con códigos propios.</li>
+      <li><strong>Insight:</strong> el fan de Comic Con vive el evento con foco total; comer es un trámite que tiene que resolver rápido para volver a lo que le importa.</li>
+      <li><strong>Propuesta:</strong> McCain te resuelve el momento alimentación de manera ágil y placentera. Beneficio funcional → rapidez/practicidad ("se hacen rápido, se comen rápido"). Beneficio emocional → seguir disfrutando con los tuyos sin interrupciones.</li>
+      <li><strong>Prueba / Razón para creer:</strong> la activación física en el evento (presencia real de McCain en Argentina Comic Con) como demostración, y el atributo de producto papas pre-fritas congeladas que efectivamente se hacen rápido.</li>
+      <li><strong>Personalidad:</strong> cercana, joven, lúdica, conectada con cultura pop, con guiño insider hacia el target.</li>
+    </ul>
+  </div>
+</details>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TEMA APPS DE MÚSICA                                         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="tema" data-kicker="Tema Apps de Música">Apps de música — ajuste de plataforma estratégica</h2>
+
+<h3 class="preg"><span class="num">P1</span>Pregunta 1 — Ajuste de plataforma, primera decisión y nivel del "espíritu"</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Modelo estratégico para ajustar la plataforma (PC)</span></summary>
+  <div class="respuesta-body">
+    <p><strong>BPS (Brand Positioning Statement)</strong> o, alternativamente, <strong>Brand Key</strong>, <strong>Brand Arrow</strong> o <strong>Brand Forward</strong>. Lo elijo porque la consigna habla de "ajustar la plataforma estratégica de la marca": ese es trabajo del cliente sobre su Estrategia de Marca, no requiere correr el ciclo completo del Hexágono. Estos modelos cubren específicamente el bloque de estrategia de marca con todos sus elementos articulados (target, descripción de mercado, puntos de diferencia, SMP, soporte, personalidad, etc.).</p>
+    <p><em>(Si la cátedra prefiere el modelo completo, vale el <strong>Hexágono de Tandem</strong>: el ajuste de plataforma se hace dentro del Paso 3 — Estrategia de Marketing.)</em></p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Primera decisión a revisar</span></summary>
+  <div class="respuesta-body">
+    <p>Dentro del BPS / del Paso 3 del Hexágono, la <strong>primera decisión a revisar es el Posicionamiento</strong> (la "Posición Básica"). Es la decisión más crítica porque guía las definiciones del resto del mix y todo lo que viene después. En BPS se traduce en revisar la <strong>Descripción del Mercado + el Target Market</strong>, que son los inputs de los que parte la SMP (Single Minded Proposition).</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">C</span><span class="respuesta-q">c) Espíritu de comunicación estático y aburrido — en qué nivel actualizar</span></summary>
+  <div class="respuesta-body">
+    <p>El pedido apunta directamente a la <strong>Personalidad de Marca</strong>, y en consecuencia al <strong>tono y espíritu de las acciones</strong>. La Personalidad es la asignación de características humanas a la marca, factor esencial de diferenciación y única fuente del tono ejecucional. Si el problema es más profundo, también puede tocarse el nivel de <strong>Beneficio Emocional / Valores</strong>.</p>
+    <blockquote><strong>Ejemplo redactado para el cliente:</strong><br>"Hoy la personalidad de la marca está construida sobre atributos racionales de eficiencia y orden — eso explica por qué la comunicación se siente estática y aburrida: la personalidad no le aporta calor humano. Propongo redefinir la personalidad de marca en una clave más expresiva, irreverente y vital, pasando de hablar como una plataforma de descubrimiento a hablar como un compañero de banda que conoce a su gente. Esto va a permitir que el tono se vuelva más cercano, lúdico y emocional sin tocar ni el posicionamiento ni el target — simplemente cambiando el espíritu desde el cual la marca se comunica."</blockquote>
+  </div>
+</details>
+
+<h3 class="preg"><span class="num">P2</span>Pregunta 2 — Imagen de marca</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Qué significa "imagen de marca" (PC)</span></summary>
+  <div class="respuesta-body">
+    <p><strong>Imagen de marca = la PERCEPCIÓN que tiene la audiencia objetivo sobre la marca</strong>: lo que el consumidor cree, piensa y siente sobre ella. Es el conjunto de asociaciones, atributos y valores que el público le adjudica como resultado de TODOS los puntos de contacto que tuvo con ella (publicidad, producto, experiencia, boca a boca). En otras palabras: es el <strong>efecto</strong> de la comunicación de marca en la mente del consumidor.</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Con qué se compara para entender cuán bien funciona el trabajo de la agencia</span></summary>
+  <div class="respuesta-body">
+    <p>Se compara con el <strong>Posicionamiento</strong> (Posición Básica) definido por el cliente en el Paso 3 del Hexágono / en el BPS — es decir, con la <strong>Identidad / Posición que la marca QUIERE proyectar</strong>. Si imagen ≈ posicionamiento, el trabajo de comunicación de la agencia está siendo eficaz: la marca está siendo percibida como quiso ser percibida. Si difieren, hay un <strong>gap</strong> a corregir y la comunicación debe reorientarse.</p>
+  </div>
+</details>
+
+<h3 class="preg"><span class="num">P3</span>Pregunta 3 — Pieza Paladini ("Salames - Pero los mejores del mundo")</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Mismos 5 puntos de la Copy Strategy</span></summary>
+  <div class="respuesta-body">
+    <p>Audiencia · Insight · Propuesta · Prueba/RTB · Personalidad. (Ver Pregunta 3a del Tema 3.)</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Aplicación a la pieza</span></summary>
+  <div class="respuesta-body">
+    <ul>
+      <li><strong>Audiencia:</strong> público masivo argentino, consumidor de fiambres y embutidos. Mayor afinidad con adultos con sentido del humor argentino y orgullo nacional.</li>
+      <li><strong>Insight:</strong> los argentinos somos buenos para la autoironía y nos auto-llamamos "salames" (lunfardo = tontos / distraídos). Paradójicamente, lo argentino se asocia popularmente a "ser de los mejores en algo". El insight juega con esa doble identificación cariñosa.</li>
+      <li><strong>Propuesta:</strong> Paladini hace los mejores salames del mundo. Beneficio funcional → calidad superior del producto. Beneficio emocional → orgullo argentino, identificación cultural, complicidad con la marca.</li>
+      <li><strong>Prueba / Razón para creer:</strong> la trayectoria de Paladini como marca argentina líder en fiambres + el doble sentido del juego de palabras como demostración de que la marca conoce a su consumidor.</li>
+      <li><strong>Personalidad:</strong> argentina, humorística, desfachatada, autoirónica, popular, "de barrio" pero confiada en su superioridad de categoría.</li>
+    </ul>
+  </div>
+</details>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- TEMA 4 - MOTOS                                              -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="tema" data-kicker="Tema 4">Motocicletas baja cilindrada — repartidores de apps</h2>
+
+<h3 class="preg"><span class="num">P1</span>Pregunta 1 — Modelo de proceso, etapa y decisión futura</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Modelo de proceso (PC)</span></summary>
+  <div class="respuesta-body">
+    <p><strong>Diamante de Leslie Butterfield</strong> — mismo argumento que el Tema 3: es el modelo de planning de agencia, los 6 pasos ordenan el trabajo desde la definición del problema comercial hasta el objetivo y estrategia de comunicación, blindando la creatividad en los pasos 2 y 6.</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Etapa donde se trabaja con la información compartida</span></summary>
+  <div class="respuesta-body">
+    <p>Acá el cliente comparte tres bloques de información: <strong>plataforma estratégica de la marca + una mirada del mercado donde compite + las estrategias de las marcas competidoras</strong>. Esto cubre dos etapas del Diamante:</p>
+    <ul>
+      <li><strong>Paso 1: Definición del problema comercial</strong> — cuando se presentan los planes estratégicos generales.</li>
+      <li><strong>Paso 3: Análisis de la situación total del marketing de la marca</strong> — donde se articulan las cuatro dimensiones del modelo (Marca, Mercado/Categoría, Contexto, Audiencias). Toda la información competitiva y de mercado entra acá.</li>
+    </ul>
+    <p>Como se mencionan plataforma + mercado + competencia, <strong>principalmente se está trabajando en el Paso 3</strong>, que es además <strong>la etapa más demandante en recursos</strong> del Diamante (replica la filosofía del análisis de oportunidad del Hexágono cliente, pero del lado de la agencia).</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">C</span><span class="respuesta-q">c) Decisión futura afectada por estos datos</span></summary>
+  <div class="respuesta-body">
+    <p>Toda esta información estratégica será insumo del <strong>Paso 6: Definición del objetivo y estrategia de comunicación</strong>, e impactará específicamente en la <strong>Propuesta de Marca</strong> dentro de la Copy Strategy y en la elección del <strong>Insight</strong> del paso 4.</p>
+    <blockquote><strong>Ejemplo aplicado:</strong> si la plataforma estratégica del cliente dice <em>"somos la moto más confiable y económica para emprendedores repartidores"</em> y el análisis competitivo muestra que el resto de las marcas compite por precio puro, la futura propuesta podría formularse así: <em>"Tu socio más confiable: la moto que no te falla en el día a día del laburo"</em> — diferenciando por confiabilidad/durabilidad, no por precio. Esa es la decisión futura: la <strong>Propuesta de Marca de la Copy Strategy</strong>, derivada de articular plataforma + análisis competitivo.</blockquote>
+  </div>
+</details>
+
+<h3 class="preg"><span class="num">P2</span>Pregunta 2 — Imagen de marca (idéntica al Tema 3)</h3>
+<div class="callout">Las respuestas son idénticas a la <strong>Pregunta 2 del tema "Apps de música"</strong>: imagen de marca = percepción del consumidor; se compara con el Posicionamiento que el cliente quiso proyectar.</div>
+
+<h3 class="preg"><span class="num">P3</span>Pregunta 3 — Pieza Tulipán ("No aprenderás de plomería viendo porno…")</h3>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">A</span><span class="respuesta-q">a) Mismos 5 puntos de Copy Strategy</span></summary>
+  <div class="respuesta-body">
+    <p>Audiencia · Insight · Propuesta · Prueba/RTB · Personalidad. (Ver Pregunta 3a del Tema 3.)</p>
+  </div>
+</details>
+
+<details class="respuesta">
+  <summary><span class="respuesta-badge">B</span><span class="respuesta-q">b) Aplicación a la pieza</span></summary>
+  <div class="respuesta-body">
+    <ul>
+      <li><strong>Audiencia:</strong> público adulto argentino con conciencia social — padres, jóvenes adultos, formadores de opinión. La audiencia "extendida" incluye a la sociedad como objeto del debate público.</li>
+      <li><strong>Insight:</strong> los adolescentes hoy aprenden de sexo viendo porno, no en la escuela. Es un problema social que la mayoría evita debatir.</li>
+      <li><strong>Propuesta:</strong> Tulipán es una marca con causa, comprometida con la Educación Sexual Integral. Beneficio funcional (de la categoría preservativos) → protección. Beneficio emocional/de marca → sumarse a una marca que toma posición y no esquiva temas incómodos.</li>
+      <li><strong>Prueba / Razón para creer:</strong> el dato citado en la propia pieza ("la pornografía es la principal fuente de educación sexual en los adolescentes"), el endorsement implícito a la ley nacional de ESI, y la trayectoria de Tulipán en comunicaciones disruptivas con causa social.</li>
+      <li><strong>Personalidad:</strong> valiente, frontal, irónica, comprometida, sin tabúes, provocadora con propósito.</li>
+    </ul>
+  </div>
+</details>
+
+<hr class="section-break">
+
+<!-- ═══════════════════════════════════════════════════════════ -->
+<!-- SÍNTESIS DE PATRONES                                         -->
+<!-- ═══════════════════════════════════════════════════════════ -->
+<h2 class="tema" data-kicker="Cheat sheet">Síntesis de patrones — qué se repite</h2>
+<p class="tema-sub">Tabla maestra de cómo cada pregunta del parcial mapea a una herramienta del temario.</p>
+
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Pregunta del parcial</th><th>Herramienta del temario que la responde</th></tr></thead>
+  <tbody>
+    <tr><td>Modelo de proceso de planning de comunicación de la agencia</td><td><strong>Diamante de Butterfield</strong> (6 pasos)</td></tr>
+    <tr><td>Etapa del modelo donde se trabaja info de marketing del cliente</td><td><strong>Paso 1</strong> (problema comercial) y/o <strong>Paso 3</strong> (situación total del marketing)</td></tr>
+    <tr><td>Decisión futura del proceso afectada por esa info</td><td><strong>Paso 6</strong> — Objetivo y estrategia de comunicación (objetivo de comunicación + Copy Strategy)</td></tr>
+    <tr><td>Modelo para ajustar plataforma estratégica de la marca</td><td><strong>BPS / Brand Arrow / Brand Key / Brand Forward</strong> (cliente)</td></tr>
+    <tr><td>Primera decisión a revisar al ajustar plataforma</td><td><strong>Posicionamiento (Posición Básica)</strong></td></tr>
+    <tr><td>Nivel donde se actualiza el "espíritu" de la comunicación</td><td><strong>Personalidad de marca</strong> (eventualmente Valores / Beneficio Emocional)</td></tr>
+    <tr><td>Herramienta para escalar de característica a propuesta</td><td>Modelos piramidales de marca (<strong>Brand Arrow / Brand Key / BPS</strong>) — escalera atributo → beneficio funcional → emocional → valores → esencia</td></tr>
+    <tr><td>Niveles principales para armar la propuesta</td><td><strong>Beneficio Emocional + Valores</strong> (sobre la base del funcional)</td></tr>
+    <tr><td>Qué significa "imagen de marca"</td><td>Percepción del consumidor sobre la marca</td></tr>
+    <tr><td>Con qué se compara la imagen para evaluar la agencia</td><td><strong>Posicionamiento / Identidad</strong> definido por el cliente</td></tr>
+    <tr><td>Puntos para analizar estratégicamente una pieza</td><td>Los <strong>5 elementos de la Copy Strategy</strong></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p style="font-size:13px;color:var(--muted);font-style:italic;margin-top:48px;">Resolución elaborada a partir de las clases 1 a 3 de la materia (Profs. Balaz, Moretta, Wainerman). Para repaso completo del temario: <a href="/estudiante/planificacion/resumen">Resumen completo</a>.</p>
+
+</main>
+
+<script>
+// Open all on print
+window.addEventListener('beforeprint', () => {
+  document.querySelectorAll('details.respuesta').forEach(d => d.setAttribute('open', ''));
+});
+</script>
+</body>
+</html>
